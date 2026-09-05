@@ -86,12 +86,10 @@
     display:flex; align-items:center; gap:16px;
   }
   .crest{
-    width:46px; height:46px; border-radius:50%;
-    background:#fff;
-    border:2px solid var(--ice-2);
+    width:50px; height:50px; border-radius:8px;
+    border:1px solid rgba(255,255,255,.15);
     display:flex; align-items:center; justify-content:center;
     flex:none; overflow:hidden;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
   }
   .crest img{ width:100%; height:100%; object-fit:contain; }
   .wordmark{ line-height:1.05; flex:none; }
@@ -210,6 +208,7 @@
   .season-record .num{ font-family:'IBM Plex Mono'; font-size:42px; font-weight:600; line-height:1; }
   .season-record .lbl{ color:var(--ice-2); font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin-top:4px; }
   .season-record .stats{ display:flex; gap:28px; flex-wrap:wrap; }
+  #season-months{ margin-top:26px; }
   .month-group{ margin-bottom:22px; }
   .month-title{
     font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.06em;
@@ -383,9 +382,10 @@
       <button data-panel="week" class="active">Home</button>
       <button data-panel="season">Season</button>
       <button data-panel="roster">Roster</button>
+      <button data-panel="stats">Stats</button>
       <button data-panel="resources">Resources</button>
     </nav>
-    <div class="record-chip"><span>2026&ndash;27</span><b>1&ndash;1</b></div>
+    <div class="record-chip"><span>Record:</span><b id="header-record">1-1-0</b></div>
   </div>
 </header>
 
@@ -475,7 +475,7 @@
       <div class="stats">
         <div><div class="num" id="season-gd" style="font-size:22px">+1</div><div class="lbl">Goal Diff.</div></div>
         <div><div class="num" id="season-played" style="font-size:22px">2</div><div class="lbl">Played</div></div>
-        <div><div class="num" style="font-size:22px">14+</div><div class="lbl">Games Needed (State)</div></div>
+        <a href="https://myhockeyrankings.com/team-info/39681/2026/games" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;"><div class="num" style="font-size:22px">MHR</div><div class="lbl">View Rankings ↗</div></a>
       </div>
     </div>
 
@@ -525,6 +525,42 @@
 
   </section>
 
+  <!-- STATS -->
+  <section class="panel" id="panel-stats">
+
+    <div class="section-label"><h2>Team Stats</h2><div class="rule"></div></div>
+
+    <div class="card season-record" style="margin-bottom:28px;">
+      <div>
+        <div class="num" id="stats-record-num">1&ndash;1</div>
+        <div class="lbl">2026&ndash;27 Record</div>
+      </div>
+      <div class="stats">
+        <div><div class="num" id="stats-gf" style="font-size:22px">3</div><div class="lbl">Goals For</div></div>
+        <div><div class="num" id="stats-ga" style="font-size:22px">2</div><div class="lbl">Goals Against</div></div>
+        <a href="https://myhockeyrankings.com/team-info/39681/2026/games" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;"><div class="num" style="font-size:22px">MHR</div><div class="lbl">View Rankings ↗</div></a>
+      </div>
+    </div>
+
+    <div class="section-label"><h2>Player Leaderboard</h2><div class="rule"></div></div>
+    <div class="card" style="overflow-x:auto;">
+      <table class="plain" id="stats-table">
+        <thead><tr><th>#</th><th>Player</th><th>Pos</th><th>GP</th><th>GM</th><th>G</th><th>A</th><th>Pts</th><th>Pts/Gm</th><th>PIM</th></tr></thead>
+        <tbody id="stats-table-body"></tbody>
+      </table>
+    </div>
+    <div class="note" style="margin-top:8px;">
+      📊 <span>Synced from the team stat sheet &mdash; sorted by points, then goals.</span>
+    </div>
+
+    <div class="section-label"><h2>MHR Ranking Trend</h2><div class="rule"></div></div>
+    <div class="card" style="padding:20px;">
+      <div class="note">📈 <span>MyHockeyRankings doesn't post a numeric rank until a team has enough games logged, and our weekly rating gets updated every Wednesday. Once that trend line has data, it'll show here &mdash; for now, check the live rating on <a href="https://myhockeyrankings.com/team-info/39681/2026/games" target="_blank" rel="noopener">MyHockeyRankings ↗</a>.</span>
+      </div>
+    </div>
+
+  </section>
+
   <!-- RESOURCES -->
   <section class="panel" id="panel-resources">
 
@@ -543,8 +579,8 @@
       <div class="card res-card">
         <h4>💵 Team Fund</h4>
         <dl>
-          <dt>Collected</dt><dd>Once per season</dd>
-          <dt>Send via Venmo</dt><dd>@fred-mooreiii</dd>
+          <dt>Current Balance</dt><dd>$784.90</dd>
+          <dt>Send via Venmo</dt><dd><a href="https://venmo.com/u/fred-mooreiii" target="_blank" rel="noopener">@fred-mooreiii ↗</a></dd>
           <dt>Or</dt><dd>Cash / check to Fred</dd>
         </dl>
       </div>
@@ -552,9 +588,18 @@
       <div class="card res-card">
         <h4>🐺 League</h4>
         <dl>
-          <dt>League</dt><dd>Connecticut Hockey Conference (CHC)</dd>
+          <dt>League</dt><dd><a href="https://www.chchockey.org/" target="_blank" rel="noopener">Connecticut Hockey Conference (CHC) ↗</a></dd>
           <dt>Division</dt><dd>Girls 12U Tier 2</dd>
-          <dt>State Eligibility</dt><dd>14+ sanctioned games, no home-and-home requirement</dd>
+          <dt>Rankings</dt><dd><a href="https://myhockeyrankings.com/team-info/39681/2026/games" target="_blank" rel="noopener">MyHockeyRankings ↗</a></dd>
+        </dl>
+      </div>
+
+      <div class="card res-card">
+        <h4>🏆 Upcoming Tournaments</h4>
+        <dl>
+          <dt>Nov 27&ndash;29, 2026</dt><dd><a href="https://www.avonhockey.com/events/2026-thanksgiving-tournament/145100" target="_blank" rel="noopener">Avon Thanksgiving Tournament ↗</a></dd>
+          <dt>Jan 15&ndash;18, 2027</dt><dd><a href="https://www.adkhockey.com/girls-northstars-winter-classic" target="_blank" rel="noopener">Northstars Winter Classic ↗</a> &middot; Glens Falls, NY</dd>
+          <dt>Hotel Block</dt><dd><a href="https://app.marriott.com/resview2?id=1785524612984&key=GRP&app=resvlink" target="_blank" rel="noopener">Book your room ↗</a></dd>
         </dl>
       </div>
 
@@ -566,7 +611,7 @@
 
       <div class="card res-card">
         <h4>📣 Follow the Pack</h4>
-        <dl><dt>Instagram</dt><dd>@ladywolfpack2015</dd></dl>
+        <dl><dt>Instagram</dt><dd><a href="https://www.instagram.com/ladywolfpack2015/" target="_blank" rel="noopener">@ladywolfpack2015 ↗</a></dd></dl>
       </div>
     </div>
 
@@ -696,6 +741,10 @@
     document.getElementById('season-record-num').textContent = ties ? `${wins}-${losses}-${ties}` : `${wins}-${losses}`;
     document.getElementById('season-gd').textContent = (gf - ga >= 0 ? '+' : '') + (gf - ga);
     document.getElementById('season-played').textContent = played;
+    document.getElementById('header-record').textContent = `${wins}-${losses}-${ties}`;
+    document.getElementById('stats-record-num').textContent = ties ? `${wins}-${losses}-${ties}` : `${wins}-${losses}`;
+    document.getElementById('stats-gf').textContent = gf;
+    document.getElementById('stats-ga').textContent = ga;
 
     container.innerHTML = months.map(month => {
       const games = GAMES.filter(g => g.m === month);
@@ -786,6 +835,23 @@
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
     });
   });
+
+  const statsBody = document.getElementById('stats-table-body');
+  const leaderboard = [...ROSTER].sort((a, b) => b.pts - a.pts || b.g - a.g || a.name.localeCompare(b.name));
+  statsBody.innerHTML = leaderboard.map(p => `
+    <tr>
+      <td class="mono">${p.n}</td>
+      <td>${p.name}${p.r ? ' <span style="display:inline-block;margin-left:4px;font-size:10px;font-weight:800;color:var(--ice-2);border:1px solid var(--ice-2);border-radius:4px;padding:0 4px;vertical-align:middle;">R</span>' : ''}</td>
+      <td>${p.pos}</td>
+      <td class="mono">${p.gp}</td>
+      <td class="mono">${p.gm}</td>
+      <td class="mono">${p.g}</td>
+      <td class="mono">${p.a}</td>
+      <td class="mono">${p.pts}</td>
+      <td class="mono">${p.appg.toFixed(1)}</td>
+      <td class="mono">${p.pim}</td>
+    </tr>
+  `).join('');
 
   const buttons = document.querySelectorAll('#tabs button');
   buttons.forEach(btn => {
