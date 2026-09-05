@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lady Wolfpack HQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0f1f3d;
+    --navy-2:#16294f;
+    --navy-3:#1e3560;
+    --red:#c8102e;
+    --red-2:#e2233f;
+    --ice:#3fb8d6;
+    --ice-2:#7fd4e8;
+    --paper:#f2f5f9;
+    --surface:#ffffff;
+    --surface-2:#e8ecf3;
+    --ink:#101826;
+    --ink-dim:#4a5568;
+    --border:#d8deea;
+    --win:#1c8a4c;
+    --loss:#c8102e;
+    --shadow: 0 1px 2px rgba(15,31,61,.06), 0 8px 24px -12px rgba(15,31,61,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#0a1220;
+      --surface:#101c33;
+      --surface-2:#16233d;
+      --ink:#eef2f8;
+      --ink-dim:#a9b6cc;
+      --border:#26365a;
+      --navy:#0a1526;
+      --navy-2:#0f1f3d;
+      --navy-3:#16294f;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -16px rgba(0,0,0,.6);
+      --player-num:#f4f7fb;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0a1220;
+    --surface:#101c33;
+    --surface-2:#16233d;
+    --ink:#eef2f8;
+    --ink-dim:#a9b6cc;
+    --border:#26365a;
+    --navy:#0a1526;
+    --navy-2:#0f1f3d;
+    --navy-3:#16294f;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -16px rgba(0,0,0,.6);
+    --player-num:#f4f7fb;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    text-wrap:pretty;
+  }
+  h1,h2,h3,.display{
+    font-family:'Anton', 'Public Sans', sans-serif;
+    font-weight:400;
+    letter-spacing:.02em;
+    text-transform:uppercase;
+    text-wrap:balance;
+  }
+  .mono{ font-family:'IBM Plex Mono', ui-monospace, monospace; font-variant-numeric:tabular-nums; }
+  a{ color:var(--ice); }
+  button{ font-family:inherit; }
+
+  /* ---------- Header ---------- */
+  header.top{
+    position:sticky; top:0; z-index:20;
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+    border-bottom:3px solid var(--red);
+    box-shadow:var(--shadow);
+  }
+  .top-inner{
+    max-width:1180px; margin:0 auto; padding:12px 20px;
+    display:flex; align-items:center; gap:16px;
+  }
+  .crest{
+    width:46px; height:46px; border-radius:50%;
+    background:#fff;
+    border:2px solid var(--ice-2);
+    display:flex; align-items:center; justify-content:center;
+    flex:none; overflow:hidden;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
+  }
+  .crest img{ width:100%; height:100%; object-fit:contain; }
+  .wordmark{ line-height:1.05; flex:none; }
+  .wordmark .l1{ color:#fff; font-size:19px; letter-spacing:.03em; }
+  .wordmark .l2{ color:var(--ice-2); font-size:10.5px; letter-spacing:.16em; font-family:'Public Sans',sans-serif; text-transform:uppercase; font-weight:600; }
+  nav.tabs{
+    display:flex; gap:2px; margin-left:8px; flex:1;
+    overflow-x:auto; scrollbar-width:none;
+  }
+  nav.tabs::-webkit-scrollbar{ display:none; }
+  nav.tabs button{
+    background:transparent; border:none; color:#c9d4e8;
+    padding:10px 14px; font-size:13.5px; font-weight:600;
+    letter-spacing:.02em; border-radius:8px; cursor:pointer;
+    white-space:nowrap;
+    transition:background .15s, color .15s;
+  }
+  nav.tabs button:hover{ background:rgba(255,255,255,.08); color:#fff; }
+  nav.tabs button.active{ background:var(--red); color:#fff; }
+  .record-chip{
+    flex:none;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.14);
+    color:#fff; border-radius:999px; padding:6px 12px;
+    font-size:12.5px; display:flex; align-items:center; gap:7px;
+  }
+  .record-chip b{ font-family:'IBM Plex Mono'; font-size:14px; color:var(--ice-2); }
+
+  /* ---------- Layout ---------- */
+  main{ max-width:1180px; margin:0 auto; padding:24px 20px 64px; }
+  .panel{ display:none; }
+  .panel.active{ display:block; animation:fade .25s ease; }
+  @media (prefers-reduced-motion: reduce){ .panel.active{ animation:none; } }
+  @keyframes fade{ from{ opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
+
+  .grid{ display:grid; gap:16px; }
+  .card{
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:14px; box-shadow:var(--shadow);
+  }
+  .section-label{
+    display:flex; align-items:center; gap:10px;
+    margin:32px 0 14px;
+  }
+  .section-label:first-child{ margin-top:0; }
+  .section-label h2{ font-size:17px; color:var(--ink); margin:0; }
+  .section-label .count{
+    background:var(--surface-2); color:var(--ink-dim);
+    font-family:'IBM Plex Mono'; font-size:12px; border-radius:999px;
+    padding:2px 9px; font-weight:600;
+  }
+  .section-label .rule{ flex:1; height:1px; background:var(--border); }
+
+  /* ---------- Home ---------- */
+  .game-card{
+    display:grid; grid-template-columns:74px 1fr auto; gap:16px; align-items:center;
+    padding:14px 18px;
+    background:linear-gradient(120deg, var(--navy) 0%, var(--navy-3) 100%);
+    color:#fff; position:relative; overflow:hidden;
+  }
+  .game-card::after{
+    content:""; position:absolute; inset:0;
+    background:repeating-linear-gradient(115deg, rgba(255,255,255,.03) 0 2px, transparent 2px 34px);
+    pointer-events:none;
+  }
+  .game-card.tbd{ background:linear-gradient(120deg, var(--navy-2) 0%, var(--navy-3) 100%); opacity:.88; }
+  .gc-when{ display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .gc-when .gc-time{ font-family:'IBM Plex Mono'; font-size:12.5px; color:var(--ice-2); font-weight:600; }
+  .gc-opp{ font-family:'Anton'; font-size:18px; letter-spacing:.01em; }
+  .gc-meta{ color:var(--ice-2); font-size:12.5px; margin-top:2px; }
+  .gc-note{ font-size:12px; color:#fff; text-align:right; white-space:nowrap; }
+  .gc-note.muted{ color:rgba(255,255,255,.55); font-style:italic; }
+
+  .ig-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
+  .ig-tile{
+    aspect-ratio:1; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    font-size:22px; opacity:.55;
+  }
+  .ig-tile:nth-child(1){ background:linear-gradient(135deg, var(--navy-3), var(--navy)); }
+  .ig-tile:nth-child(2){ background:linear-gradient(135deg, var(--red-2), #7c0a1d); }
+  .ig-tile:nth-child(3){ background:linear-gradient(135deg, var(--ice), #1c6f88); }
+  .ig-tile:nth-child(4){ background:linear-gradient(135deg, var(--ice), #1c6f88); }
+  .ig-tile:nth-child(5){ background:linear-gradient(135deg, var(--red-2), #7c0a1d); }
+  .ig-tile:nth-child(6){ background:linear-gradient(135deg, var(--navy-3), var(--navy)); }
+
+  table.plain{ width:100%; border-collapse:collapse; }
+  table.plain th{
+    text-align:left; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--ink-dim); padding:10px 16px; border-bottom:1px solid var(--border);
+    background:var(--surface-2);
+  }
+  table.plain td{ padding:12px 16px; border-bottom:1px solid var(--border); font-size:14px; vertical-align:top; }
+  table.plain tr:last-child td{ border-bottom:none; }
+  .day-pill{
+    font-family:'Anton'; font-size:12px; background:var(--navy); color:#fff;
+    border-radius:6px; padding:3px 9px; display:inline-block; letter-spacing:.04em;
+  }
+  .day-pill.skills{ background:var(--ice); color:var(--navy); }
+  .game-card .day-pill{ background:rgba(255,255,255,.14); }
+  .muted{ color:var(--ink-dim); }
+  .table-wrap{ overflow-x:auto; }
+
+  .note{
+    display:flex; gap:10px; padding:14px 16px; border-radius:10px;
+    background:var(--surface-2); border:1px dashed var(--border);
+    font-size:13px; color:var(--ink-dim); line-height:1.5;
+  }
+  .note b{ color:var(--ink); }
+
+  /* ---------- Season ---------- */
+  .season-record{
+    padding:22px 24px; color:#fff;
+    background:linear-gradient(120deg, var(--navy) 0%, var(--navy-3) 100%);
+    display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+  }
+  .season-record .num{ font-family:'IBM Plex Mono'; font-size:42px; font-weight:600; line-height:1; }
+  .season-record .lbl{ color:var(--ice-2); font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin-top:4px; }
+  .season-record .stats{ display:flex; gap:28px; flex-wrap:wrap; }
+  .month-group{ margin-bottom:22px; }
+  .month-title{
+    font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--ink-dim); margin:0 0 8px; display:flex; justify-content:space-between;
+  }
+  .game-row{
+    display:grid; grid-template-columns: 64px 1fr auto; gap:14px; align-items:center;
+    padding:12px 16px; border-bottom:1px solid var(--border);
+  }
+  .game-row:last-child{ border-bottom:none; }
+  .game-row .side{
+    font-family:'Anton'; font-size:10.5px; text-align:center; padding:6px 0; border-radius:6px;
+    letter-spacing:.05em;
+  }
+  .game-row .side.away{ background:rgba(200,16,46,.12); color:var(--red-2); }
+  .game-row .side.home{ background:rgba(63,184,214,.15); color:var(--ice); }
+  .game-row .opp{ font-weight:700; font-size:14.5px; }
+  .game-row .meta{ font-size:12.5px; color:var(--ink-dim); margin-top:2px; }
+  .result{
+    font-family:'IBM Plex Mono'; font-weight:600; font-size:14px;
+    padding:5px 11px; border-radius:7px; white-space:nowrap;
+  }
+  .result.w{ background:rgba(28,138,76,.14); color:var(--win); }
+  .result.l{ background:rgba(200,16,46,.12); color:var(--loss); }
+  .result.pending{ background:var(--surface-2); color:var(--ink-dim); font-family:'Public Sans'; font-size:12.5px; font-weight:600; }
+
+  /* ---------- Roster ---------- */
+  .roster-grid{ grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:20px; }
+  .flip-card{
+    position:relative; height:262px; perspective:1000px; cursor:pointer;
+    background:transparent !important; border:none !important; box-shadow:none !important;
+  }
+  .flip-card:focus-visible .flip-inner{ outline:2px solid var(--ice); outline-offset:2px; }
+  .flip-inner{
+    position:relative; width:100%; height:100%;
+    transition:transform .5s cubic-bezier(.4,.2,.2,1);
+    transform-style:preserve-3d;
+  }
+  .flip-card.flipped .flip-inner{ transform:rotateY(180deg); }
+  .flip-face{
+    position:absolute; inset:0; backface-visibility:hidden;
+    border-radius:12px; border:1px solid var(--border); box-shadow:var(--shadow);
+    background:var(--surface); border-top:4px solid var(--red);
+    display:flex; flex-direction:column;
+  }
+  .flip-face.back{ transform:rotateY(180deg); }
+
+  .player{ padding:14px 14px 12px; text-align:center; position:relative; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .avatar{
+    width:92px; height:92px; border-radius:50%; margin:0 auto 12px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Anton'; font-size:42px; line-height:1; color:#fff;
+    background:linear-gradient(135deg, var(--navy-3), var(--navy));
+    border:3px solid var(--surface-2);
+    text-shadow:0 2px 0 rgba(0,0,0,.3);
+    -webkit-text-stroke:1px rgba(0,0,0,.18);
+    font-variant-numeric:tabular-nums;
+  }
+  .player .name{ font-weight:700; font-size:15.5px; margin-top:2px; }
+  .player .pos{
+    font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--ink-dim); margin-top:2px;
+  }
+  .player .r-tag{
+    position:absolute; top:8px; right:8px; font-size:9px; font-weight:800;
+    background:var(--surface-2); color:var(--ink-dim); border-radius:5px; padding:2px 5px;
+  }
+  .flip-hint{
+    position:absolute; bottom:6px; right:8px; font-size:9px; color:var(--ink-dim);
+    display:flex; align-items:center; gap:3px; opacity:.7;
+  }
+  .stat-face{ padding:14px 14px 10px; flex:1; display:flex; flex-direction:column; }
+  .stat-face .sf-head{ text-align:center; margin-bottom:8px; }
+  .stat-face .sf-name{ font-weight:800; font-size:13px; }
+  .stat-face .sf-sub{ font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-dim); }
+  .stat-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:6px; flex:1; }
+  .stat-cell{ background:var(--surface-2); border-radius:7px; padding:6px 2px; text-align:center; }
+  .stat-cell .sv{ font-family:'IBM Plex Mono'; font-weight:600; font-size:15px; }
+  .stat-cell .sl{ font-size:8px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-dim); margin-top:1px; }
+  .stat-face .sf-foot{ text-align:center; font-size:9.5px; color:var(--ink-dim); margin-top:6px; }
+
+  .roster-legend{ display:flex; gap:18px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-dim); margin-top:14px; }
+  .roster-legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .swatch{ width:10px; height:10px; border-radius:3px; display:inline-block; }
+
+  /* ---------- Resources ---------- */
+  .res-grid{ grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); }
+  .res-card{ padding:18px 20px; }
+  .res-card h4{
+    margin:0 0 10px; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--ice); display:flex; align-items:center; gap:8px;
+  }
+  .res-card dl{ margin:0; }
+  .res-card dt{ font-size:11.5px; color:var(--ink-dim); margin-top:10px; }
+  .res-card dt:first-child{ margin-top:0; }
+  .res-card dd{ margin:2px 0 0; font-size:14.5px; font-weight:600; }
+  .cta{
+    display:inline-flex; align-items:center; gap:6px; margin-top:14px;
+    background:var(--red); color:#fff !important; text-decoration:none;
+    font-weight:700; font-size:13.5px; padding:9px 16px; border-radius:999px;
+  }
+
+  footer{
+    max-width:1180px; margin:0 auto; padding:20px 20px 40px;
+    color:var(--ink-dim); font-size:12.5px; display:flex; justify-content:space-between;
+    flex-wrap:wrap; gap:8px;
+  }
+
+  /* --- Access gate --- */
+  .gate{
+    position:fixed; inset:0; z-index:9999;
+    background:radial-gradient(1200px 800px at 50% -10%, var(--navy-3), var(--navy) 60%);
+    display:flex; align-items:center; justify-content:center; padding:24px;
+  }
+  .gate.hidden{ display:none; }
+  .gate-card{
+    background:var(--navy-2); border:1px solid rgba(255,255,255,.08);
+    border-radius:18px; padding:36px 32px; max-width:360px; width:100%;
+    text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.4);
+  }
+  .gate-card .gate-emoji{ font-size:36px; margin-bottom:10px; }
+  .gate-card h1{
+    font-family:'Anton',sans-serif; font-weight:400; letter-spacing:.5px;
+    font-size:24px; color:#fff; margin:0 0 4px;
+  }
+  .gate-card p.sub{ color:var(--ice-2); font-size:12.5px; margin:0 0 22px; line-height:1.5; }
+  .gate-card input{
+    width:100%; box-sizing:border-box; padding:12px 14px; border-radius:10px;
+    border:1px solid rgba(255,255,255,.15); background:rgba(255,255,255,.06);
+    color:#fff; font-size:15px; text-align:center; letter-spacing:1px;
+    margin-bottom:12px;
+  }
+  .gate-card input::placeholder{ color:rgba(255,255,255,.4); letter-spacing:normal; }
+  .gate-card button{
+    width:100%; padding:12px; border:none; border-radius:10px;
+    background:var(--red); color:#fff; font-weight:700; font-size:14.5px;
+    cursor:pointer;
+  }
+  .gate-card .err{ color:#ff9aa8; font-size:12px; margin-top:10px; min-height:14px; opacity:0; }
+  .gate-card .err.show{ opacity:1; }
+  #site-content{ display:none; }
+  #site-content.unlocked{ display:block; }
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <div class="gate-emoji">🐺</div>
+    <h1>Lady Wolfpack HQ</h1>
+    <p class="sub">Enter the team passcode to see the schedule, roster &amp; stats.</p>
+    <form id="gate-form" autocomplete="off">
+      <input type="password" id="gate-input" placeholder="Team passcode" autocapitalize="off" autocomplete="off" inputmode="text">
+      <button type="submit">Enter</button>
+      <div class="err" id="gate-err">That's not quite right &mdash; check with your team manager.</div>
+    </form>
+  </div>
+</div>
+
+<div id="site-content">
+<header class="top">
+  <div class="top-inner">
+    <div class="crest" aria-hidden="true">
+      <img src="data:image/png;base64,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" alt="Lady Wolfpack logo">
+    </div>
+    <div class="wordmark">
+      <div class="l1 display">Lady Wolfpack</div>
+      <div class="l2">Hartford Jr. Wolf Pack &middot; U12 Tier 2</div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button data-panel="week" class="active">Home</button>
+      <button data-panel="season">Season</button>
+      <button data-panel="roster">Roster</button>
+      <button data-panel="resources">Resources</button>
+    </nav>
+    <div class="record-chip"><span>2026&ndash;27</span><b>1&ndash;1</b></div>
+  </div>
+</header>
+
+<main>
+
+  <!-- HOME -->
+  <section class="panel active" id="panel-week">
+
+    <div class="section-label"><h2>This Weekend</h2><span class="count">5 games</span><div class="rule"></div></div>
+    <div class="grid" style="gap:12px;">
+      <div class="card game-card">
+        <div class="gc-when"><span class="day-pill">SAT</span><span class="gc-time">11:45 AM</span></div>
+        <div class="gc-mid"><div class="gc-opp">vs. Philadelphia Jr Flyers 12&ndash;2</div><div class="gc-meta">Newington Arena &middot; Tournament</div></div>
+        <div class="gc-note">arrive 10:40 AM</div>
+      </div>
+      <div class="card game-card">
+        <div class="gc-when"><span class="day-pill">SAT</span><span class="gc-time">2:15 PM</span></div>
+        <div class="gc-mid"><div class="gc-opp">vs. Team Long Island 12&ndash;2</div><div class="gc-meta">Newington Arena &middot; Tournament</div></div>
+        <div class="gc-note">arrive 1:00 PM</div>
+      </div>
+      <div class="card game-card tbd">
+        <div class="gc-when"><span class="day-pill">SUN</span><span class="gc-time">9:40 AM</span></div>
+        <div class="gc-mid"><div class="gc-opp">vs. TBD <span class="muted">(Semi Finals)</span></div><div class="gc-meta">Newington Arena &middot; Tournament</div></div>
+        <div class="gc-note muted">if seeded here</div>
+      </div>
+      <div class="card game-card tbd">
+        <div class="gc-when"><span class="day-pill">SUN</span><span class="gc-time">11:05 AM</span></div>
+        <div class="gc-mid"><div class="gc-opp">vs. TBD <span class="muted">(Semi Finals)</span></div><div class="gc-meta">Newington Arena &middot; Tournament</div></div>
+        <div class="gc-note muted">if seeded here</div>
+      </div>
+      <div class="card game-card tbd">
+        <div class="gc-when"><span class="day-pill">SUN</span><span class="gc-time">12:40 PM</span></div>
+        <div class="gc-mid"><div class="gc-opp">@ TBD <span class="muted">(12U Silver Finals)</span></div><div class="gc-meta">Newington Arena &middot; Tournament</div></div>
+        <div class="gc-note muted">if you advance</div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:10px;">🔌 <span>Synced from Crossbar &middot; Sunday's bracket (which semifinal, then the final) firms up once Saturday's pool play wraps.</span></div>
+
+    <div class="section-label"><h2>Last Week Recap</h2><span class="count">2 games</span><div class="rule"></div></div>
+    <div class="card">
+      <div class="table-wrap">
+        <table class="plain">
+          <tr><td><span class="result l">L 0&ndash;2</span></td><td><b>Florida Cyclones 12U</b><div class="meta muted">Fri 9/4 &middot; Newington Arena &middot; Labor Day Challenge</div></td><td class="muted">Game 1</td></tr>
+          <tr><td><span class="result w">W 3&ndash;0</span></td><td><b>PTL 12U AA</b><div class="meta muted">Fri 9/4 &middot; Newington Arena &middot; Labor Day Challenge &middot; shutout, first win of the season</div></td><td class="muted">Game 2</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-label"><h2>Upcoming Practices</h2><div class="rule"></div></div>
+    <div class="card">
+      <div class="table-wrap">
+        <table class="plain">
+          <tr><th>Day</th><th>Session</th><th>Rink</th></tr>
+          <tr><td><span class="day-pill skills">TUE 9/8</span></td><td>5:30&ndash;6:30 PM &middot; Skills</td><td class="muted">Champions Skating Center</td></tr>
+          <tr><td><span class="day-pill">WED 9/9</span></td><td>5:30&ndash;6:30 PM &middot; Practice</td><td class="muted">Champions Skating Center</td></tr>
+          <tr><td><span class="day-pill">WED 9/9</span></td><td>6:45&ndash;7:30 PM &middot; Dry Land Training</td><td class="muted">Champions Skating Center</td></tr>
+          <tr><td><span class="day-pill">THU 9/10</span></td><td>6:30&ndash;7:30 PM &middot; Practice</td><td class="muted">Champions Skating Center</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-label"><h2>From Instagram</h2><div class="rule"></div></div>
+    <div class="card" style="padding:20px;">
+      <div class="ig-grid">
+        <div class="ig-tile"><span class="ig-icon">📷</span></div>
+        <div class="ig-tile"><span class="ig-icon">📷</span></div>
+        <div class="ig-tile"><span class="ig-icon">📷</span></div>
+        <div class="ig-tile"><span class="ig-icon">📷</span></div>
+        <div class="ig-tile"><span class="ig-icon">📷</span></div>
+        <div class="ig-tile"><span class="ig-icon">📷</span></div>
+      </div>
+      <div style="text-align:center; margin-top:16px;">
+        <a class="cta" href="https://www.instagram.com/ladywolfpack2015/" target="_blank" rel="noopener">Follow @ladywolfpack2015 →</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- SEASON -->
+  <section class="panel" id="panel-season">
+
+    <div class="card season-record">
+      <div>
+        <div class="num" id="season-record-num">1&ndash;1</div>
+        <div class="lbl">2026&ndash;27 Record</div>
+      </div>
+      <div class="stats">
+        <div><div class="num" id="season-gd" style="font-size:22px">+1</div><div class="lbl">Goal Diff.</div></div>
+        <div><div class="num" id="season-played" style="font-size:22px">2</div><div class="lbl">Played</div></div>
+        <div><div class="num" style="font-size:22px">14+</div><div class="lbl">Games Needed (State)</div></div>
+      </div>
+    </div>
+
+    <div id="season-months"></div>
+
+    <div class="note" style="margin-top:8px;">
+      🔌 <span>Synced from Crossbar &middot; opponents marked <b>TBD</b> update automatically once bracket/pool assignments are posted &mdash; tell Claude when to pull a refresh.</span>
+    </div>
+
+  </section>
+
+  <!-- ROSTER -->
+  <section class="panel" id="panel-roster">
+
+    <div class="section-label"><h2>2026&ndash;27 Roster</h2><span class="count">16 players</span><div class="rule"></div></div>
+
+    <div class="grid roster-grid" id="roster-grid"></div>
+
+    <div class="roster-legend" style="margin-top:16px;">
+      <span>🔄 Tap a card to flip &mdash; front is the jersey, back is this season's stats</span>
+      <span><span class="swatch" style="background:var(--surface-2); border:1px solid var(--border)"></span>&ldquo;R&rdquo; = returning player</span>
+    </div>
+
+    <div class="section-label"><h2>Coaching Staff</h2><div class="rule"></div></div>
+    <div class="grid res-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+      <div class="card res-card">
+        <h4>🧊 Head Coach</h4>
+        <dd style="font-size:16px;font-weight:800;margin:0;">Rylie Griffith</dd>
+      </div>
+      <div class="card res-card">
+        <h4>🧊 Assistant Coach</h4>
+        <dd style="font-size:16px;font-weight:800;margin:0;">John Krause</dd>
+      </div>
+      <div class="card res-card">
+        <h4>🧊 Assistant Coach</h4>
+        <dd style="font-size:16px;font-weight:800;margin:0;">Michael Hornish</dd>
+      </div>
+      <div class="card res-card">
+        <h4>🧊 Assistant Coach</h4>
+        <dd style="font-size:16px;font-weight:800;margin:0;">Mackenzie Griffith</dd>
+      </div>
+      <div class="card res-card">
+        <h4>📋 Team Manager</h4>
+        <dd style="font-size:16px;font-weight:800;margin:0;">Fred Moore</dd>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- RESOURCES -->
+  <section class="panel" id="panel-resources">
+
+    <div class="section-label"><h2>Team Resources</h2><div class="rule"></div></div>
+
+    <div class="grid res-grid">
+      <div class="card res-card">
+        <h4>📍 Home Rink</h4>
+        <dl>
+          <dt>Rink</dt><dd>Champions Skating Center</dd>
+          <dt>Address</dt><dd style="font-weight:600;font-size:13.5px;">6 Progress Dr, Cromwell, CT 06416</dd>
+        </dl>
+        <a class="cta" href="https://www.google.com/maps/search/?api=1&query=6%20Progress%20Dr%2C%20Cromwell%2C%20CT%2006416" target="_blank" rel="noopener">Directions →</a>
+      </div>
+
+      <div class="card res-card">
+        <h4>💵 Team Fund</h4>
+        <dl>
+          <dt>Collected</dt><dd>Once per season</dd>
+          <dt>Send via Venmo</dt><dd>@fred-mooreiii</dd>
+          <dt>Or</dt><dd>Cash / check to Fred</dd>
+        </dl>
+      </div>
+
+      <div class="card res-card">
+        <h4>🐺 League</h4>
+        <dl>
+          <dt>League</dt><dd>Connecticut Hockey Conference (CHC)</dd>
+          <dt>Division</dt><dd>Girls 12U Tier 2</dd>
+          <dt>State Eligibility</dt><dd>14+ sanctioned games, no home-and-home requirement</dd>
+        </dl>
+      </div>
+
+      <div class="card res-card">
+        <h4>🐺 Get to Know the Pack</h4>
+        <p style="font-size:13.5px;color:var(--ink-dim);line-height:1.5;margin:0;">A quick form for on/off-ice trivia &mdash; also doubles as Secret Santa gift-idea intel later in the season.</p>
+        <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSdMkNIWgHBCC1-sY2t_-v0DYmDCPbNy5s1PG_JpiAcZEeTz-A/viewform" target="_blank" rel="noopener">Fill it out →</a>
+      </div>
+
+      <div class="card res-card">
+        <h4>📣 Follow the Pack</h4>
+        <dl><dt>Instagram</dt><dd>@ladywolfpack2015</dd></dl>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <span>Lady Wolfpack HQ &middot; built for the 2026&ndash;27 season</span>
+  <span>Go Pack 🐺</span>
+</footer>
+</div>
+
+<script>
+  // --- Access gate ---
+  const TEAM_PASSCODE = "LADYWP2026";
+  (function(){
+    const gate = document.getElementById('gate');
+    const content = document.getElementById('site-content');
+    const form = document.getElementById('gate-form');
+    const input = document.getElementById('gate-input');
+    const err = document.getElementById('gate-err');
+    let unlocked = false;
+    try { unlocked = localStorage.getItem('lwpUnlocked') === '1'; } catch(e) {}
+    if (unlocked) {
+      gate.classList.add('hidden');
+      content.classList.add('unlocked');
+    }
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      const val = (input.value || '').trim().toUpperCase();
+      if (val === TEAM_PASSCODE) {
+        try { localStorage.setItem('lwpUnlocked', '1'); } catch(e) {}
+        gate.classList.add('hidden');
+        content.classList.add('unlocked');
+        err.classList.remove('show');
+      } else {
+        err.classList.add('show');
+        input.value = '';
+        input.focus();
+      }
+    });
+  })();
+
+  // side: 'home' if listed "vs." on Crossbar, 'away' if listed "@"
+  // result: [us, them] when Final; null when upcoming
+  const GAMES = [
+    {m:"September 2026", day:"Fri", date:"Sep 4", time:"9:30 AM", side:"away", opp:"Florida Cyclones 12-2", loc:"Newington Arena", type:"Tournament", result:[0,2]},
+    {m:"September 2026", day:"Fri", date:"Sep 4", time:"2:00 PM", side:"home", opp:"PTL 12U AA", loc:"Newington Arena", type:"Tournament", result:[3,0]},
+    {m:"September 2026", day:"Sat", date:"Sep 5", time:"11:45 AM", side:"home", opp:"Philadelphia Jr Flyers 12-2", loc:"Newington Arena", type:"Tournament", result:null},
+    {m:"September 2026", day:"Sat", date:"Sep 5", time:"2:15 PM", side:"home", opp:"Team Long Island 12-2", loc:"Newington Arena", type:"Tournament", result:null},
+    {m:"September 2026", day:"Sun", date:"Sep 6", time:"9:40 AM", side:"home", opp:"TBD (Semi Finals)", loc:"Newington Arena", type:"Tournament", result:null},
+    {m:"September 2026", day:"Sun", date:"Sep 6", time:"11:05 AM", side:"home", opp:"TBD (Semi Finals)", loc:"Newington Arena", type:"Tournament", result:null},
+    {m:"September 2026", day:"Sun", date:"Sep 6", time:"12:40 PM", side:"away", opp:"TBD (12U Silver Finals)", loc:"Newington Arena", type:"Tournament", result:null},
+    {m:"September 2026", day:"Sat", date:"Sep 12", time:"2:00 PM", side:"home", opp:"Wallingford Hawks Blue", loc:"Champions Skating Center", type:"League", result:null},
+    {m:"September 2026", day:"Sun", date:"Sep 13", time:"5:30 PM", side:"away", opp:"Avon 12U B", loc:"Avon Old Farms School", type:"League", result:null},
+    {m:"September 2026", day:"Sat", date:"Sep 19", time:"3:30 PM", side:"home", opp:"Wonderland Wizards 12U B Blue", loc:"Champions Skating Center", type:"League", result:null},
+    {m:"September 2026", day:"Sun", date:"Sep 20", time:"9:00 AM", side:"away", opp:"West Haven A1", loc:"Edward L. Bennett Rink", type:"League", result:null},
+    {m:"September 2026", day:"Sat", date:"Sep 26", time:"TBD", side:"away", opp:"Central U12 Girls", loc:"Newington Arena", type:"League", result:null},
+    {m:"September 2026", day:"Sat", date:"Sep 26", time:"1:20 PM", side:"away", opp:"Central CT U12 Girls CGHL", loc:"Newington Red", type:"League", result:null},
+    {m:"September 2026", day:"Sun", date:"Sep 27", time:"10:00 AM", side:"home", opp:"Enfield A1", loc:"Champions Skating Center", type:"League", result:null},
+
+    {m:"October 2026", day:"Sat", date:"Oct 3", time:"10:10 AM", side:"home", opp:"South Windsor B", loc:"Champions Skating Center", type:"League", result:null},
+    {m:"October 2026", day:"Sun", date:"Oct 4", time:"10:30 AM", side:"away", opp:"Hamden A1", loc:"Louis Astorino Ice Arena", type:"League", result:null},
+    {m:"October 2026", day:"Sat", date:"Oct 10", time:"2:30 PM", side:"away", opp:"CT Polar Bears", loc:"The Rinks at the Sports Center", type:"League", result:null},
+    {m:"October 2026", day:"Sun", date:"Oct 11", time:"12:30 PM", side:"away", opp:"CT Polar Bears", loc:"The Rinks at the Sports Center", type:"League", result:null},
+    {m:"October 2026", day:"Sat", date:"Oct 17", time:"8:00 AM", side:"away", opp:"Simsbury B", loc:"Jackson Hockey Rink", type:"League", result:null},
+    {m:"October 2026", day:"Sun", date:"Oct 18", time:"12:40 PM", side:"home", opp:"Girls Hat Trick Black", loc:"Champions Skating Center", type:"League", result:null},
+    {m:"October 2026", day:"Sat", date:"Oct 24", time:"8:40 AM", side:"home", opp:"Wallingford Hawks Blue", loc:"Champions Skating Center", type:"League", result:null},
+    {m:"October 2026", day:"Sun", date:"Oct 25", time:"TBD", side:"away", opp:"Yale A1", loc:"Northford Ice Pavilion", type:"League", result:null},
+    {m:"October 2026", day:"Sat", date:"Oct 31", time:"2:30 PM", side:"away", opp:"South Windsor A1", loc:"South Windsor Arena", type:"League", result:null},
+
+    {m:"November 2026", day:"Sun", date:"Nov 1", time:"1:10 PM", side:"home", opp:"Girls Hat Trick CGHL", loc:"Champions Skating Center", type:"League", result:null},
+    {m:"November 2026", day:"Sat", date:"Nov 7", time:"2:30 PM", side:"away", opp:"Enfield A1", loc:"MassMutual Center", type:"League", result:null},
+    {m:"November 2026", day:"Sun", date:"Nov 8", time:"11:50 AM", side:"away", opp:"South Windsor B", loc:"South Windsor Arena", type:"League", result:null},
+    {m:"November 2026", day:"Sat", date:"Nov 14", time:"11:00 AM", side:"home", opp:"West Hartford Wolves B", loc:"Champions Skating Center", type:"League", result:null},
+    {m:"November 2026", day:"Sun", date:"Nov 15", time:"1:40 PM", side:"away", opp:"Wonderland Wizards 12U B Blue", loc:"Wonderland of Ice", type:"League", result:null},
+    {m:"November 2026", day:"Sat", date:"Nov 21", time:"11:00 AM", side:"home", opp:"Avon 12U B", loc:"Champions Skating Center", type:"League", result:null},
+    {m:"November 2026", day:"Sun", date:"Nov 22", time:"10:30 AM", side:"away", opp:"Central A1", loc:"Newington Arena", type:"League", result:null},
+    {m:"November 2026", day:"Fri", date:"Nov 27", time:"TBD", side:"away", opp:"Avon Thanksgiving Tournament", loc:"Avon Old Farms School", type:"Tournament", result:null},
+    {m:"November 2026", day:"Sat", date:"Nov 28", time:"TBD", side:"away", opp:"Avon Thanksgiving Tournament", loc:"Avon Old Farms School", type:"Tournament", result:null},
+    {m:"November 2026", day:"Sun", date:"Nov 29", time:"TBD", side:"away", opp:"Avon Thanksgiving Tournament", loc:"Avon Old Farms School", type:"Tournament", result:null},
+
+    {m:"December 2026", day:"Sat", date:"Dec 5", time:"9:50 AM", side:"home", opp:"Darien Ice Cats G12U - Tier 2", loc:"Champions Lower Rink", type:"League", result:null},
+    {m:"December 2026", day:"Sat", date:"Dec 5", time:"5:25 PM", side:"away", opp:"Darien Ice Cats G12U - Tier 2", loc:"Stamford Twin W", type:"League", result:null},
+    {m:"December 2026", day:"Sun", date:"Dec 6", time:"12:40 PM", side:"away", opp:"CT Game Changers", loc:"Bolton Ice Palace", type:"League", result:null},
+    {m:"December 2026", day:"Sat", date:"Dec 19", time:"12:15 PM", side:"away", opp:"Putnam Panthers A1", loc:"Tirrell Ice Rink", type:"League", result:null},
+    {m:"December 2026", day:"Sun", date:"Dec 20", time:"9:50 AM", side:"home", opp:"Shoreline Sharks U12", loc:"Champions Skating Center", type:"League", result:null},
+    {m:"December 2026", day:"Sat", date:"Dec 26", time:"1:30 PM", side:"away", opp:"CT Polar Bears", loc:"The Rinks at the Sports Center", type:"League", result:null},
+    {m:"December 2026", day:"Sun", date:"Dec 27", time:"TBD", side:"away", opp:"West Hartford Wolves B", loc:"Veterans Memorial Ice Rink", type:"League", result:null},
+
+    {m:"January 2027", day:"Sat", date:"Jan 2", time:"9:45 AM", side:"away", opp:"Wallingford Hawks Blue", loc:"Choate Hockey Rink", type:"League", result:null},
+    {m:"January 2027", day:"Sun", date:"Jan 3", time:"9:50 AM", side:"home", opp:"South Windsor A1", loc:"Champions Skating Center", type:"League", result:null},
+    {m:"January 2027", day:"Sat", date:"Jan 9", time:"9:50 AM", side:"home", opp:"Hamden A1", loc:"Champions Skating Center", type:"League", result:null},
+    {m:"January 2027", day:"Sun", date:"Jan 10", time:"9:10 AM", side:"away", opp:"Hamden U12 Girls", loc:"Louis Astorino Ice Arena", type:"League", result:null},
+    {m:"January 2027", day:"Fri", date:"Jan 15", time:"TBD", side:"away", opp:"Northstars Winter Classic", loc:"Glens Falls Rec Center", type:"Tournament", result:null},
+    {m:"January 2027", day:"Sat", date:"Jan 16", time:"TBD", side:"away", opp:"Northstars Winter Classic", loc:"Glens Falls Rec Center", type:"Tournament", result:null},
+    {m:"January 2027", day:"Sun", date:"Jan 17", time:"TBD", side:"away", opp:"Northstars Winter Classic", loc:"Glens Falls Rec Center", type:"Tournament", result:null},
+    {m:"January 2027", day:"Mon", date:"Jan 18", time:"TBD", side:"away", opp:"Northstars Winter Classic", loc:"Glens Falls Rec Center", type:"Tournament", result:null},
+    {m:"January 2027", day:"Sat", date:"Jan 23", time:"11:20 AM", side:"home", opp:"West Haven A1", loc:"Champions Skating Center", type:"League", result:null},
+    {m:"January 2027", day:"Sun", date:"Jan 24", time:"10:30 AM", side:"away", opp:"Girls Hat Trick CGHL", loc:"Danbury Ice Arena", type:"League", result:null},
+    {m:"January 2027", day:"Sun", date:"Jan 24", time:"11:30 AM", side:"away", opp:"Girls Hat Trick Black", loc:"Danbury Ice Arena", type:"League", result:null},
+    {m:"January 2027", day:"Sat", date:"Jan 30", time:"2:30 PM", side:"away", opp:"Enfield A1", loc:"Enfield Twin Rinks", type:"League", result:null},
+    {m:"January 2027", day:"Sun", date:"Jan 31", time:"8:40 AM", side:"home", opp:"Central CT U12 Girls CGHL", loc:"Champions Lower Rink", type:"League", result:null},
+
+    {m:"February 2027", day:"Sat", date:"Feb 6", time:"9:45 AM", side:"away", opp:"Wallingford Hawks Blue", loc:"Choate Hockey Rink", type:"League", result:null},
+    {m:"February 2027", day:"Sun", date:"Feb 7", time:"8:40 AM", side:"home", opp:"Simsbury B", loc:"Champions Skating Center", type:"League", result:null},
+    {m:"February 2027", day:"Sat", date:"Feb 13", time:"11:20 AM", side:"home", opp:"Central A1", loc:"Champions Skating Center", type:"League", result:null},
+    {m:"February 2027", day:"Sun", date:"Feb 14", time:"4:00 PM", side:"away", opp:"Enfield B", loc:"Enfield Twin Rinks", type:"League", result:null},
+    {m:"February 2027", day:"Sat", date:"Feb 20", time:"9:45 AM", side:"away", opp:"Wallingford Hawks Blue", loc:"Choate Hockey Rink", type:"League", result:null},
+    {m:"February 2027", day:"Sun", date:"Feb 21", time:"8:40 AM", side:"home", opp:"Polar Bears G12U - Tier 2", loc:"Champions Lower Rink", type:"League", result:null},
+    {m:"February 2027", day:"Sat", date:"Feb 27", time:"8:40 AM", side:"home", opp:"Enfield B", loc:"Champions Skating Center", type:"League", result:null},
+    {m:"February 2027", day:"Sun", date:"Feb 28", time:"TBD", side:"away", opp:"West Hartford Wolves B", loc:"Veterans Memorial Ice Rink", type:"League", result:null},
+  ];
+
+  (function renderSeason(){
+    const months = [...new Set(GAMES.map(g => g.m))];
+    const container = document.getElementById('season-months');
+    let wins = 0, losses = 0, ties = 0, gf = 0, ga = 0, played = 0;
+    GAMES.forEach(g => {
+      if (!g.result) return;
+      played++;
+      const [us, them] = g.result;
+      gf += us; ga += them;
+      if (us > them) wins++; else if (us < them) losses++; else ties++;
+    });
+    document.getElementById('season-record-num').textContent = ties ? `${wins}-${losses}-${ties}` : `${wins}-${losses}`;
+    document.getElementById('season-gd').textContent = (gf - ga >= 0 ? '+' : '') + (gf - ga);
+    document.getElementById('season-played').textContent = played;
+
+    container.innerHTML = months.map(month => {
+      const games = GAMES.filter(g => g.m === month);
+      const donePlayed = games.filter(g => g.result).length;
+      const rows = games.map(g => {
+        const sideClass = g.side === 'home' ? 'home' : 'away';
+        const sideLabel = g.side === 'home' ? 'HOME' : 'AWAY';
+        let resultHtml;
+        if (g.result) {
+          const [us, them] = g.result;
+          resultHtml = `<div class="result ${us > them ? 'w' : 'l'}">${us > them ? 'W' : 'L'} ${us}&ndash;${them}</div>`;
+        } else {
+          resultHtml = `<div class="result pending">${g.time === 'TBD' ? 'Time TBD' : g.time}</div>`;
+        }
+        const oppLabel = g.opp.startsWith('TBD') ? `${g.side === 'home' ? 'vs' : '@'} ${g.opp}` : `${g.side === 'home' ? 'vs' : '@'} ${g.opp}`;
+        return `
+        <div class="game-row">
+          <div class="side ${sideClass}">${sideLabel}</div>
+          <div><div class="opp">${oppLabel}</div><div class="meta">${g.day}, ${g.date} &middot; ${g.loc} &middot; ${g.type}</div></div>
+          ${resultHtml}
+        </div>`;
+      }).join('');
+      return `
+      <div class="month-group">
+        <div class="month-title"><span>${month}</span><span>${games.length} games${donePlayed ? ` &middot; ${donePlayed} played` : ''}</span></div>
+        <div class="card">${rows}</div>
+      </div>`;
+    }).join('');
+  })();
+
+  // Stats synced from Fred's Google Sheet "Players" tab (g/a/pts/gp/gm/appg/pim)
+  const ROSTER = [
+    {n:55,name:"Adde Zuck",pos:"G",r:false,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
+    {n:21,name:"Ana Straker",pos:"G",r:false,g:0,a:0,pts:0,gp:1,gm:1,appg:0.0,pim:0},
+    {n:2,name:"Bailey Moore",pos:"D",r:true,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
+    {n:23,name:"Bailey Pelletier",pos:"F",r:false,g:0,a:1,pts:1,gp:2,gm:0,appg:0.5,pim:0},
+    {n:22,name:"Emma Zhang",pos:"F",r:false,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
+    {n:15,name:"Evangeline Zhang",pos:"D",r:false,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
+    {n:77,name:"Eve Krause",pos:"F",r:false,g:0,a:1,pts:1,gp:2,gm:0,appg:0.5,pim:0},
+    {n:91,name:"Hailey Reilly",pos:"D",r:false,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
+    {n:16,name:"Khloe Starkey",pos:"F",r:true,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
+    {n:20,name:"Lizzie Melchiorre",pos:"F",r:true,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
+    {n:82,name:"Mairead Hornish",pos:"F",r:false,g:2,a:0,pts:2,gp:2,gm:0,appg:1.0,pim:0},
+    {n:12,name:"Nia Lorenzi",pos:"D",r:false,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
+    {n:8,name:"Olivia Schortman",pos:"D",r:false,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
+    {n:97,name:"Rory Malone",pos:"F",r:false,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
+    {n:6,name:"Whitney Noe",pos:"F",r:true,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
+    {n:36,name:"Mackenzie Moore",pos:"F",r:true,g:1,a:0,pts:1,gp:2,gm:0,appg:0.5,pim:0},
+  ].sort((a,b)=> a.name.localeCompare(b.name));
+
+  const grid = document.getElementById('roster-grid');
+  grid.innerHTML = ROSTER.map((p, i) => `
+    <div class="card flip-card pos-${p.pos}" tabindex="0" role="button" aria-label="${p.name}, tap to flip for stats" data-idx="${i}">
+      <div class="flip-inner">
+        <div class="flip-face front">
+          <div class="player">
+            ${p.r ? '<span class="r-tag">R</span>' : ''}
+            <div class="avatar">${p.n}</div>
+            <div class="name">${p.name}</div>
+          </div>
+          <div class="flip-hint">🔄 stats</div>
+        </div>
+        <div class="flip-face back">
+          <div class="stat-face">
+            <div class="sf-head">
+              <div class="sf-name">#${p.n} ${p.name}</div>
+              <div class="sf-sub">2026&ndash;27 Season</div>
+            </div>
+            <div class="stat-grid">
+              <div class="stat-cell"><div class="sv mono">${p.g}</div><div class="sl">Goals</div></div>
+              <div class="stat-cell"><div class="sv mono">${p.a}</div><div class="sl">Assists</div></div>
+              <div class="stat-cell"><div class="sv mono">${p.pts}</div><div class="sl">Points</div></div>
+              <div class="stat-cell"><div class="sv mono">${p.gp}</div><div class="sl">GP</div></div>
+              <div class="stat-cell"><div class="sv mono">${p.appg.toFixed(1)}</div><div class="sl">Pts/Gm</div></div>
+              <div class="stat-cell"><div class="sv mono">${p.pim}</div><div class="sl">PIM</div></div>
+            </div>
+            <div class="sf-foot">Synced from the team stat sheet</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.flip-card').forEach(card => {
+    const toggle = () => card.classList.toggle('flipped');
+    card.addEventListener('click', toggle);
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+  });
+
+  const buttons = document.querySelectorAll('#tabs button');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-' + btn.dataset.panel).classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
