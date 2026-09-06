@@ -2,6 +2,7 @@
 <title>Lady Wolfpack HQ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -12,43 +13,15 @@
     --red-2:#e2233f;
     --ice:#3fb8d6;
     --ice-2:#7fd4e8;
-    --paper:#f2f5f9;
+    --paper:#faf9f5;
     --surface:#ffffff;
-    --surface-2:#e8ecf3;
+    --surface-2:#f1f3f6;
     --ink:#101826;
     --ink-dim:#4a5568;
     --border:#d8deea;
     --win:#1c8a4c;
     --loss:#c8102e;
     --shadow: 0 1px 2px rgba(15,31,61,.06), 0 8px 24px -12px rgba(15,31,61,.18);
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --paper:#0a1220;
-      --surface:#101c33;
-      --surface-2:#16233d;
-      --ink:#eef2f8;
-      --ink-dim:#a9b6cc;
-      --border:#26365a;
-      --navy:#0a1526;
-      --navy-2:#0f1f3d;
-      --navy-3:#16294f;
-      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -16px rgba(0,0,0,.6);
-      --player-num:#f4f7fb;
-    }
-  }
-  :root[data-theme="dark"]{
-    --paper:#0a1220;
-    --surface:#101c33;
-    --surface-2:#16233d;
-    --ink:#eef2f8;
-    --ink-dim:#a9b6cc;
-    --border:#26365a;
-    --navy:#0a1526;
-    --navy-2:#0f1f3d;
-    --navy-3:#16294f;
-    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -16px rgba(0,0,0,.6);
-    --player-num:#f4f7fb;
   }
 
   *{box-sizing:border-box;}
@@ -240,8 +213,16 @@
   .bench-btn{
     display:inline-flex; align-items:center; justify-content:center; gap:6px;
     border:none; border-radius:999px; padding:10px 16px; font-weight:700; font-size:13px;
-    cursor:pointer; color:#fff; background:var(--navy-3);
+    cursor:pointer; color:#fff; background:var(--navy-3); min-height:44px;
   }
+  .bench-btn.clock-primary{ min-height:64px; padding:14px 28px; font-size:18px; min-width:190px; border-radius:14px; }
+  .bench-btn.team-action{ width:100%; min-height:52px; font-size:15px; border-radius:12px; }
+  .bench-team-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .bench-team-section{ border:1px solid var(--border); border-radius:12px; padding:12px; background:var(--surface-2); }
+  .bench-team-title{ font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; margin-bottom:9px; }
+  .bench-team-title.us{ color:var(--ice); }
+  .bench-team-title.opp{ color:var(--red); }
+  @media (max-width:620px){ .bench-team-grid{ grid-template-columns:1fr; } .bench-btn.clock-primary{ width:100%; } }
   .bench-btn.win{ background:var(--win); }
   .bench-btn.loss{ background:var(--ink-dim); }
   .bench-btn.red{ background:var(--red); }
@@ -326,6 +307,37 @@
   .result.w{ background:rgba(28,138,76,.14); color:var(--win); }
   .result.l{ background:rgba(200,16,46,.12); color:var(--loss); }
   .result.pending{ background:var(--surface-2); color:var(--ink-dim); font-family:'Public Sans'; font-size:12.5px; font-weight:600; }
+  .game-row.played{ background:linear-gradient(90deg, rgba(15,31,61,.025), rgba(15,31,61,.06)); }
+  .game-row.upcoming{ background:linear-gradient(90deg, #ffffff, #f8fbfe); }
+  .game-row.practice{ background:#fcfcfa; }
+  .game-row .type-tag{ display:inline-block; margin-left:7px; padding:2px 7px; border-radius:999px; font-size:9px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; vertical-align:middle; }
+  .type-tag.league{ background:#dcecff; color:#164d8a; }
+  .type-tag.tournament{ background:#fff0cf; color:#7a4d00; }
+  .type-tag.skills{ background:#d9f5fb; color:#0d6274; }
+  .type-tag.practice{ background:#e8f3e8; color:#28623a; }
+  .type-tag.dryland{ background:#eee7ff; color:#5a3c8f; }
+  .arrival{ display:inline-block; margin-left:8px; color:#6b7280; font-size:11px; font-weight:600; }
+  .arrival b{ color:#25324a; }
+  .stats-sortbar{ display:flex; gap:8px; align-items:center; justify-content:flex-end; padding:12px 14px; border-bottom:1px solid var(--border); background:#fafaf8; flex-wrap:wrap; }
+  .stats-sortbar label{ font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-dim); font-weight:700; }
+  .stats-sortbar select{ padding:7px 10px; border:1px solid var(--border); border-radius:8px; background:#fff; color:var(--ink); font-family:inherit; font-size:13px; }
+  .goalie-board{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; padding:14px; }
+  .goalie-card{ border:1px solid var(--border); border-radius:12px; padding:14px; background:linear-gradient(135deg,#fff,#f6f8fb); }
+  .goalie-card h3{ margin:0 0 10px; font-size:16px; }
+  .goalie-statgrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
+  .goalie-stat{ background:#eef2f6; border-radius:8px; padding:8px 5px; text-align:center; }
+  .goalie-stat b{ display:block; font-family:'IBM Plex Mono'; font-size:16px; }
+  .goalie-stat span{ display:block; font-size:9px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-dim); margin-top:2px; }
+  .attendance-list{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:6px; }
+  .attendance-item{ display:flex; align-items:center; gap:8px; padding:7px 8px; border:1px solid var(--border); border-radius:8px; background:#fff; font-size:12.5px; }
+  .attendance-item input{ accent-color:var(--red); }
+  .map-wrap{ height:320px; border-radius:14px; overflow:hidden; border:1px solid var(--border); background:#eef2f4; }
+  #schedule-map{ width:100%; height:100%; }
+  .map-legend{ padding:9px 12px; font-size:11.5px; color:var(--ink-dim); background:#fff; border-top:1px solid var(--border); }
+  .opp-logo{ width:30px; height:30px; border-radius:8px; object-fit:contain; border:1px solid var(--border); background:#fff; display:inline-flex; align-items:center; justify-content:center; flex:none; }
+  .opp-cell{ display:flex; align-items:center; gap:10px; min-width:0; }
+  .opp-cell > div{ min-width:0; }
+
 
   /* ---------- Roster ---------- */
   .roster-grid{ grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:20px; }
@@ -558,7 +570,7 @@
     <div class="grid" style="gap:12px;">
       <div class="card game-card">
         <div class="gc-when"><span class="day-pill">SUN</span><span class="gc-time">9:45 AM</span></div>
-        <div class="gc-mid"><div class="gc-opp">vs. PTL 12U AA</div><div class="gc-meta">Newington Arena &middot; Tournament</div></div>
+        <div class="gc-mid"><div class="gc-opp">vs. PTL 12U AA</div><div class="gc-meta">Newington Arena &middot; Tournament &middot; Arrive <b>8:45 AM</b></div></div>
         <div class="gc-note"><a href="https://www.google.com/maps/search/?api=1&query=Newington%20Arena%2C%20Newington%2C%20CT" target="_blank" rel="noopener" style="color:#7fd4e8;">Directions ↗</a></div>
       </div>
     </div>
@@ -586,6 +598,9 @@
         </table>
       </div>
     </div>
+
+    <div class="section-label"><h2>Upcoming Games Map</h2><span class="count">Next 8</span><div class="rule"></div></div>
+    <div class="card"><div class="map-wrap"><div id="schedule-map"></div></div><div class="map-legend">Pins show the next eight scheduled games. Tap a pin for opponent, start time, and arrival time.</div></div>
 
     <div class="section-label"><h2>This Week's Rinks</h2><div class="rule"></div></div>
     <div class="card" id="week-rinks-card" style="padding:6px 0;"></div>
@@ -623,29 +638,49 @@
             <select id="bc-opponent" class="bench-field" style="width:100%;"></select>
             <input type="text" id="bc-opponent-other" class="bench-field" placeholder="Type opponent name" style="width:100%; margin-top:6px;" hidden>
           </div>
+          <div style="min-width:180px;">
+            <label class="muted" style="font-size:11px; text-transform:uppercase; letter-spacing:.06em; display:block; margin-bottom:4px;">Starting Goalie</label>
+            <select id="bc-goalie-start" class="bench-field" style="width:100%;"></select>
+          </div>
           <button type="button" id="bc-game-toggle" class="bench-btn">Start Game</button>
         </div>
 
         <div class="bench-clock-wrap">
-          <div>
+          <div style="flex:1; min-width:150px;">
             <div class="bench-clock-big" id="bc-clock-big">12:00</div>
             <div class="bench-clock-sub" id="bc-clock-sub">Period 1</div>
           </div>
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <button type="button" id="bc-clock-toggle" class="bench-btn">Start Clock</button>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+            <button type="button" id="bc-clock-toggle" class="bench-btn clock-primary">Start Clock</button>
+            <button type="button" id="bc-period" class="bench-btn">Next Period →</button>
             <button type="button" id="bc-clock-edit" class="bench-btn ghost">Edit Time</button>
             <button type="button" id="bc-clock-reset" class="bench-btn ghost">Reset Clock</button>
           </div>
         </div>
 
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <button type="button" id="bc-goal-us" class="bench-btn win">+1 Wolfpack Goal</button>
-          <button type="button" id="bc-goal-opp" class="bench-btn loss">+1 Opponent Goal</button>
-          <button type="button" id="bc-penalty" class="bench-btn ghost">+ Penalty</button>
-          <button type="button" id="bc-undo" class="bench-btn ghost">Undo Last Event</button>
+        <div class="bench-team-grid">
+          <div class="bench-team-section">
+            <div class="bench-team-title us">🐺 Wolfpack</div>
+            <div style="display:grid; gap:8px;">
+              <button type="button" id="bc-goal-us" class="bench-btn win team-action">+1 Goal</button>
+              <button type="button" id="bc-penalty-us" class="bench-btn ghost team-action">+ Penalty</button>
+            </div>
+          </div>
+          <div class="bench-team-section">
+            <div class="bench-team-title opp">Opponent</div>
+            <div style="display:grid; gap:8px;">
+              <button type="button" id="bc-goal-opp" class="bench-btn loss team-action">+1 Goal</button>
+              <button type="button" id="bc-penalty-opp" class="bench-btn ghost team-action">+ Penalty</button>
+            </div>
+          </div>
         </div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-          <button type="button" id="bc-period" class="bench-btn">Next Period →</button>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button type="button" id="bc-goalie-change" class="bench-btn ghost">Goalie Change</button>
+          <button type="button" id="bc-attendance" class="bench-btn ghost">Attendance</button>
+          <button type="button" id="bc-undo" class="bench-btn ghost">Undo Last Event</button>
+          <button type="button" id="bc-overtime" class="bench-btn ghost">Overtime</button>
+          <button type="button" id="bc-shootout" class="bench-btn ghost">Shootout</button>
           <button type="button" id="bc-add-past" class="bench-btn ghost">+ Add Past Game</button>
         </div>
         <div class="note" style="margin-top:2px;">✏️ <span>Made a mistake? Edit or delete any entry in the Results box above &mdash; those buttons only show up while bench controls are unlocked, so you can go back and fix a time, score, or player later, mid-game or after.</span></div>
@@ -680,10 +715,10 @@
 
     <div class="switch-row">
       <label class="switch-label"><span class="switch"><input type="checkbox" id="toggle-practices"><span class="slider"></span></span>Show practices</label>
-      <label class="switch-label"><span class="switch"><input type="checkbox" id="toggle-optional"><span class="slider"></span></span>Show optional lessons</label>
     </div>
 
     <div id="season-months"></div>
+
 
   </section>
 
@@ -744,11 +779,15 @@
 
     <div class="section-label"><h2>Player Leaderboard</h2><div class="rule"></div></div>
     <div class="card" style="overflow-x:auto;">
+      <div class="stats-sortbar"><label for="stats-sort">Sort</label><select id="stats-sort" aria-label="Sort player stats"><option value="name-asc">Player A–Z</option><option value="name-desc">Player Z–A</option><option value="pts-desc">Points high–low</option><option value="gp-desc">GP high–low</option><option value="g-desc">Goals high–low</option><option value="a-desc">Assists high–low</option></select></div>
       <table class="plain" id="stats-table">
         <thead><tr><th>#</th><th>Player</th><th>GP</th><th>G</th><th>A</th><th>Pts</th><th>Pts/Gm</th><th>PIM</th></tr></thead>
         <tbody id="stats-table-body"></tbody>
       </table>
     </div>
+
+    <div class="section-label"><h2>Goalie Leaderboard</h2><span class="count">Adde + Ana</span><div class="rule"></div></div>
+    <div class="card"><div id="goalie-leaderboard" class="goalie-board"></div></div>
 
     <div class="section-label"><h2>MHR Ranking Trend</h2><div class="rule"></div></div>
     <div class="card" style="padding:20px;">
@@ -830,8 +869,8 @@
 </main>
 
 <footer>
-  <span>Lady Wolfpack HQ &middot; built for the 2026&ndash;27 season</span>
-  <span>Go Pack 🐺</span>
+  <span>Hartford Jr. Lady Wolfpack &middot; built for the 2026&ndash;27 season</span>
+  <span>U12 Tier 2</span>
 </footer>
 </div>
 
@@ -1042,6 +1081,11 @@
     const d = new Date(g.date + ', ' + year);
     return isNaN(d.getTime()) ? new Date(0) : d;
   }
+  function parseGameStart(g){ const d=gameDate(g); const m=String(g.time||'').match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i); if(!m) return null; let h=parseInt(m[1],10); const min=parseInt(m[2],10); if(m[3].toUpperCase()==='PM' && h<12) h+=12; if(m[3].toUpperCase()==='AM' && h===12) h=0; d.setHours(h,min,0,0); return d; }
+  function arrivalTime(g){ const d=parseGameStart(g); if(!d) return 'TBD'; d.setHours(d.getHours()-1); return d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}); }
+  function gameTagClass(type){ return String(type||'').toLowerCase().replace(/[^a-z]+/g,''); }
+  
+
 
   // ---- Season-tab accordion: expand a played game's row to show its full boxscore ----
   // The live/bench tracker (further below) exposes history + a few render helpers on
@@ -1138,14 +1182,12 @@
 
   function renderMonths(){
     const showPractices = document.getElementById('toggle-practices').checked;
-    const showOptional = document.getElementById('toggle-optional').checked;
     const container = document.getElementById('season-months');
     gameByKeyMap = {};
 
     const items = GAMES.map(g => ({ kind:'game', m:g.m, dnum: dateNum(g.date), g }));
     if (showPractices) {
       PRACTICES.forEach(p => {
-        if (p.optional && !showOptional) return;
         items.push({ kind:'practice', m:p.m, dnum: dateNum(p.date), p });
       });
     }
@@ -1176,26 +1218,26 @@
             const key = gameRowKey(g);
             gameByKeyMap[key] = g;
             return `
-            <div class="game-row" data-game-key="${key}" style="cursor:pointer;${isLast ? 'border-bottom:none;' : ''}">
+            <div class="game-row played" data-game-key="${key}" style="cursor:pointer;${isLast ? 'border-bottom:none;' : ''}">
               <div class="side ${sideClass}">${sideLabel}</div>
-              <div><div class="opp">${oppLabel} <span class="muted" style="font-weight:400;font-size:11px;">&#9662; tap for boxscore</span></div><div class="meta">${g.day}, ${g.date} &middot; ${g.loc} &middot; ${g.type}</div></div>
+              <div><div class="opp">${oppLabel} <span class="muted" style="font-weight:400;font-size:11px;">&#9662; tap for boxscore</span></div><div class="meta">${g.day}, ${g.date} &middot; ${g.loc} <span class="type-tag ${gameTagClass(g.type)}">${g.type}</span></div></div></div></div>
               ${resultHtml}
             </div>
             <div class="season-detail" data-detail-key="${key}" hidden style="padding:2px 16px 16px; border-bottom:1px solid var(--border);${isLast ? 'border-bottom:none;' : ''}"></div>`;
           }
           return `
-          <div class="game-row"${isLast ? ' style="border-bottom:none;"' : ''}>
+          <div class="game-row upcoming"${isLast ? ' style="border-bottom:none;"' : ''}>
             <div class="side ${sideClass}">${sideLabel}</div>
-            <div><div class="opp">${oppLabel}</div><div class="meta">${g.day}, ${g.date} &middot; ${g.loc} &middot; ${g.type}</div></div>
+            <div><div class="opp">${oppLabel}</div><div class="meta">${g.day}, ${g.date} &middot; ${g.loc} <span class="type-tag ${gameTagClass(g.type)}">${g.type}</span><span class="arrival">Arrive <b>${arrivalTime(g)}</b></span></div></div></div></div>
             ${resultHtml}
           </div>`;
         } else {
           const p = item.p;
           const tag = p.session === 'Skills' ? 'SKILLS' : (p.session === 'Dry Land Training' ? 'DRY LAND' : 'PRACTICE');
           return `
-          <div class="game-row">
+          <div class="game-row practice">
             <div class="side home">${tag}</div>
-            <div><div class="opp">${p.session}${p.optional ? ' <span class="muted" style="font-weight:400;">(optional)</span>' : ''}</div><div class="meta">${p.day}, ${p.date} &middot; ${p.loc}</div></div>
+            <div><div class="opp">${p.session} <span class="type-tag ${p.session === 'Skills' ? 'skills' : (p.session === 'Dry Land Training' ? 'dryland' : 'practice')}">${tag}</span></div><div class="meta">${p.day}, ${p.date} &middot; ${p.loc}</div></div>
             <div class="result pending">${p.time}</div>
           </div>`;
         }
@@ -1221,7 +1263,6 @@
   }
   renderMonths();
   document.getElementById('toggle-practices').addEventListener('change', renderMonths);
-  document.getElementById('toggle-optional').addEventListener('change', renderMonths);
 
   // This week's rinks (Home tab) — hand-kept alongside the "This Weekend" cards above
   const WEEK_RINKS = [
@@ -1236,6 +1277,27 @@
       <a class="cta" style="margin-top:0;" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.mapsQuery)}" target="_blank" rel="noopener">Directions →</a>
     </div>
   `).join('');
+
+  // Mini-map: static rink coordinates keep the map fast and avoid runtime geocoding.
+  const RINK_COORDS = {
+    "Newington Arena":[41.6868,-72.7203], "Champions Skating Center":[41.6142,-72.7103],
+    "Avon Old Farms School":[41.7785,-72.8400], "Edward L. Bennett Rink":[41.296,-72.949],
+    "Northford Ice Pavilion":[41.3967,-72.8133], "South Windsor Arena":[41.835,-72.579],
+    "Jackson Hockey Rink":[41.8908,-72.7966], "The Rinks at the Sports Center":[41.2647,-73.0919],
+    "MassMutual Center":[42.1009,-72.5898], "Newington Red":[41.6868,-72.7203], "Louis Astorino Ice Arena":[41.3406,-72.9536]
+  };
+  function renderScheduleMap(){
+    const el=document.getElementById('schedule-map'); if(!el || !window.L) return;
+    if(el._map){ el._map.remove(); }
+    const map=L.map(el,{scrollWheelZoom:false}).setView([41.70,-72.75],9.5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap contributors'}).addTo(map);
+    const today=new Date(); today.setHours(0,0,0,0);
+    const games=GAMES.map(g=>Object.assign({},g,{d:gameDate(g)})).filter(g=>!g.result && g.d>=today).sort((a,b)=>a.d-b.d).slice(0,8);
+    const points=[]; games.forEach(g=>{ const c=RINK_COORDS[g.loc]; if(!c) return; points.push(c); L.marker(c).addTo(map).bindPopup(`<b>${g.day} ${g.date} · ${g.time}</b><br>${g.side==='home'?'vs':'@'} ${g.opp}<br>${g.loc}<br><b>Arrive ${arrivalTime(g)}</b>`); });
+    if(points.length) map.fitBounds(points,{padding:[24,24]});
+    setTimeout(()=>map.invalidateSize(),100);
+  }
+  renderScheduleMap();
 
   // Stats synced from Fred's Google Sheet "Players" tab (g/a/pts/gp/gm/appg/pim)
   const ROSTER = [
@@ -1299,25 +1361,51 @@
   });
 
   const statsBody = document.getElementById('stats-table-body');
-  const leaderboard = [...ROSTER].sort((a, b) => b.pts - a.pts || b.g - a.g || a.name.localeCompare(b.name));
-  // Team-leader highlight: bold + red on whichever player(s) hold the top number in
-  // each stat column from Goals on (ties all get highlighted). Skipped when the whole
-  // column is 0 so an early, mostly-scoreless season doesn't highlight every zero.
-  function colMax(key){ return Math.max(...leaderboard.map(p => p[key])); }
-  const maxG = colMax('g'), maxA = colMax('a'), maxPts = colMax('pts'), maxAppg = colMax('appg'), maxPim = colMax('pim');
-  function leadCls(val, max){ return (max > 0 && val === max) ? ' stat-lead' : ''; }
-  statsBody.innerHTML = leaderboard.map(p => `
-    <tr>
-      <td class="mono">${p.n}</td>
-      <td>${p.name}${p.r ? ' <span style="display:inline-block;margin-left:4px;font-size:10px;font-weight:800;color:var(--ice-2);border:1px solid var(--ice-2);border-radius:4px;padding:0 4px;vertical-align:middle;">R</span>' : ''}</td>
-      <td class="mono">${p.gp}</td>
-      <td class="mono${leadCls(p.g, maxG)}">${p.g}</td>
-      <td class="mono${leadCls(p.a, maxA)}">${p.a}</td>
-      <td class="mono${leadCls(p.pts, maxPts)}">${p.pts}</td>
-      <td class="mono${leadCls(p.appg, maxAppg)}">${p.appg.toFixed(1)}</td>
-      <td class="mono${leadCls(p.pim, maxPim)}">${p.pim}</td>
-    </tr>
-  `).join('');
+  function archivedGP(name){
+    const hist = (window.__lwp && window.__lwp.getHistory) ? window.__lwp.getHistory() : [];
+    if (!hist.length) return null;
+    return hist.filter(h => !(h.absentPlayers || []).includes(name)).length;
+  }
+  function effectiveRoster(){ return ROSTER.map(p => Object.assign({}, p, {gp: archivedGP(p.name) ?? p.gp})); }
+  function renderStats(){
+    const players = effectiveRoster().filter(p => p.pos !== 'G');
+    const sort = document.getElementById('stats-sort')?.value || 'name-asc';
+    const dirs = {
+      'name-asc':(a,b)=>a.name.localeCompare(b.name),'name-desc':(a,b)=>b.name.localeCompare(a.name),
+      'pts-desc':(a,b)=>b.pts-a.pts || a.name.localeCompare(b.name),'gp-desc':(a,b)=>b.gp-a.gp || a.name.localeCompare(b.name),
+      'g-desc':(a,b)=>b.g-a.g || a.name.localeCompare(b.name),'a-desc':(a,b)=>b.a-a.a || a.name.localeCompare(b.name)
+    };
+    const leaderboard = players.sort(dirs[sort] || dirs['name-asc']);
+    const colMax = key => Math.max(0,...leaderboard.map(p=>p[key]));
+    const maxG=colMax('g'),maxA=colMax('a'),maxPts=colMax('pts'),maxAppg=colMax('appg'),maxPim=colMax('pim');
+    const leadCls=(v,m)=>m>0&&v===m?' stat-lead':'';
+    statsBody.innerHTML = leaderboard.map(p => `<tr><td class="mono">${p.n}</td><td>${p.name}${p.r ? ' <span style="display:inline-block;margin-left:4px;font-size:10px;font-weight:800;color:var(--ice-2);border:1px solid var(--ice-2);border-radius:4px;padding:0 4px;vertical-align:middle;">R</span>' : ''}</td><td class="mono">${p.gp}</td><td class="mono${leadCls(p.g,maxG)}">${p.g}</td><td class="mono${leadCls(p.a,maxA)}">${p.a}</td><td class="mono${leadCls(p.pts,maxPts)}">${p.pts}</td><td class="mono${leadCls(p.appg,maxAppg)}">${p.appg.toFixed(1)}</td><td class="mono${leadCls(p.pim,maxPim)}">${p.pim}</td></tr>`).join('');
+  }
+  renderStats();
+  document.getElementById('stats-sort')?.addEventListener('change', renderStats);
+
+  function goalieStats(name){
+    const hist=(window.__lwp && window.__lwp.getHistory)?window.__lwp.getHistory():[];
+    let gp=0,starts=0,changesIn=0,wins=0,losses=0,shutouts=0,ga=0;
+    const hasTracking = hist.some(h => h.goalieStart || (h.goalieChanges||[]).length);
+    if (!hasTracking) {
+      const base = ROSTER.find(p=>p.name===name);
+      return {gp:base ? base.gp : 0,starts:base ? base.gp : 0,changesIn:0,wins:0,losses:0,shutouts:0,ga:0,gpg:0};
+    }
+    hist.forEach(h=>{
+      const changes=h.goalieChanges||[]; const start=h.goalieStart||'Adde Zuck';
+      const played=name===start || changes.some(c=>c.to===name); if(!played) return;
+      gp++; if(name===start) starts++; else changesIn++;
+      const goalieAtEnd=changes.length?changes[changes.length-1].to:start;
+      if(goalieAtEnd===name){ ga+=h.away||0; if((h.away||0)===0) shutouts++; if((h.home||0)>(h.away||0)) wins++; else if((h.home||0)<(h.away||0)) losses++; }
+    });
+    return {gp,starts,changesIn,wins,losses,shutouts,ga,gpg:gp?ga/gp:0};
+  }
+  function renderGoalies(){
+    const box=document.getElementById('goalie-leaderboard'); if(!box) return;
+    box.innerHTML=ROSTER.filter(p=>p.pos==='G').map(p=>{const s=goalieStats(p.name);return `<div class="goalie-card"><h3>#${p.n} ${p.name}</h3><div class="goalie-statgrid"><div class="goalie-stat"><b>${s.gp}</b><span>GP</span></div><div class="goalie-stat"><b>${s.starts}</b><span>Starts</span></div><div class="goalie-stat"><b>${s.changesIn}</b><span>Relief</span></div><div class="goalie-stat"><b>${s.wins}-${s.losses}</b><span>W-L</span></div><div class="goalie-stat"><b>${s.shutouts}</b><span>SO</span></div><div class="goalie-stat"><b>${s.gpg.toFixed(2)}</b><span>GA/GP</span></div></div></div>`;}).join('');
+  }
+  renderGoalies();
 
   const buttons = document.querySelectorAll('#tabs button');
   function activateTab(name, opts){
@@ -1442,6 +1530,7 @@
     const seedEl = document.getElementById('live-game-seed');
     const oppSelect = document.getElementById('bc-opponent');
     const oppOther = document.getElementById('bc-opponent-other');
+    const goalieStartSelect = document.getElementById('bc-goalie-start');
 
     function isBenchAuthed(){
       try { return localStorage.getItem('lwpBenchAuth') === '1'; } catch(e) { return false; }
@@ -1450,12 +1539,12 @@
 
     const PERIOD_LENGTH_MS = 12 * 60 * 1000; // default period length: 12:00, counting down
     function blankGame(){
-      return { active:false, opponent:'', gameId:'', date:'', period:1, events:[], clockRunning:false, clockStartedAt:null, clockElapsedMs:PERIOD_LENGTH_MS };
+      return { active:false, opponent:'', gameId:'', date:'', period:1, events:[], clockRunning:false, clockStartedAt:null, clockElapsedMs:PERIOD_LENGTH_MS, periodLabel:'', periodLengthMs:PERIOD_LENGTH_MS, absentPlayers:[], goalieStart:'Adde Zuck', goalieChanges:[] };
     }
     function normalizeEvent(e){
       return {
         id: e.id || newId(),
-        type: e.type === 'penalty' ? 'penalty' : 'goal',
+        type: ['penalty','goal','goalieChange','shootout'].includes(e.type) ? e.type : 'goal',
         team: e.team === 'opp' ? 'opp' : 'us',
         scorer: e.scorer || '',
         assist1: e.assist1 || e.assist || '',
@@ -1465,7 +1554,7 @@
         oppAssist1: e.oppAssist1 || '',
         oppAssist2: e.oppAssist2 || '',
         note: e.note || '',
-        minutes: e.minutes || 2,
+        minutes: parseFloat(e.minutes) || 2,
         infraction: e.infraction || '',
         period: e.period || 1,
         elapsedMs: typeof e.elapsedMs === 'number' ? e.elapsedMs : 0
@@ -1475,6 +1564,10 @@
       if (!g || typeof g !== 'object') return blankGame();
       const out = Object.assign(blankGame(), g);
       out.events = Array.isArray(g.events) ? g.events.map(normalizeEvent) : [];
+      out.absentPlayers = Array.isArray(g.absentPlayers) ? g.absentPlayers : [];
+      out.goalieStart = g.goalieStart || 'Adde Zuck';
+      out.goalieChanges = Array.isArray(g.goalieChanges) ? g.goalieChanges : [];
+      out.shootoutWinner = g.shootoutWinner === 'opp' ? 'opp' : (g.shootoutWinner === 'us' ? 'us' : '');
       return out;
     }
 
@@ -1487,22 +1580,37 @@
         home: typeof h.home === 'number' ? h.home : 0,
         away: typeof h.away === 'number' ? h.away : 0,
         events: Array.isArray(h.events) ? h.events.map(normalizeEvent) : [],
-        manual: !!h.manual
+        absentPlayers: Array.isArray(h.absentPlayers) ? h.absentPlayers : [],
+        goalieStart: h.goalieStart || '', goalieChanges: Array.isArray(h.goalieChanges) ? h.goalieChanges : [],
+        manual: !!h.manual,
+        shootoutWinner: h.shootoutWinner === 'opp' ? 'opp' : (h.shootoutWinner === 'us' ? 'us' : '')
       };
     }
 
-    let game, history;
+    let game, history, scheduleResults = {};
     try {
       const seed = JSON.parse(seedEl.textContent || '{}');
-      // Wrapped format is {game, history}; older seeds were the game fields directly.
       if (seed && typeof seed === 'object' && seed.game) {
         game = normalizeGame(seed.game);
         history = Array.isArray(seed.history) ? seed.history.map(normalizeHistoryEntry) : [];
+        scheduleResults = (seed.scheduleResults && typeof seed.scheduleResults === 'object') ? seed.scheduleResults : {};
       } else {
         game = normalizeGame(seed);
         history = [];
       }
-    } catch(e) { game = blankGame(); history = []; }
+    } catch(e) { game = blankGame(); history = []; scheduleResults = {}; }
+    // Restore local-device state when the embedded artifact seed is still pristine.
+    try {
+      const local = JSON.parse(localStorage.getItem('lwpGameState') || 'null');
+      if (local && !history.length && !Object.keys(scheduleResults).length && !game.active && (local.history || []).length) {
+        game = normalizeGame(local.game);
+        history = Array.isArray(local.history) ? local.history.map(normalizeHistoryEntry) : [];
+        scheduleResults = local.scheduleResults || {};
+      }
+    } catch(e) {}
+    GAMES.forEach(g => {
+      if (g.id && scheduleResults[g.id]) g.result = [Number(scheduleResults[g.id][0]) || 0, Number(scheduleResults[g.id][1]) || 0];
+    });
 
     function periodLabel(p){
       if (p === 4) return 'OT';
@@ -1531,8 +1639,9 @@
     function tallyEvents(events){
       let home = 0, away = 0;
       (events || []).forEach(e => {
-        if (e.type !== 'goal') return;
-        if (e.team === 'us') home++; else away++;
+        if (e.type === 'goal' || e.type === 'shootout') {
+          if (e.team === 'us') home++; else away++;
+        }
       });
       return { home, away };
     }
@@ -1569,7 +1678,7 @@
       const playerOpts = [{ value:'__opp__', label:'Opponent Penalty' }].concat(rosterSorted().map(p => ({ value:p.name, label:`#${p.n} ${p.name}` })));
       return [
         { id:'player', type:'select', label:'Player', options: playerOpts, value: ev.team === 'opp' ? '__opp__' : (ev.player || '') },
-        { id:'minutes', type:'select', label:'Minutes', options:[2,4,5,10].map(m => ({ value:String(m), label:m+' min' })), value: String(ev.minutes || 2) },
+        { id:'minutes', type:'select', label:'Minutes', options:[1,1.5,2,4,5,10].map(m => ({ value:String(m), label:(m===1.5?'1:30':m+' min') })), value: String(ev.minutes || 2) },
         { id:'infraction', label:'Infraction (optional)', placeholder:'e.g. Tripping', value: ev.infraction || '' },
         { id:'period', type:'select', label:'Period', options: periodSelectOptions(), value: String(ev.period || game.period) },
         { id:'time', label:'Time remaining (mm:ss)', placeholder:'e.g. 08:45', value: fmtClock(ev.elapsedMs) }
@@ -1578,7 +1687,7 @@
     function applyPenaltyFields(ev, result){
       if (result.player === '__opp__') { ev.team = 'opp'; ev.player = ''; }
       else { ev.team = 'us'; ev.player = (result.player || '').trim(); }
-      ev.minutes = parseInt(result.minutes, 10) || 2;
+      ev.minutes = parseFloat(result.minutes) || 2;
       ev.infraction = (result.infraction || '').trim();
       ev.period = parseInt(result.period, 10) || ev.period;
       ev.elapsedMs = parseClock(result.time, ev.elapsedMs);
@@ -1599,13 +1708,18 @@
     }
     function eventDesc(e, opponentName){
       const oppName = opponentName || 'Opponent';
+      if (e.type === 'shootout') {
+        const winner = e.team === 'us' ? 'Wolfpack' : oppName;
+        return `<b>Shootout</b> — ${winner} wins`;
+      }
+      if (e.type === 'goalieChange') { return `<b>Goalie change</b> — ${e.from || 'Unknown'} → ${e.to || 'Unknown'}`; }
       if (e.type === 'penalty') {
         if (e.team === 'us') {
           const who = playerLabel(e.player) || 'Wolfpack';
-          return `<b>${who}</b> penalty &mdash; ${e.minutes || 2} min${e.infraction ? ' &middot; ' + e.infraction : ''}`;
+          return `<b>${who}</b> penalty &mdash; ${e.minutes === 1.5 ? '1:30' : (e.minutes || 2) + ' min'}${e.infraction ? ' &middot; ' + e.infraction : ''}`;
         }
         const who = e.oppNum ? `${oppName} #${e.oppNum}` : oppName;
-        return `<b>${who}</b> penalty &mdash; ${e.minutes || 2} min${e.infraction ? ' &middot; ' + e.infraction : ''}`;
+        return `<b>${who}</b> penalty &mdash; ${e.minutes === 1.5 ? '1:30' : (e.minutes || 2) + ' min'}${e.infraction ? ' &middot; ' + e.infraction : ''}`;
       }
       if (e.team === 'us') {
         const assists = [e.assist1, e.assist2].filter(Boolean).map(playerLabel);
@@ -1673,6 +1787,8 @@
       updateClockDisplay();
       renderBenchHistoryList();
       if (typeof renderMonths === 'function') renderMonths();
+      if (typeof renderStats === 'function') renderStats();
+      if (typeof renderGoalies === 'function') renderGoalies();
     }
 
     const gameToggleBtn = document.getElementById('bc-game-toggle');
@@ -1684,11 +1800,13 @@
         gameToggleBtn.classList.add('bench-btn', 'red');
         oppSelect.disabled = true;
         oppOther.disabled = true;
+        if (goalieStartSelect) goalieStartSelect.disabled = true;
       } else {
         gameToggleBtn.textContent = 'Start Game';
         gameToggleBtn.classList.remove('red');
         oppSelect.disabled = false;
         oppOther.disabled = false;
+        if (goalieStartSelect) goalieStartSelect.disabled = false;
       }
     }
 
@@ -1980,8 +2098,11 @@
 
     async function publishGame(){
       render();
-      const state = { game, history };
-      try { seedEl.textContent = JSON.stringify(state); } catch(e) {}
+      const state = { game, history, scheduleResults };
+      try {
+        seedEl.textContent = JSON.stringify(state);
+        localStorage.setItem('lwpGameState', JSON.stringify(state));
+      } catch(e) {}
       if (window.claude && typeof window.claude.use === 'function') {
         try {
           const artifactApi = await window.claude.use('artifact');
@@ -2016,6 +2137,8 @@
       oppOther.hidden = oppSelect.value !== '__other__';
     }
     populateOpponentSelect();
+    if (goalieStartSelect) goalieStartSelect.innerHTML = ROSTER.filter(p=>p.pos==='G').map(p=>`<option value="${p.name}">#${p.n} ${p.name}</option>`).join('');
+    if (goalieStartSelect) goalieStartSelect.value = 'Adde Zuck';
     oppSelect.addEventListener('change', () => { oppOther.hidden = oppSelect.value !== '__other__'; });
 
     benchToggle.addEventListener('change', async (e) => {
@@ -2049,7 +2172,24 @@
 
     function endCurrentGame(){
       const t = tally();
-      history = [{ id:newId(), opponent: game.opponent || 'Opponent', date: game.date || '', gameId: game.gameId || '', home:t.home, away:t.away, events: game.events.slice(), manual:false }].concat(history);
+      const endedGameId = game.gameId || '';
+      const endedDate = game.date || '';
+      const endedOpponent = game.opponent || 'Opponent';
+      const archive = { id:newId(), opponent:endedOpponent, date:endedDate, gameId:endedGameId, home:t.home, away:t.away, events: game.events.slice(), absentPlayers: game.absentPlayers.slice(), goalieStart: game.goalieStart || 'Adde Zuck', goalieChanges: game.goalieChanges.slice(), shootoutWinner: game.shootoutWinner || '', manual:false };
+      history = [archive].concat(history);
+      // Link the result back to the scheduled row. If an older schedule row has no id,
+      // fall back to matching the date + opponent so it still becomes Final.
+      let scheduled = endedGameId ? GAMES.find(g => g.id === endedGameId) : null;
+      if (!scheduled && endedDate) {
+        const norm = x => String(x || '').trim().toLowerCase();
+        scheduled = GAMES.find(g => norm(g.date) === norm(endedDate) && norm(g.opp) === norm(endedOpponent));
+      }
+      if (scheduled) {
+        scheduled.result = [t.home, t.away];
+        if (!scheduled.id) scheduled.id = 'game-' + String(scheduled.date || '').replace(/\W+/g,'-').toLowerCase() + '-' + String(scheduled.opp || '').replace(/\W+/g,'-').toLowerCase();
+        archive.gameId = scheduled.id;
+        scheduleResults[scheduled.id] = [t.home, t.away];
+      }
       game = blankGame();
       publishGame();
     }
@@ -2059,7 +2199,7 @@
           title: 'End this game?',
           fields: [],
           okText: 'End Game',
-          note: `Final score will be archived to the Season Log: Wolfpack ${tally().home} &ndash; ${game.opponent || 'Opponent'} ${tally().away}.`
+          note: `Final score will be archived to the Season Log: Wolfpack ${tally().home} – ${game.opponent || 'Opponent'} ${tally().away}.`
         });
         if (!result) return;
         endCurrentGame();
@@ -2071,7 +2211,7 @@
           const sel = upcomingCache[parseInt(oppSelect.value, 10)];
           if (sel) { opp = sel.opp; gameId = sel.id || ''; gDate = sel.date || ''; }
         }
-        game = { active:true, opponent: opp || 'Opponent', gameId, date: gDate, period:1, events:[], clockRunning:false, clockStartedAt:null, clockElapsedMs:PERIOD_LENGTH_MS };
+        game = { active:true, opponent: opp || 'Opponent', gameId, date: gDate, period:1, events:[], clockRunning:false, clockStartedAt:null, clockElapsedMs:PERIOD_LENGTH_MS, periodLabel:'', periodLengthMs:PERIOD_LENGTH_MS, absentPlayers:[], goalieStart:(goalieStartSelect && goalieStartSelect.value) || 'Adde Zuck', goalieChanges:[] };
         publishGame();
       }
     });
@@ -2114,25 +2254,113 @@
       game.events.push({ id:newId(), type:'goal', team:'opp', scorer:'', assist1:'', assist2:'', player:'', minutes:2, infraction:'', period: game.period, elapsedMs: currentElapsedMs() });
       publishGame();
     });
-    document.getElementById('bc-penalty').addEventListener('click', async () => {
+    async function logPenaltyForTeam(team){
       if (!game.active) { statusMsg.textContent = 'Start a game first.'; return; }
-      const blank = { team:'us', player:'', minutes:2, infraction:'', period: game.period, elapsedMs: currentElapsedMs() };
-      const result = await openModal({ title:'Log Penalty', fields: penaltyFields(blank), okText:'Log Penalty' });
+      const blank = { team, player:'', minutes:2, infraction:'', period: game.period, elapsedMs: currentElapsedMs() };
+      const result = await openModal({ title: team === 'us' ? 'Wolfpack Penalty' : 'Opponent Penalty', fields: penaltyFields(blank), okText:'Log Penalty' });
       if (!result) return;
-      const ev = { id:newId(), type:'penalty', team:'us', scorer:'', assist1:'', assist2:'', player:'', minutes:2, infraction:'', period: game.period, elapsedMs: currentElapsedMs() };
+      const ev = { id:newId(), type:'penalty', team, scorer:'', assist1:'', assist2:'', player:'', minutes:2, infraction:'', period: game.period, elapsedMs: currentElapsedMs() };
       applyPenaltyFields(ev, result);
       game.events.push(ev);
       publishGame();
+    }
+    document.getElementById('bc-penalty-us').addEventListener('click', () => logPenaltyForTeam('us'));
+    document.getElementById('bc-penalty-opp').addEventListener('click', () => logPenaltyForTeam('opp'));
+    document.getElementById('bc-goalie-change').addEventListener('click', async () => {
+      if (!game.active) { statusMsg.textContent = 'Start a game first.'; return; }
+      const goalies = ROSTER.filter(p => p.pos === 'G').map(p => ({value:p.name,label:`#${p.n} ${p.name}`}));
+      const result = await openModal({ title:'Goalie Change', fields:[
+        {id:'to',type:'select',label:'New goalie',options:goalies,value:''},
+        {id:'period',type:'select',label:'Period',options:periodSelectOptions(),value:String(game.period)},
+        {id:'time',label:'Time remaining (mm:ss)',value:fmtClock(currentElapsedMs())}
+      ], okText:'Log Change' });
+      if (!result || !result.to) return;
+      const from = game.goalieChanges.length ? game.goalieChanges[game.goalieChanges.length-1].to : game.goalieStart;
+      game.goalieChanges.push({from,to:result.to,period:parseInt(result.period,10)||game.period,elapsedMs:parseClock(result.time,currentElapsedMs())});
+      game.events.push({id:newId(),type:'goalieChange',team:'us',from,to:result.to,period:parseInt(result.period,10)||game.period,elapsedMs:parseClock(result.time,currentElapsedMs())});
+      publishGame();
     });
+    document.getElementById('bc-attendance').addEventListener('click', async () => {
+      if (!game.active) { statusMsg.textContent = 'Start a game first.'; return; }
+      const result = await openModal({ title:'Game Attendance', fields:[{id:'absent',type:'text',label:'Absent players (comma-separated names)',placeholder:'e.g. Lizzie Melchiorre, Rory Malone',value:game.absentPlayers.join(', ')}], okText:'Save', note:'Mark only players who are absent from this game. Their GP will not increase when the game is archived.' });
+      if (!result) return;
+      const names = String(result.absent||'').split(',').map(x=>x.trim()).filter(Boolean);
+      game.absentPlayers = ROSTER.filter(p => names.some(n => p.name.toLowerCase() === n.toLowerCase())).map(p => p.name);
+      publishGame();
+    });
+
     document.getElementById('bc-undo').addEventListener('click', () => {
       if (!game.events || !game.events.length) return;
       game.events.pop();
       publishGame();
     });
-    document.getElementById('bc-period').addEventListener('click', () => {
+    document.getElementById('bc-overtime').addEventListener('click', async () => {
       if (!game.active) { statusMsg.textContent = 'Start a game first.'; return; }
-      game.period = (game.period || 1) + 1;
-      game.clockRunning = false; game.clockStartedAt = null; game.clockElapsedMs = PERIOD_LENGTH_MS;
+      const result = await openModal({ title:'Start Overtime', fields:[
+        {id:'minutes',type:'select',label:'Overtime length',options:[5,10].map(m=>({value:String(m),label:m+' min'})),value:'5'}
+      ], okText:'Start Overtime', note:'Starts an overtime period and resets the clock to the selected length.' });
+      if (!result) return;
+      const mins = parseInt(result.minutes,10) || 5;
+      game.period = Math.max((game.period || 1) + 1, 4);
+      game.periodLabel = 'OT';
+      game.periodLengthMs = mins * 60 * 1000;
+      game.clockElapsedMs = game.periodLengthMs;
+      game.clockRunning = false;
+      game.clockStartedAt = null;
+      publishGame();
+    });
+    document.getElementById('bc-shootout').addEventListener('click', async () => {
+      if (!game.active) { statusMsg.textContent = 'Start a game first.'; return; }
+      const result = await openModal({ title:'Record Shootout', fields:[
+        {id:'winner',type:'select',label:'Shootout winner',options:[{value:'us',label:'Wolfpack'},{value:'opp',label:game.opponent || 'Opponent'}],value:''}
+      ], okText:'Record Shootout', note:'Ends the live clock and records the shootout winner.' });
+      if (!result || !result.winner) return;
+      game.period = 5;
+      game.periodLabel = 'SO';
+      game.shootoutWinner = result.winner;
+      game.clockElapsedMs = 0;
+      game.clockRunning = false;
+      game.clockStartedAt = null;
+      game.events.push({id:newId(),type:'shootout',team:result.winner,period:game.period,elapsedMs:0});
+      publishGame();
+    });
+    document.getElementById('bc-period').addEventListener('click', async () => {
+      if (!game.active) { statusMsg.textContent = 'Start a game first.'; return; }
+      if ((game.period || 1) < 3) {
+        game.period = (game.period || 1) + 1;
+        game.periodLabel = '';
+        game.periodLengthMs = PERIOD_LENGTH_MS;
+        game.clockRunning = false; game.clockStartedAt = null; game.clockElapsedMs = PERIOD_LENGTH_MS;
+        publishGame();
+        return;
+      }
+      const result = await openModal({
+        title:'Choose Next Period',
+        fields:[{id:'next',type:'select',label:'Go to',options:[
+          {value:'1',label:'Period 1'},
+          {value:'2',label:'Period 2'},
+          {value:'3',label:'Period 3'},
+          {value:'ot',label:'Overtime'},
+          {value:'so',label:'Shootout'}
+        ],value:'ot'}],
+        okText:'Continue',
+        note:'After the 3rd period, choose a period to revisit, overtime, or shootout.'
+      });
+      if (!result) return;
+      if (result.next === 'ot') {
+        const ot = await openModal({ title:'Start Overtime', fields:[{id:'minutes',type:'select',label:'Overtime length',options:[5,10].map(m=>({value:String(m),label:m+' min'})),value:'5'}], okText:'Start Overtime' });
+        if (!ot) return;
+        const mins = parseInt(ot.minutes,10) || 5;
+        game.period = 4; game.periodLabel = 'OT'; game.periodLengthMs = mins*60*1000; game.clockElapsedMs = game.periodLengthMs; game.clockRunning=false; game.clockStartedAt=null;
+      } else if (result.next === 'so') {
+        const so = await openModal({ title:'Record Shootout', fields:[{id:'winner',type:'select',label:'Shootout winner',options:[{value:'us',label:'Wolfpack'},{value:'opp',label:game.opponent || 'Opponent'}],value:''}], okText:'Record Shootout' });
+        if (!so || !so.winner) return;
+        game.period=5; game.periodLabel='SO'; game.shootoutWinner=so.winner; game.clockElapsedMs=0; game.clockRunning=false; game.clockStartedAt=null;
+        game.events.push({id:newId(),type:'shootout',team:so.winner,period:5,elapsedMs:0});
+      } else {
+        game.period = parseInt(result.next,10) || 3;
+        game.periodLabel = ''; game.periodLengthMs=PERIOD_LENGTH_MS; game.clockRunning=false; game.clockStartedAt=null; game.clockElapsedMs=PERIOD_LENGTH_MS;
+      }
       publishGame();
     });
     document.getElementById('bc-clock-toggle').addEventListener('click', () => {
