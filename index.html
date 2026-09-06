@@ -1,8 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
 <title>Lady Wolfpack HQ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,7 +79,7 @@
   }
   .top-inner{
     max-width:1180px; margin:0 auto; padding:12px 20px;
-    display:flex; align-items:center; gap:16px;
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
   }
   .crest{
     width:50px; height:50px; border-radius:8px;
@@ -101,6 +97,7 @@
   }
   nav.tabs::-webkit-scrollbar{ display:none; }
   nav.tabs button{
+    position:relative;
     background:transparent; border:none; color:#c9d4e8;
     padding:10px 14px; font-size:13.5px; font-weight:600;
     letter-spacing:.02em; border-radius:8px; cursor:pointer;
@@ -109,6 +106,40 @@
   }
   nav.tabs button:hover{ background:rgba(255,255,255,.08); color:#fff; }
   nav.tabs button.active{ background:var(--red); color:#fff; }
+  .live-dot{
+    display:inline-block; width:8px; height:8px; border-radius:50%;
+    background:#ff3b3b; margin-left:7px; vertical-align:middle;
+    animation:livepulse 1.6s ease-in-out infinite;
+  }
+  @keyframes livepulse{
+    0%{ box-shadow:0 0 0 0 rgba(255,59,59,.55); }
+    70%{ box-shadow:0 0 0 7px rgba(255,59,59,0); }
+    100%{ box-shadow:0 0 0 0 rgba(255,59,59,0); }
+  }
+  @media (prefers-reduced-motion: reduce){ .live-dot{ animation:none; } }
+  .menu-toggle{
+    display:none; order:3;
+    width:38px; height:38px; flex:none;
+    align-items:center; justify-content:center;
+    background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16);
+    color:#fff; border-radius:8px; font-size:18px; line-height:1; cursor:pointer;
+  }
+  .menu-toggle:hover{ background:rgba(255,255,255,.16); }
+  @media (max-width:760px){
+    .crest{ order:0; }
+    .wordmark{ order:1; }
+    .wordmark .l2{ display:none; }
+    .record-chip{ order:2; }
+    .menu-toggle{ display:flex; }
+    nav.tabs{
+      order:4; display:none; flex-direction:column; gap:3px;
+      flex:none; flex-basis:100%; width:100%;
+      margin:8px 0 0; overflow-x:visible;
+      max-height:min(60vh, 420px); overflow-y:auto;
+    }
+    nav.tabs.mobile-open{ display:flex; }
+    nav.tabs button{ width:100%; text-align:left; padding:13px 14px; font-size:15px; }
+  }
   .record-chip{
     flex:none;
     background:rgba(255,255,255,.08);
@@ -146,8 +177,9 @@
   /* ---------- Home ---------- */
   .game-card{
     display:grid; grid-template-columns:74px 1fr auto; gap:16px; align-items:center;
-    padding:14px 18px;
+    padding:14px 18px 14px 15px;
     background:linear-gradient(120deg, var(--navy) 0%, var(--navy-3) 100%);
+    border-left:4px solid var(--red-2);
     color:#fff; position:relative; overflow:hidden;
   }
   .game-card::after{
@@ -155,27 +187,83 @@
     background:repeating-linear-gradient(115deg, rgba(255,255,255,.03) 0 2px, transparent 2px 34px);
     pointer-events:none;
   }
-  .game-card.tbd{ background:linear-gradient(120deg, var(--navy-2) 0%, var(--navy-3) 100%); opacity:.88; }
+  .game-card.tbd{ background:linear-gradient(120deg, var(--navy-2) 0%, var(--navy-3) 100%); opacity:.88; border-left-color:var(--ice); }
   .gc-when{ display:flex; flex-direction:column; align-items:center; gap:4px; }
   .gc-when .gc-time{ font-family:'IBM Plex Mono'; font-size:12.5px; color:var(--ice-2); font-weight:600; }
   .gc-opp{ font-family:'Anton'; font-size:18px; letter-spacing:.01em; }
   .gc-meta{ color:var(--ice-2); font-size:12.5px; margin-top:2px; }
-  .gc-note{ font-size:12px; color:#fff; text-align:right; white-space:nowrap; }
+  .gc-note{ font-size:12px; color:#ffe9a8; text-align:right; white-space:nowrap; }
   .gc-note.muted{ color:rgba(255,255,255,.55); font-style:italic; }
 
-  .ig-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
-  .ig-tile{
-    aspect-ratio:1; border-radius:8px; display:flex; align-items:center; justify-content:center;
-    font-size:22px; opacity:.55;
+  .rink-row{
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:14px 18px; border-bottom:1px solid var(--border); flex-wrap:wrap;
   }
-  .ig-tile:nth-child(1){ background:linear-gradient(135deg, var(--navy-3), var(--navy)); }
-  .ig-tile:nth-child(2){ background:linear-gradient(135deg, var(--red-2), #7c0a1d); }
-  .ig-tile:nth-child(3){ background:linear-gradient(135deg, var(--ice), #1c6f88); }
-  .ig-tile:nth-child(4){ background:linear-gradient(135deg, var(--ice), #1c6f88); }
-  .ig-tile:nth-child(5){ background:linear-gradient(135deg, var(--red-2), #7c0a1d); }
-  .ig-tile:nth-child(6){ background:linear-gradient(135deg, var(--navy-3), var(--navy)); }
+  .rink-row:last-child{ border-bottom:none; }
+  .rink-row .rink-name{ font-weight:700; font-size:14.5px; }
+  .rink-row .rink-games{ font-size:12.5px; color:var(--ink-dim); margin-top:2px; }
+
+  .switch-row{ display:flex; gap:22px; flex-wrap:wrap; align-items:center; margin:14px 0 4px; }
+  .switch-label{ display:flex; align-items:center; gap:9px; font-size:13px; color:var(--ink-dim); cursor:pointer; user-select:none; }
+  .switch{ position:relative; width:36px; height:20px; flex:none; }
+  .switch input{ opacity:0; width:0; height:0; position:absolute; }
+  .switch .slider{ position:absolute; inset:0; background:var(--border); border-radius:999px; transition:.2s; }
+  .switch .slider::before{ content:""; position:absolute; width:16px; height:16px; left:2px; top:2px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 2px rgba(0,0,0,.25); }
+  .switch input:checked + .slider{ background:var(--ice); }
+  .switch input:checked + .slider::before{ transform:translateX(16px); }
+  .switch input:focus-visible + .slider{ outline:2px solid var(--ice); outline-offset:2px; }
+
+  .scoreboard{
+    position:relative; isolation:isolate; overflow:hidden;
+    display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+    padding:28px 20px; border-radius:14px;
+    background:
+      radial-gradient(120% 140% at 50% -10%, rgba(63,184,214,.22), transparent 62%),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+  }
+  .scoreboard .rink-bg{
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+  }
+  .scoreboard .rink-bg svg{ width:100%; height:100%; display:block; }
+  .scoreboard > *{ position:relative; z-index:1; }
+  .scoreboard .sb-side{ text-align:center; flex:1; min-width:130px; }
+  .scoreboard .sb-side .sb-name{ color:var(--ice-2); font-size:12.5px; text-transform:uppercase; letter-spacing:.09em; font-weight:700; text-shadow:0 1px 3px rgba(0,0,0,.5); }
+  .scoreboard .sb-side.opp .sb-name{ color:#ffb4bb; }
+  .scoreboard .sb-side .sb-score{ font-family:'IBM Plex Mono'; font-size:78px; font-weight:700; line-height:1.05; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.5); }
+  .scoreboard .sb-side.us .sb-score{ color:#bdeeff; }
+  .scoreboard .sb-side.opp .sb-score{ color:#ffd7dc; }
+  .scoreboard .sb-mid{ text-align:center; }
+  .scoreboard .sb-clock{ font-family:'IBM Plex Mono'; font-size:17px; font-weight:600; color:#fff; text-shadow:0 1px 3px rgba(0,0,0,.5); }
+  .scoreboard .sb-status{ font-size:11.5px; color:var(--ice-2); margin-top:3px; letter-spacing:.06em; font-weight:700; }
+  .scoreboard .sb-status.live{ color:#ff5b6c; }
+  @media (max-width:520px){ .scoreboard .sb-side .sb-score{ font-size:56px; } }
+  .bench-btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    border:none; border-radius:999px; padding:10px 16px; font-weight:700; font-size:13px;
+    cursor:pointer; color:#fff; background:var(--navy-3);
+  }
+  .bench-btn.win{ background:var(--win); }
+  .bench-btn.loss{ background:var(--ink-dim); }
+  .bench-btn.red{ background:var(--red); }
+  .bench-btn.ghost{ background:transparent; color:var(--ink-dim); border:1px solid var(--border); }
+  .bench-field{ padding:9px 10px; border-radius:8px; border:1px solid var(--border); background:var(--surface); color:var(--ink); font-size:14px; font-family:inherit; }
+  .bench-status-msg{ font-size:12px; color:var(--ink-dim); margin-top:8px; min-height:16px; }
+  .bench-clock-wrap{
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    background:var(--surface-2); border-radius:12px; padding:12px 16px;
+  }
+  .bench-clock-big{ font-family:'IBM Plex Mono'; font-weight:700; font-size:38px; line-height:1; color:var(--ink); }
+  .bench-clock-sub{ font-size:11px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.06em; margin-top:2px; }
 
   table.plain{ width:100%; border-collapse:collapse; }
+  #stats-table{ table-layout:fixed; width:100%; min-width:520px; }
+  /* # and Player columns size to fit their content (jersey number, name + "R" badge)
+     on one line; the remaining stat columns (GP/G/A/Pts/Pts-per-Gm/PIM) are left
+     without an explicit width so table-layout:fixed divides the rest equally. */
+  #stats-table th:nth-child(1), #stats-table td:nth-child(1){ width:34px; white-space:nowrap; }
+  #stats-table th:nth-child(2), #stats-table td:nth-child(2){ width:172px; white-space:nowrap; }
+  #stats-table th:nth-child(n+3), #stats-table td:nth-child(n+3){ text-align:center; }
+  .stat-lead{ font-weight:800; color:var(--red-2); }
   table.plain th{
     text-align:left; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
     color:var(--ink-dim); padding:10px 16px; border-bottom:1px solid var(--border);
@@ -188,7 +276,7 @@
     border-radius:6px; padding:3px 9px; display:inline-block; letter-spacing:.04em;
   }
   .day-pill.skills{ background:var(--ice); color:var(--navy); }
-  .game-card .day-pill{ background:rgba(255,255,255,.14); }
+  .game-card .day-pill{ background:var(--red-2); }
   .muted{ color:var(--ink-dim); }
   .table-wrap{ overflow-x:auto; }
 
@@ -206,6 +294,8 @@
     display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
   }
   .season-record .num{ font-family:'IBM Plex Mono'; font-size:42px; font-weight:600; line-height:1; }
+  .season-record .num.good{ color:#8fe8b4; }
+  .season-record .num.bad{ color:#ffb4bb; }
   .season-record .lbl{ color:var(--ice-2); font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin-top:4px; }
   .season-record .stats{ display:flex; gap:28px; flex-wrap:wrap; }
   #season-months{ margin-top:26px; }
@@ -219,6 +309,8 @@
     padding:12px 16px; border-bottom:1px solid var(--border);
   }
   .game-row:last-child{ border-bottom:none; }
+  .game-row.row-expanded{ background:var(--surface-2); }
+  .season-detail{ background:var(--surface-2); }
   .game-row .side{
     font-family:'Anton'; font-size:10.5px; text-align:center; padding:6px 0; border-radius:6px;
     letter-spacing:.05em;
@@ -351,9 +443,63 @@
   .gate-card .err.show{ opacity:1; }
   #site-content{ display:none; }
   #site-content.unlocked{ display:block; }
+
+  /* --- Custom modal (replaces window.prompt/alert, which the artifact
+       viewer's sandbox blocks — those calls silently no-op there) --- */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:10000;
+    background:rgba(10,18,32,.6);
+    display:flex; align-items:center; justify-content:center; padding:20px;
+  }
+  .modal-overlay[hidden]{ display:none; }
+  .modal-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:16px;
+    padding:24px 22px; max-width:340px; width:100%; box-shadow:var(--shadow);
+  }
+  .modal-card h3{ margin:0 0 14px; font-size:17px; color:var(--ink); }
+  .modal-field{ margin-bottom:12px; }
+  .modal-field:last-child{ margin-bottom:0; }
+  .modal-field label{
+    font-size:11px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--ink-dim); display:block; margin-bottom:4px;
+  }
+  .modal-field input, .modal-field select{
+    width:100%; box-sizing:border-box; padding:10px 12px; border-radius:8px;
+    border:1px solid var(--border); background:var(--paper); color:var(--ink);
+    font-size:15px; font-family:inherit;
+  }
+  .event-row-actions{ display:inline-flex; gap:6px; margin-left:8px; }
+  .event-row-actions button{
+    border:none; background:var(--surface-2); color:var(--ink-dim); border-radius:6px;
+    padding:3px 8px; font-size:11px; font-weight:700; cursor:pointer;
+  }
+  .event-row-actions button:hover{ background:var(--border); }
+  .boxscore-leaders{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; margin-bottom:4px; }
+  .leader-cell{ background:var(--surface-2); border-radius:8px; padding:8px 10px; }
+  .leader-cell .ln{ font-weight:700; font-size:13.5px; }
+  .leader-cell .ls{ font-family:'IBM Plex Mono'; font-size:12px; color:var(--ink-dim); margin-top:1px; }
+  .period-block{ margin-bottom:18px; }
+  .period-block:last-child{ margin-bottom:0; }
+  .period-block h4{
+    font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-dim);
+    margin:0 0 8px; font-weight:800;
+  }
+  .play-row{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    padding:9px 0; border-bottom:1px solid var(--border); font-size:13.5px;
+  }
+  .play-row:last-child{ border-bottom:none; }
+  .play-row .play-time{ font-family:'IBM Plex Mono'; font-size:12px; color:var(--ink-dim); min-width:44px; margin-top:1px; }
+  .play-row .play-desc{ flex:1; }
+  .play-row .play-desc b{ color:var(--ink); }
+  .play-row .play-sub{ font-size:12px; color:var(--ice); margin-top:2px; font-weight:600; }
+  .play-row .play-sub.none{ color:var(--ink-dim); font-weight:400; font-style:italic; }
+  .play-row.penalty .play-desc{ color:var(--red-2); }
+  .play-row.penalty .play-sub{ color:var(--red-2); opacity:.85; }
+  .modal-note{ font-size:12.5px; color:var(--ink-dim); line-height:1.5; margin-top:2px; }
+  .hist-manage-panel{ padding:12px 2px 6px; border-bottom:1px solid var(--border); margin-bottom:2px; }
+  .hist-manage-panel .event-row-actions button{ padding:5px 10px; font-size:11.5px; }
 </style>
-</head>
-<body>
 
 <div class="gate" id="gate">
   <div class="gate-card">
@@ -365,6 +511,18 @@
       <button type="submit">Enter</button>
       <div class="err" id="gate-err">That's not quite right &mdash; check with your team manager.</div>
     </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-overlay" hidden>
+  <div class="modal-card">
+    <h3 id="modal-title"></h3>
+    <div id="modal-fields"></div>
+    <div class="modal-note" id="modal-note" style="display:none;"></div>
+    <div style="display:flex; gap:10px; margin-top:18px;">
+      <button type="button" id="modal-cancel" class="bench-btn ghost" style="flex:1;">Cancel</button>
+      <button type="button" id="modal-ok" class="bench-btn win" style="flex:1;">OK</button>
+    </div>
   </div>
 </div>
 
@@ -380,11 +538,13 @@
     </div>
     <nav class="tabs" id="tabs">
       <button data-panel="week" class="active">Home</button>
+      <button data-panel="scores">Scores<span class="live-dot" id="scores-live-dot" hidden aria-label="Live game in progress"></span></button>
       <button data-panel="season">Season</button>
       <button data-panel="roster">Roster</button>
       <button data-panel="stats">Stats</button>
       <button data-panel="resources">Resources</button>
     </nav>
+    <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="tabs">☰</button>
     <div class="record-chip"><span>Record:</span><b id="header-record">1-1-0</b></div>
   </div>
 </header>
@@ -394,35 +554,15 @@
   <!-- HOME -->
   <section class="panel active" id="panel-week">
 
-    <div class="section-label"><h2>This Weekend</h2><span class="count">5 games</span><div class="rule"></div></div>
+    <div class="section-label"><h2>This Weekend</h2><span class="count">1 game</span><div class="rule"></div></div>
     <div class="grid" style="gap:12px;">
       <div class="card game-card">
-        <div class="gc-when"><span class="day-pill">SAT</span><span class="gc-time">11:45 AM</span></div>
-        <div class="gc-mid"><div class="gc-opp">vs. Philadelphia Jr Flyers 12&ndash;2</div><div class="gc-meta">Newington Arena &middot; Tournament</div></div>
-        <div class="gc-note">arrive 10:40 AM</div>
-      </div>
-      <div class="card game-card">
-        <div class="gc-when"><span class="day-pill">SAT</span><span class="gc-time">2:15 PM</span></div>
-        <div class="gc-mid"><div class="gc-opp">vs. Team Long Island 12&ndash;2</div><div class="gc-meta">Newington Arena &middot; Tournament</div></div>
-        <div class="gc-note">arrive 1:00 PM</div>
-      </div>
-      <div class="card game-card tbd">
-        <div class="gc-when"><span class="day-pill">SUN</span><span class="gc-time">9:40 AM</span></div>
-        <div class="gc-mid"><div class="gc-opp">vs. TBD <span class="muted">(Semi Finals)</span></div><div class="gc-meta">Newington Arena &middot; Tournament</div></div>
-        <div class="gc-note muted">if seeded here</div>
-      </div>
-      <div class="card game-card tbd">
-        <div class="gc-when"><span class="day-pill">SUN</span><span class="gc-time">11:05 AM</span></div>
-        <div class="gc-mid"><div class="gc-opp">vs. TBD <span class="muted">(Semi Finals)</span></div><div class="gc-meta">Newington Arena &middot; Tournament</div></div>
-        <div class="gc-note muted">if seeded here</div>
-      </div>
-      <div class="card game-card tbd">
-        <div class="gc-when"><span class="day-pill">SUN</span><span class="gc-time">12:40 PM</span></div>
-        <div class="gc-mid"><div class="gc-opp">@ TBD <span class="muted">(12U Silver Finals)</span></div><div class="gc-meta">Newington Arena &middot; Tournament</div></div>
-        <div class="gc-note muted">if you advance</div>
+        <div class="gc-when"><span class="day-pill">SUN</span><span class="gc-time">9:45 AM</span></div>
+        <div class="gc-mid"><div class="gc-opp">vs. PTL 12U AA</div><div class="gc-meta">Newington Arena &middot; Tournament</div></div>
+        <div class="gc-note"><a href="https://www.google.com/maps/search/?api=1&query=Newington%20Arena%2C%20Newington%2C%20CT" target="_blank" rel="noopener" style="color:#7fd4e8;">Directions ↗</a></div>
       </div>
     </div>
-    <div class="note" style="margin-top:10px;">🔌 <span>Synced from Crossbar &middot; Sunday's bracket (which semifinal, then the final) firms up once Saturday's pool play wraps.</span></div>
+    <div class="note" style="margin-top:10px;">🔌 <span>Synced from Crossbar &middot; the bracket resolved to one consolation game Sunday &mdash; a rematch of Friday's 3&ndash;0 win over PTL 12U AA.</span></div>
 
     <div class="section-label"><h2>Last Week Recap</h2><span class="count">2 games</span><div class="rule"></div></div>
     <div class="card">
@@ -447,20 +587,79 @@
       </div>
     </div>
 
-    <div class="section-label"><h2>From Instagram</h2><div class="rule"></div></div>
-    <div class="card" style="padding:20px;">
-      <div class="ig-grid">
-        <div class="ig-tile"><span class="ig-icon">📷</span></div>
-        <div class="ig-tile"><span class="ig-icon">📷</span></div>
-        <div class="ig-tile"><span class="ig-icon">📷</span></div>
-        <div class="ig-tile"><span class="ig-icon">📷</span></div>
-        <div class="ig-tile"><span class="ig-icon">📷</span></div>
-        <div class="ig-tile"><span class="ig-icon">📷</span></div>
-      </div>
-      <div style="text-align:center; margin-top:16px;">
-        <a class="cta" href="https://www.instagram.com/ladywolfpack2015/" target="_blank" rel="noopener">Follow @ladywolfpack2015 →</a>
+    <div class="section-label"><h2>This Week's Rinks</h2><div class="rule"></div></div>
+    <div class="card" id="week-rinks-card" style="padding:6px 0;"></div>
+
+    <div style="text-align:center; margin-top:20px;">
+      <a class="cta" href="https://www.instagram.com/ladywolfpack2015/" target="_blank" rel="noopener">🐺 Follow @ladywolfpack2015 on Instagram →</a>
+    </div>
+
+  </section>
+
+  <!-- SCORES (live) -->
+  <section class="panel" id="panel-scores">
+
+    <div class="section-label"><h2>Live Game</h2><div class="rule"></div></div>
+
+    <div class="card" id="live-board" style="padding:26px 24px;"></div>
+
+    <div class="note" style="margin-top:10px;">🏒 <span>Unofficial &mdash; tracked live from the bench, not the referee's scoresheet.</span></div>
+
+    <div class="section-label"><h2>Results</h2><div class="rule"></div></div>
+    <div class="card" style="padding:18px 20px;" id="boxscore-card"></div>
+
+    <div class="section-label"><h2>Bench Controls</h2><div class="rule"></div></div>
+    <div class="card" style="padding:18px 20px;">
+      <label class="switch-label">
+        <span class="switch"><input type="checkbox" id="bench-toggle"><span class="slider"></span></span>
+        Show bench controls on this device (passcode required)
+      </label>
+      <div class="note" style="margin-top:12px;">🔔 <span>Team manager/coach only &mdash; turning this on asks for the bench passcode. Everyone else just watches the scoreboard update live above.</span></div>
+
+      <div id="bench-panel" hidden style="margin-top:16px; display:flex; flex-direction:column; gap:14px;">
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end;">
+          <div style="flex:1; min-width:200px;">
+            <label class="muted" style="font-size:11px; text-transform:uppercase; letter-spacing:.06em; display:block; margin-bottom:4px;">Opponent</label>
+            <select id="bc-opponent" class="bench-field" style="width:100%;"></select>
+            <input type="text" id="bc-opponent-other" class="bench-field" placeholder="Type opponent name" style="width:100%; margin-top:6px;" hidden>
+          </div>
+          <button type="button" id="bc-game-toggle" class="bench-btn">Start Game</button>
+        </div>
+
+        <div class="bench-clock-wrap">
+          <div>
+            <div class="bench-clock-big" id="bc-clock-big">12:00</div>
+            <div class="bench-clock-sub" id="bc-clock-sub">Period 1</div>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" id="bc-clock-toggle" class="bench-btn">Start Clock</button>
+            <button type="button" id="bc-clock-edit" class="bench-btn ghost">Edit Time</button>
+            <button type="button" id="bc-clock-reset" class="bench-btn ghost">Reset Clock</button>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button type="button" id="bc-goal-us" class="bench-btn win">+1 Wolfpack Goal</button>
+          <button type="button" id="bc-goal-opp" class="bench-btn loss">+1 Opponent Goal</button>
+          <button type="button" id="bc-penalty" class="bench-btn ghost">+ Penalty</button>
+          <button type="button" id="bc-undo" class="bench-btn ghost">Undo Last Event</button>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+          <button type="button" id="bc-period" class="bench-btn">Next Period →</button>
+          <button type="button" id="bc-add-past" class="bench-btn ghost">+ Add Past Game</button>
+        </div>
+        <div class="note" style="margin-top:2px;">✏️ <span>Made a mistake? Edit or delete any entry in the Results box above &mdash; those buttons only show up while bench controls are unlocked, so you can go back and fix a time, score, or player later, mid-game or after.</span></div>
+        <div class="bench-status-msg" id="bc-status"></div>
+
+        <div class="section-label" style="margin:18px 0 8px;"><h2 style="font-size:13px;">Manage Logged Games</h2><div class="rule"></div></div>
+        <div class="note" style="margin-bottom:4px;">📜 <span>Games ended above are archived here. The public Season tab shows the full boxscore for any played game. Tap <b>Manage</b> on a game to open its play-by-play and fix a wrong goal scorer, assist, or penalty, add a play you missed, or edit the opponent/date &mdash; or use Delete to remove a stray test entry entirely.</span></div>
+        <div id="bench-history-list" style="display:flex; flex-direction:column; gap:8px;"></div>
       </div>
     </div>
+
+    <div class="note" style="margin-top:10px;">📖 <span>Full box scores for every played game live on the <b>Season</b> tab &mdash; tap any final score there to expand it.</span></div>
+
+    <script id="live-game-seed" type="application/json">{"game":{"active":false,"opponent":"","gameId":"","date":"","period":1,"events":[],"clockRunning":false,"clockStartedAt":null,"clockElapsedMs":720000},"history":[{"id":"h-87058","gameId":"g87058","opponent":"Team Long Island 12-2","date":"Sep 5","home":0,"away":9,"manual":false,"events":[{"type":"goal","team":"opp","period":1,"elapsedMs":705000,"oppNum":"11","oppAssist1":"12"},{"type":"goal","team":"opp","period":1,"elapsedMs":647000,"oppNum":"12","oppAssist1":"43"},{"type":"goal","team":"opp","period":1,"elapsedMs":340000,"oppNum":"81","oppAssist1":"10"},{"type":"goal","team":"opp","period":1,"elapsedMs":252000,"oppNum":"16","oppAssist1":"28"},{"type":"goal","team":"opp","period":1,"elapsedMs":159000,"oppNum":"19","oppAssist1":"11"},{"type":"goal","team":"opp","period":2,"elapsedMs":613000,"oppNum":"12"},{"type":"goal","team":"opp","period":2,"elapsedMs":568000,"oppNum":"43"},{"type":"goal","team":"opp","period":2,"elapsedMs":162000,"oppNum":"19","oppAssist1":"11"},{"type":"goal","team":"opp","period":2,"elapsedMs":9000,"oppNum":"81","oppAssist1":"10","oppAssist2":"20"},{"type":"penalty","team":"opp","period":2,"elapsedMs":396000,"oppNum":"11","infraction":"Delay of Game","minutes":1},{"type":"penalty","team":"opp","period":3,"elapsedMs":563000,"oppNum":"28","infraction":"Body Check","minutes":1}]},{"id":"h-87042","gameId":"g87042","opponent":"Philadelphia Jr Flyers 12-2","date":"Sep 5","home":0,"away":7,"manual":false,"events":[{"type":"goal","team":"opp","period":1,"elapsedMs":540000,"oppNum":"53","oppAssist1":"86"},{"type":"goal","team":"opp","period":1,"elapsedMs":377000,"oppNum":"53","oppAssist1":"26"},{"type":"goal","team":"opp","period":1,"elapsedMs":211000,"oppNum":"29"},{"type":"goal","team":"opp","period":2,"elapsedMs":293000,"oppNum":"14"},{"type":"goal","team":"opp","period":2,"elapsedMs":216000,"oppNum":"53","oppAssist1":"26"},{"type":"goal","team":"opp","period":2,"elapsedMs":77000,"oppNum":"26"},{"type":"goal","team":"opp","period":3,"elapsedMs":376000,"oppNum":"66","oppAssist1":"20","note":"PP"},{"type":"penalty","team":"us","period":3,"elapsedMs":396000,"player":"Mairead Hornish","infraction":"Tripping","minutes":1}]},{"id":"h-87043","gameId":"g87043","opponent":"PTL 12U AA","date":"Sep 4","home":3,"away":0,"manual":false,"events":[{"type":"goal","team":"us","period":1,"elapsedMs":115000,"scorer":"Mairead Hornish"},{"type":"goal","team":"us","period":1,"elapsedMs":49500,"scorer":"Mairead Hornish","assist1":"Bailey Pelletier"},{"type":"goal","team":"us","period":3,"elapsedMs":203000,"scorer":"Emma Zhang","assist1":"Eve Krause"}]},{"id":"h-87055","gameId":"g87055","opponent":"Florida Cyclones 12-2","date":"Sep 4","home":0,"away":2,"manual":false,"events":[{"type":"goal","team":"opp","period":1,"elapsedMs":248000,"oppNum":"20","oppAssist1":"16"},{"type":"penalty","team":"opp","period":2,"elapsedMs":2300,"oppNum":"18","infraction":"Interference","minutes":1},{"type":"goal","team":"opp","period":3,"elapsedMs":81000,"oppNum":"20"}]}]}</script>
 
   </section>
 
@@ -477,6 +676,11 @@
         <div><div class="num" id="season-played" style="font-size:22px">2</div><div class="lbl">Played</div></div>
         <a href="https://myhockeyrankings.com/team-info/39681/2026/games" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;"><div class="num" style="font-size:22px">MHR</div><div class="lbl">View Rankings ↗</div></a>
       </div>
+    </div>
+
+    <div class="switch-row">
+      <label class="switch-label"><span class="switch"><input type="checkbox" id="toggle-practices"><span class="slider"></span></span>Show practices</label>
+      <label class="switch-label"><span class="switch"><input type="checkbox" id="toggle-optional"><span class="slider"></span></span>Show optional lessons</label>
     </div>
 
     <div id="season-months"></div>
@@ -545,12 +749,9 @@
     <div class="section-label"><h2>Player Leaderboard</h2><div class="rule"></div></div>
     <div class="card" style="overflow-x:auto;">
       <table class="plain" id="stats-table">
-        <thead><tr><th>#</th><th>Player</th><th>Pos</th><th>GP</th><th>GM</th><th>G</th><th>A</th><th>Pts</th><th>Pts/Gm</th><th>PIM</th></tr></thead>
+        <thead><tr><th>#</th><th>Player</th><th>GP</th><th>G</th><th>A</th><th>Pts</th><th>Pts/Gm</th><th>PIM</th></tr></thead>
         <tbody id="stats-table-body"></tbody>
       </table>
-    </div>
-    <div class="note" style="margin-top:8px;">
-      📊 <span>Synced from the team stat sheet &mdash; sorted by points, then goals.</span>
     </div>
 
     <div class="section-label"><h2>MHR Ranking Trend</h2><div class="rule"></div></div>
@@ -595,15 +796,6 @@
       </div>
 
       <div class="card res-card">
-        <h4>🏆 Upcoming Tournaments</h4>
-        <dl>
-          <dt>Nov 27&ndash;29, 2026</dt><dd><a href="https://www.avonhockey.com/events/2026-thanksgiving-tournament/145100" target="_blank" rel="noopener">Avon Thanksgiving Tournament ↗</a></dd>
-          <dt>Jan 15&ndash;18, 2027</dt><dd><a href="https://www.adkhockey.com/girls-northstars-winter-classic" target="_blank" rel="noopener">Northstars Winter Classic ↗</a> &middot; Glens Falls, NY</dd>
-          <dt>Hotel Block</dt><dd><a href="https://app.marriott.com/resview2?id=1785524612984&key=GRP&app=resvlink" target="_blank" rel="noopener">Book your room ↗</a></dd>
-        </dl>
-      </div>
-
-      <div class="card res-card">
         <h4>🐺 Get to Know the Pack</h4>
         <p style="font-size:13.5px;color:var(--ink-dim);line-height:1.5;margin:0;">A quick form for on/off-ice trivia &mdash; also doubles as Secret Santa gift-idea intel later in the season.</p>
         <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSdMkNIWgHBCC1-sY2t_-v0DYmDCPbNy5s1PG_JpiAcZEeTz-A/viewform" target="_blank" rel="noopener">Fill it out →</a>
@@ -612,6 +804,28 @@
       <div class="card res-card">
         <h4>📣 Follow the Pack</h4>
         <dl><dt>Instagram</dt><dd><a href="https://www.instagram.com/ladywolfpack2015/" target="_blank" rel="noopener">@ladywolfpack2015 ↗</a></dd></dl>
+      </div>
+    </div>
+
+    <div class="section-label"><h2>Tournament &amp; Showcase Info</h2><div class="rule"></div></div>
+    <div class="grid" style="gap:16px;">
+      <div class="card res-card" style="padding:20px 22px;">
+        <h4>🏆 Avon Thanksgiving Tournament</h4>
+        <div class="muted" style="font-size:13px;margin:-4px 0 10px;">Nov 27&ndash;29, 2026 &middot; Avon, CT</div>
+        <dl>
+          <dt>Event info</dt><dd><a href="https://www.avonhockey.com/events/2026-thanksgiving-tournament/145100" target="_blank" rel="noopener">avonhockey.com ↗</a></dd>
+          <dt>Rinks</dt><dd style="font-weight:600;font-size:13.5px;">Avon Old Farms &middot; Simsbury Farms &middot; ISCC (Simsbury) &middot; Veterans Memorial Rink (West Hartford)</dd>
+        </dl>
+      </div>
+
+      <div class="card res-card" style="padding:20px 22px;">
+        <h4>🏆 Northstars Winter Classic</h4>
+        <div class="muted" style="font-size:13px;margin:-4px 0 10px;">Jan 15&ndash;18, 2027 &middot; Glens Falls, NY</div>
+        <dl>
+          <dt>Event info</dt><dd><a href="https://www.adkhockey.com/girls-northstars-winter-classic" target="_blank" rel="noopener">adkhockey.com ↗</a></dd>
+          <dt>Rinks</dt><dd style="font-weight:600;font-size:13.5px;">Glens Falls Recreation Center &middot; Harding Mazzotti Arena</dd>
+          <dt>Hotel Block</dt><dd><a href="https://app.marriott.com/resview2?id=1785524612984&key=GRP&app=resvlink" target="_blank" rel="noopener">Book your room ↗</a></dd>
+        </dl>
       </div>
     </div>
 
@@ -626,8 +840,20 @@
 </div>
 
 <script>
+  // Snapshot of the untouched page template, captured before any script below
+  // mutates the DOM (gate unlock classes, populated grids, active tab, etc.) —
+  // this is what the live-game tracker republishes from, so a republish never
+  // bakes in one viewer's incidental UI state.
+  const PRISTINE_HTML = '<!doctype html>' + document.documentElement.outerHTML;
+
   // --- Access gate ---
   const TEAM_PASSCODE = "LADYWP2026";
+  // Separate, coach/manager-only passcode gating the bench controls toggle below.
+  // Anyone who knows the site passcode can still see the toggle exists, but
+  // switching it on requires this second passcode. This is client-side (viewable
+  // in page source by anyone who looks), same trust model as TEAM_PASSCODE above —
+  // not real security, just a deterrent for casual parents. Change it any time.
+  const BENCH_PASSCODE = "WPBENCH26";
   (function(){
     const gate = document.getElementById('gate');
     const content = document.getElementById('site-content');
@@ -659,13 +885,11 @@
   // side: 'home' if listed "vs." on Crossbar, 'away' if listed "@"
   // result: [us, them] when Final; null when upcoming
   const GAMES = [
-    {m:"September 2026", day:"Fri", date:"Sep 4", time:"9:30 AM", side:"away", opp:"Florida Cyclones 12-2", loc:"Newington Arena", type:"Tournament", result:[0,2]},
-    {m:"September 2026", day:"Fri", date:"Sep 4", time:"2:00 PM", side:"home", opp:"PTL 12U AA", loc:"Newington Arena", type:"Tournament", result:[3,0]},
-    {m:"September 2026", day:"Sat", date:"Sep 5", time:"11:45 AM", side:"home", opp:"Philadelphia Jr Flyers 12-2", loc:"Newington Arena", type:"Tournament", result:null},
-    {m:"September 2026", day:"Sat", date:"Sep 5", time:"2:15 PM", side:"home", opp:"Team Long Island 12-2", loc:"Newington Arena", type:"Tournament", result:null},
-    {m:"September 2026", day:"Sun", date:"Sep 6", time:"9:40 AM", side:"home", opp:"TBD (Semi Finals)", loc:"Newington Arena", type:"Tournament", result:null},
-    {m:"September 2026", day:"Sun", date:"Sep 6", time:"11:05 AM", side:"home", opp:"TBD (Semi Finals)", loc:"Newington Arena", type:"Tournament", result:null},
-    {m:"September 2026", day:"Sun", date:"Sep 6", time:"12:40 PM", side:"away", opp:"TBD (12U Silver Finals)", loc:"Newington Arena", type:"Tournament", result:null},
+    {id:"g87055", m:"September 2026", day:"Fri", date:"Sep 4", time:"9:30 AM", side:"away", opp:"Florida Cyclones 12-2", loc:"Newington Arena", type:"Tournament", result:[0,2]},
+    {id:"g87043", m:"September 2026", day:"Fri", date:"Sep 4", time:"2:00 PM", side:"home", opp:"PTL 12U AA", loc:"Newington Arena", type:"Tournament", result:[3,0]},
+    {id:"g87042", m:"September 2026", day:"Sat", date:"Sep 5", time:"11:45 AM", side:"home", opp:"Philadelphia Jr Flyers 12-2", loc:"Newington Arena", type:"Tournament", result:[0,7]},
+    {id:"g87058", m:"September 2026", day:"Sat", date:"Sep 5", time:"3:30 PM", side:"home", opp:"Team Long Island 12-2", loc:"Newington Arena", type:"Tournament", result:[0,9]},
+    {m:"September 2026", day:"Sun", date:"Sep 6", time:"9:45 AM", side:"home", opp:"PTL 12U AA", loc:"Newington Arena", type:"Tournament", result:null},
     {m:"September 2026", day:"Sat", date:"Sep 12", time:"2:00 PM", side:"home", opp:"Wallingford Hawks Blue", loc:"Champions Skating Center", type:"League", result:null},
     {m:"September 2026", day:"Sun", date:"Sep 13", time:"5:30 PM", side:"away", opp:"Avon 12U B", loc:"Avon Old Farms School", type:"League", result:null},
     {m:"September 2026", day:"Sat", date:"Sep 19", time:"3:30 PM", side:"home", opp:"Wonderland Wizards 12U B Blue", loc:"Champions Skating Center", type:"League", result:null},
@@ -703,33 +927,197 @@
     {m:"December 2026", day:"Sat", date:"Dec 26", time:"1:30 PM", side:"away", opp:"CT Polar Bears", loc:"The Rinks at the Sports Center", type:"League", result:null},
     {m:"December 2026", day:"Sun", date:"Dec 27", time:"TBD", side:"away", opp:"West Hartford Wolves B", loc:"Veterans Memorial Ice Rink", type:"League", result:null},
 
-    {m:"January 2027", day:"Sat", date:"Jan 2", time:"9:45 AM", side:"away", opp:"Wallingford Hawks Blue", loc:"Choate Hockey Rink", type:"League", result:null},
+    {m:"January 2027", day:"Sat", date:"Jan 2", time:"9:45 AM", side:"away", opp:"Wallingford Hawks Blue", loc:"Choate Hockey Rink - Hemenway Rink", type:"League", result:null},
     {m:"January 2027", day:"Sun", date:"Jan 3", time:"9:50 AM", side:"home", opp:"South Windsor A1", loc:"Champions Skating Center", type:"League", result:null},
     {m:"January 2027", day:"Sat", date:"Jan 9", time:"9:50 AM", side:"home", opp:"Hamden A1", loc:"Champions Skating Center", type:"League", result:null},
     {m:"January 2027", day:"Sun", date:"Jan 10", time:"9:10 AM", side:"away", opp:"Hamden U12 Girls", loc:"Louis Astorino Ice Arena", type:"League", result:null},
-    {m:"January 2027", day:"Fri", date:"Jan 15", time:"TBD", side:"away", opp:"Northstars Winter Classic", loc:"Glens Falls Rec Center", type:"Tournament", result:null},
-    {m:"January 2027", day:"Sat", date:"Jan 16", time:"TBD", side:"away", opp:"Northstars Winter Classic", loc:"Glens Falls Rec Center", type:"Tournament", result:null},
-    {m:"January 2027", day:"Sun", date:"Jan 17", time:"TBD", side:"away", opp:"Northstars Winter Classic", loc:"Glens Falls Rec Center", type:"Tournament", result:null},
-    {m:"January 2027", day:"Mon", date:"Jan 18", time:"TBD", side:"away", opp:"Northstars Winter Classic", loc:"Glens Falls Rec Center", type:"Tournament", result:null},
+    {m:"January 2027", day:"Fri", date:"Jan 15", time:"TBD", side:"away", opp:"Northstars Winter Classic", loc:"Glens Falls Recreation Center Ice Rink", type:"Tournament", result:null},
+    {m:"January 2027", day:"Sat", date:"Jan 16", time:"TBD", side:"away", opp:"Northstars Winter Classic", loc:"Glens Falls Recreation Center Ice Rink", type:"Tournament", result:null},
+    {m:"January 2027", day:"Sun", date:"Jan 17", time:"TBD", side:"away", opp:"Northstars Winter Classic", loc:"Glens Falls Recreation Center Ice Rink", type:"Tournament", result:null},
+    {m:"January 2027", day:"Mon", date:"Jan 18", time:"TBD", side:"away", opp:"Northstars Winter Classic", loc:"Glens Falls Recreation Center Ice Rink", type:"Tournament", result:null},
     {m:"January 2027", day:"Sat", date:"Jan 23", time:"11:20 AM", side:"home", opp:"West Haven A1", loc:"Champions Skating Center", type:"League", result:null},
     {m:"January 2027", day:"Sun", date:"Jan 24", time:"10:30 AM", side:"away", opp:"Girls Hat Trick CGHL", loc:"Danbury Ice Arena", type:"League", result:null},
     {m:"January 2027", day:"Sun", date:"Jan 24", time:"11:30 AM", side:"away", opp:"Girls Hat Trick Black", loc:"Danbury Ice Arena", type:"League", result:null},
     {m:"January 2027", day:"Sat", date:"Jan 30", time:"2:30 PM", side:"away", opp:"Enfield A1", loc:"Enfield Twin Rinks", type:"League", result:null},
     {m:"January 2027", day:"Sun", date:"Jan 31", time:"8:40 AM", side:"home", opp:"Central CT U12 Girls CGHL", loc:"Champions Lower Rink", type:"League", result:null},
 
-    {m:"February 2027", day:"Sat", date:"Feb 6", time:"9:45 AM", side:"away", opp:"Wallingford Hawks Blue", loc:"Choate Hockey Rink", type:"League", result:null},
+    {m:"February 2027", day:"Sat", date:"Feb 6", time:"9:45 AM", side:"away", opp:"Wallingford Hawks Blue", loc:"Choate Hockey Rink - Hemenway Rink", type:"League", result:null},
     {m:"February 2027", day:"Sun", date:"Feb 7", time:"8:40 AM", side:"home", opp:"Simsbury B", loc:"Champions Skating Center", type:"League", result:null},
     {m:"February 2027", day:"Sat", date:"Feb 13", time:"11:20 AM", side:"home", opp:"Central A1", loc:"Champions Skating Center", type:"League", result:null},
     {m:"February 2027", day:"Sun", date:"Feb 14", time:"4:00 PM", side:"away", opp:"Enfield B", loc:"Enfield Twin Rinks", type:"League", result:null},
-    {m:"February 2027", day:"Sat", date:"Feb 20", time:"9:45 AM", side:"away", opp:"Wallingford Hawks Blue", loc:"Choate Hockey Rink", type:"League", result:null},
+    {m:"February 2027", day:"Sat", date:"Feb 20", time:"9:45 AM", side:"away", opp:"Wallingford Hawks Blue", loc:"Choate Hockey Rink - Hemenway Rink", type:"League", result:null},
     {m:"February 2027", day:"Sun", date:"Feb 21", time:"8:40 AM", side:"home", opp:"Polar Bears G12U - Tier 2", loc:"Champions Lower Rink", type:"League", result:null},
     {m:"February 2027", day:"Sat", date:"Feb 27", time:"8:40 AM", side:"home", opp:"Enfield B", loc:"Champions Skating Center", type:"League", result:null},
     {m:"February 2027", day:"Sun", date:"Feb 28", time:"TBD", side:"away", opp:"West Hartford Wolves B", loc:"Veterans Memorial Ice Rink", type:"League", result:null},
   ];
 
-  (function renderSeason(){
-    const months = [...new Set(GAMES.map(g => g.m))];
+  // Practice/skills/dry-land slots for the rest of the season, pulled from Crossbar
+  // 2026-09-06 (Tuesday "Practice" entries are always relabeled "Skills" per Fred —
+  // Crossbar itself just calls them Practice). Re-check Crossbar periodically since
+  // it has no practices export/API and times shift week to week.
+  const PRACTICES = [
+    {m:"September 2026", day:"Tue", date:"Sep 8", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"September 2026", day:"Wed", date:"Sep 9", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"September 2026", day:"Wed", date:"Sep 9", time:"6:45–7:30 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
+    {m:"September 2026", day:"Thu", date:"Sep 10", time:"6:30–7:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"September 2026", day:"Tue", date:"Sep 15", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"September 2026", day:"Wed", date:"Sep 16", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"September 2026", day:"Wed", date:"Sep 16", time:"6:45–7:30 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
+    {m:"September 2026", day:"Thu", date:"Sep 17", time:"6:30–7:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"September 2026", day:"Tue", date:"Sep 22", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"September 2026", day:"Wed", date:"Sep 23", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"September 2026", day:"Wed", date:"Sep 23", time:"6:45–7:30 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
+    {m:"September 2026", day:"Thu", date:"Sep 24", time:"6:30–7:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"September 2026", day:"Tue", date:"Sep 29", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"September 2026", day:"Wed", date:"Sep 30", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+
+    {m:"October 2026", day:"Thu", date:"Oct 1", time:"5:25–6:10 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Thu", date:"Oct 1", time:"6:30–7:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Tue", date:"Oct 6", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Wed", date:"Oct 7", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Thu", date:"Oct 8", time:"5:25–6:10 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Thu", date:"Oct 8", time:"6:30–7:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Tue", date:"Oct 13", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Wed", date:"Oct 14", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Thu", date:"Oct 15", time:"5:25–6:10 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Thu", date:"Oct 15", time:"6:30–7:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Tue", date:"Oct 20", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Wed", date:"Oct 21", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Thu", date:"Oct 22", time:"5:25–6:10 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Thu", date:"Oct 22", time:"6:30–7:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Tue", date:"Oct 27", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Wed", date:"Oct 28", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Thu", date:"Oct 29", time:"5:25–6:10 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
+    {m:"October 2026", day:"Thu", date:"Oct 29", time:"6:30–7:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+
+    {m:"November 2026", day:"Tue", date:"Nov 3", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Wed", date:"Nov 4", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Thu", date:"Nov 5", time:"6:30–7:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Thu", date:"Nov 5", time:"7:45–8:30 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Tue", date:"Nov 10", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Wed", date:"Nov 11", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Thu", date:"Nov 12", time:"6:30–7:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Thu", date:"Nov 12", time:"7:45–8:30 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Tue", date:"Nov 17", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Wed", date:"Nov 18", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Thu", date:"Nov 19", time:"6:30–7:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Thu", date:"Nov 19", time:"7:45–8:30 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Tue", date:"Nov 24", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Wed", date:"Nov 25", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Thu", date:"Nov 26", time:"6:30–7:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Mon", date:"Nov 30", time:"7:50–8:50 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+
+    {m:"December 2026", day:"Tue", date:"Dec 1", time:"6:40–7:40 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"December 2026", day:"Wed", date:"Dec 2", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"December 2026", day:"Wed", date:"Dec 2", time:"6:45–7:30 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
+    {m:"December 2026", day:"Tue", date:"Dec 8", time:"6:40–7:40 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"December 2026", day:"Wed", date:"Dec 9", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"December 2026", day:"Wed", date:"Dec 9", time:"6:45–7:30 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
+    {m:"December 2026", day:"Tue", date:"Dec 15", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"December 2026", day:"Wed", date:"Dec 16", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"December 2026", day:"Tue", date:"Dec 22", time:"6:40–7:40 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"December 2026", day:"Wed", date:"Dec 23", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"December 2026", day:"Tue", date:"Dec 29", time:"6:40–7:40 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"December 2026", day:"Wed", date:"Dec 30", time:"7:40–8:40 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+
+    {m:"January 2027", day:"Tue", date:"Jan 5", time:"5:30–6:15 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
+    {m:"January 2027", day:"Tue", date:"Jan 5", time:"6:40–7:40 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"January 2027", day:"Wed", date:"Jan 6", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"January 2027", day:"Tue", date:"Jan 12", time:"7:50–8:50 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"January 2027", day:"Wed", date:"Jan 13", time:"7:30–8:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"January 2027", day:"Tue", date:"Jan 19", time:"6:40–7:40 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"January 2027", day:"Wed", date:"Jan 20", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"January 2027", day:"Tue", date:"Jan 26", time:"6:40–7:40 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"January 2027", day:"Wed", date:"Jan 27", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+
+    {m:"February 2027", day:"Tue", date:"Feb 2", time:"6:40–7:40 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"February 2027", day:"Wed", date:"Feb 3", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"February 2027", day:"Tue", date:"Feb 9", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"February 2027", day:"Wed", date:"Feb 10", time:"7:00–8:00 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"February 2027", day:"Tue", date:"Feb 16", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+    {m:"February 2027", day:"Wed", date:"Feb 17", time:"6:40–7:40 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"February 2027", day:"Tue", date:"Feb 23", time:"6:40–7:40 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
+  ];
+
+  function dateNum(d){ const n = parseInt(String(d).split(' ')[1], 10); return isNaN(n) ? 0 : n; }
+  // Full calendar Date for a GAMES row, combining its "Sep 4"-style date with the year from its month group.
+  function gameDate(g){
+    const year = g.m.split(' ').pop();
+    const d = new Date(g.date + ', ' + year);
+    return isNaN(d.getTime()) ? new Date(0) : d;
+  }
+
+  // ---- Season-tab accordion: expand a played game's row to show its full boxscore ----
+  // The live/bench tracker (further below) exposes history + a few render helpers on
+  // window.__lwp once it initializes, so this can stay decoupled from that IIFE.
+  function normalizeOpp(s){
+    return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').replace(/\b(12u|12 2|aa)\b/g, '').replace(/\s+/g, ' ').trim();
+  }
+  function findHistoryForGame(g){
+    const lwp = window.__lwp;
+    const hist = (lwp && typeof lwp.getHistory === 'function') ? (lwp.getHistory() || []) : [];
+    if (g.id) {
+      const byId = hist.find(h => h.gameId === g.id);
+      if (byId) return byId;
+    }
+    const nOpp = normalizeOpp(g.opp);
+    return hist.find(h => h.date && g.date && h.date === g.date && normalizeOpp(h.opponent) === nOpp) || null;
+  }
+  function gameRowKey(g){ return g.id || (g.date + '__' + g.opp); }
+  let expandedGameKey = null;
+  let gameByKeyMap = {};
+  function renderGameDetailHtml(g){
+    const [us, them] = g.result;
+    const resultLine = `Final: Wolfpack ${us}&ndash;${them} ${g.side === 'home' ? 'vs' : '@'} ${g.opp}`;
+    const h = findHistoryForGame(g);
+    const lwp = window.__lwp;
+    if (!h || !h.events || !h.events.length || !lwp) {
+      return `<div class="muted" style="padding:2px 2px 4px; font-size:13px;">${resultLine}<br><span style="font-size:12px;">${h ? 'Logged, but no play-by-play was recorded for this game.' : 'No detailed boxscore recorded for this game yet.'}</span></div>`;
+    }
+    const { computeLeaders, eventDesc, periodHeading, fmtClock, playerLabel } = lwp;
+    const leaders = computeLeaders(h.events);
+    let html = `<div class="muted" style="padding:0 2px 12px; font-size:12.5px;">${resultLine}</div>`;
+    if (leaders.length) {
+      html += '<div class="boxscore-leaders">' + leaders.map(l => `
+        <div class="leader-cell">
+          <div class="ln">${playerLabel(l.name)}</div>
+          <div class="ls">${l.g}G ${l.a}A &middot; ${l.pts} PTS</div>
+        </div>
+      `).join('') + '</div>';
+    }
+    const byPeriod = {};
+    h.events.forEach(e => { (byPeriod[e.period] = byPeriod[e.period] || []).push(e); });
+    const periods = Object.keys(byPeriod).map(Number).sort((a, b) => a - b);
+    html += periods.map(p => `
+      <div class="period-block">
+        <h4>${periodHeading(p)}</h4>
+        ${byPeriod[p].map(e => `
+          <div class="play-row${e.type === 'penalty' ? ' penalty' : ''}">
+            <span class="play-time">${fmtClock(e.elapsedMs)}</span>
+            <div class="play-desc">${eventDesc(e, g.opp)}</div>
+          </div>
+        `).join('')}
+      </div>
+    `).join('');
+    return html;
+  }
+  function toggleGameRow(key){
     const container = document.getElementById('season-months');
+    if (!container) return;
+    const wasExpanded = expandedGameKey === key;
+    container.querySelectorAll('.season-detail').forEach(d => { d.hidden = true; d.innerHTML = ''; });
+    container.querySelectorAll('[data-game-key]').forEach(r => r.classList.remove('row-expanded'));
+    if (wasExpanded) { expandedGameKey = null; return; }
+    expandedGameKey = key;
+    const g = gameByKeyMap[key];
+    if (!g) return;
+    const detail = container.querySelector(`[data-detail-key="${CSS.escape(key)}"]`);
+    const rowEl = container.querySelector(`[data-game-key="${CSS.escape(key)}"]`);
+    if (detail) { detail.innerHTML = renderGameDetailHtml(g); detail.hidden = false; }
+    if (rowEl) rowEl.classList.add('row-expanded');
+  }
+
+  (function computeRecord(){
     let wins = 0, losses = 0, ties = 0, gf = 0, ga = 0, played = 0;
     GAMES.forEach(g => {
       if (!g.result) return;
@@ -739,60 +1127,138 @@
       if (us > them) wins++; else if (us < them) losses++; else ties++;
     });
     document.getElementById('season-record-num').textContent = ties ? `${wins}-${losses}-${ties}` : `${wins}-${losses}`;
-    document.getElementById('season-gd').textContent = (gf - ga >= 0 ? '+' : '') + (gf - ga);
+    const gdEl = document.getElementById('season-gd');
+    gdEl.textContent = (gf - ga >= 0 ? '+' : '') + (gf - ga);
+    gdEl.classList.toggle('good', gf - ga > 0);
+    gdEl.classList.toggle('bad', gf - ga < 0);
     document.getElementById('season-played').textContent = played;
     document.getElementById('header-record').textContent = `${wins}-${losses}-${ties}`;
     document.getElementById('stats-record-num').textContent = ties ? `${wins}-${losses}-${ties}` : `${wins}-${losses}`;
-    document.getElementById('stats-gf').textContent = gf;
-    document.getElementById('stats-ga').textContent = ga;
+    const gfEl = document.getElementById('stats-gf');
+    const gaEl = document.getElementById('stats-ga');
+    gfEl.textContent = gf; gfEl.classList.add('good');
+    gaEl.textContent = ga; gaEl.classList.add('bad');
+  })();
 
+  function renderMonths(){
+    const showPractices = document.getElementById('toggle-practices').checked;
+    const showOptional = document.getElementById('toggle-optional').checked;
+    const container = document.getElementById('season-months');
+    gameByKeyMap = {};
+
+    const items = GAMES.map(g => ({ kind:'game', m:g.m, dnum: dateNum(g.date), g }));
+    if (showPractices) {
+      PRACTICES.forEach(p => {
+        if (p.optional && !showOptional) return;
+        items.push({ kind:'practice', m:p.m, dnum: dateNum(p.date), p });
+      });
+    }
+
+    const months = [...new Set(items.map(i => i.m))];
     container.innerHTML = months.map(month => {
-      const games = GAMES.filter(g => g.m === month);
-      const donePlayed = games.filter(g => g.result).length;
-      const rows = games.map(g => {
-        const sideClass = g.side === 'home' ? 'home' : 'away';
-        const sideLabel = g.side === 'home' ? 'HOME' : 'AWAY';
-        let resultHtml;
-        if (g.result) {
-          const [us, them] = g.result;
-          resultHtml = `<div class="result ${us > them ? 'w' : 'l'}">${us > them ? 'W' : 'L'} ${us}&ndash;${them}</div>`;
+      const monthItems = items.filter(i => i.m === month).sort((a,b) => a.dnum - b.dnum);
+      const gameCount = monthItems.filter(i => i.kind === 'game').length;
+      const donePlayed = monthItems.filter(i => i.kind === 'game' && i.g.result).length;
+      const practiceCount = monthItems.filter(i => i.kind === 'practice').length;
+      const countLabel = `${gameCount} game${gameCount === 1 ? '' : 's'}${donePlayed ? ` &middot; ${donePlayed} played` : ''}${practiceCount ? ` &middot; ${practiceCount} practice${practiceCount === 1 ? '' : 's'}` : ''}`;
+
+      const rows = monthItems.map((item, idx) => {
+        const isLast = idx === monthItems.length - 1;
+        if (item.kind === 'game') {
+          const g = item.g;
+          const sideClass = g.side === 'home' ? 'home' : 'away';
+          const sideLabel = g.side === 'home' ? 'HOME' : 'AWAY';
+          let resultHtml;
+          if (g.result) {
+            const [us, them] = g.result;
+            resultHtml = `<div class="result ${us > them ? 'w' : 'l'}">${us > them ? 'W' : 'L'} ${us}&ndash;${them}</div>`;
+          } else {
+            resultHtml = `<div class="result pending">${g.time === 'TBD' ? 'Time TBD' : g.time}</div>`;
+          }
+          const oppLabel = `${g.side === 'home' ? 'vs' : '@'} ${g.opp}`;
+          if (g.result) {
+            const key = gameRowKey(g);
+            gameByKeyMap[key] = g;
+            return `
+            <div class="game-row" data-game-key="${key}" style="cursor:pointer;${isLast ? 'border-bottom:none;' : ''}">
+              <div class="side ${sideClass}">${sideLabel}</div>
+              <div><div class="opp">${oppLabel} <span class="muted" style="font-weight:400;font-size:11px;">&#9662; tap for boxscore</span></div><div class="meta">${g.day}, ${g.date} &middot; ${g.loc} &middot; ${g.type}</div></div>
+              ${resultHtml}
+            </div>
+            <div class="season-detail" data-detail-key="${key}" hidden style="padding:2px 16px 16px; border-bottom:1px solid var(--border);${isLast ? 'border-bottom:none;' : ''}"></div>`;
+          }
+          return `
+          <div class="game-row"${isLast ? ' style="border-bottom:none;"' : ''}>
+            <div class="side ${sideClass}">${sideLabel}</div>
+            <div><div class="opp">${oppLabel}</div><div class="meta">${g.day}, ${g.date} &middot; ${g.loc} &middot; ${g.type}</div></div>
+            ${resultHtml}
+          </div>`;
         } else {
-          resultHtml = `<div class="result pending">${g.time === 'TBD' ? 'Time TBD' : g.time}</div>`;
+          const p = item.p;
+          const tag = p.session === 'Skills' ? 'SKILLS' : (p.session === 'Dry Land Training' ? 'DRY LAND' : 'PRACTICE');
+          return `
+          <div class="game-row">
+            <div class="side home">${tag}</div>
+            <div><div class="opp">${p.session}${p.optional ? ' <span class="muted" style="font-weight:400;">(optional)</span>' : ''}</div><div class="meta">${p.day}, ${p.date} &middot; ${p.loc}</div></div>
+            <div class="result pending">${p.time}</div>
+          </div>`;
         }
-        const oppLabel = g.opp.startsWith('TBD') ? `${g.side === 'home' ? 'vs' : '@'} ${g.opp}` : `${g.side === 'home' ? 'vs' : '@'} ${g.opp}`;
-        return `
-        <div class="game-row">
-          <div class="side ${sideClass}">${sideLabel}</div>
-          <div><div class="opp">${oppLabel}</div><div class="meta">${g.day}, ${g.date} &middot; ${g.loc} &middot; ${g.type}</div></div>
-          ${resultHtml}
-        </div>`;
       }).join('');
+
       return `
       <div class="month-group">
-        <div class="month-title"><span>${month}</span><span>${games.length} games${donePlayed ? ` &middot; ${donePlayed} played` : ''}</span></div>
+        <div class="month-title"><span>${month}</span><span>${countLabel}</span></div>
         <div class="card">${rows}</div>
       </div>`;
     }).join('');
-  })();
+
+    container.querySelectorAll('[data-game-key]').forEach(row => {
+      row.addEventListener('click', () => toggleGameRow(row.dataset.gameKey));
+    });
+    if (expandedGameKey && gameByKeyMap[expandedGameKey]) {
+      const key = expandedGameKey;
+      const detail = container.querySelector(`[data-detail-key="${CSS.escape(key)}"]`);
+      const rowEl = container.querySelector(`[data-game-key="${CSS.escape(key)}"]`);
+      if (detail) { detail.innerHTML = renderGameDetailHtml(gameByKeyMap[key]); detail.hidden = false; }
+      if (rowEl) rowEl.classList.add('row-expanded');
+    }
+  }
+  renderMonths();
+  document.getElementById('toggle-practices').addEventListener('change', renderMonths);
+  document.getElementById('toggle-optional').addEventListener('change', renderMonths);
+
+  // This week's rinks (Home tab) — hand-kept alongside the "This Weekend" cards above
+  const WEEK_RINKS = [
+    { name: "Newington Arena", note: "Newington, CT", games: 5, mapsQuery: "Newington Arena, Newington, CT" },
+  ];
+  document.getElementById('week-rinks-card').innerHTML = WEEK_RINKS.map(r => `
+    <div class="rink-row">
+      <div>
+        <div class="rink-name">${r.name}</div>
+        <div class="rink-games">${r.note} &middot; ${r.games} game${r.games === 1 ? '' : 's'} this week</div>
+      </div>
+      <a class="cta" style="margin-top:0;" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.mapsQuery)}" target="_blank" rel="noopener">Directions →</a>
+    </div>
+  `).join('');
 
   // Stats synced from Fred's Google Sheet "Players" tab (g/a/pts/gp/gm/appg/pim)
   const ROSTER = [
-    {n:55,name:"Adde Zuck",pos:"G",r:false,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
-    {n:21,name:"Ana Straker",pos:"G",r:false,g:0,a:0,pts:0,gp:1,gm:1,appg:0.0,pim:0},
-    {n:2,name:"Bailey Moore",pos:"D",r:true,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
-    {n:23,name:"Bailey Pelletier",pos:"F",r:false,g:0,a:1,pts:1,gp:2,gm:0,appg:0.5,pim:0},
-    {n:22,name:"Emma Zhang",pos:"F",r:false,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
-    {n:15,name:"Evangeline Zhang",pos:"D",r:false,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
-    {n:77,name:"Eve Krause",pos:"F",r:false,g:0,a:1,pts:1,gp:2,gm:0,appg:0.5,pim:0},
-    {n:91,name:"Hailey Reilly",pos:"D",r:false,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
-    {n:16,name:"Khloe Starkey",pos:"F",r:true,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
-    {n:20,name:"Lizzie Melchiorre",pos:"F",r:true,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
-    {n:82,name:"Mairead Hornish",pos:"F",r:false,g:2,a:0,pts:2,gp:2,gm:0,appg:1.0,pim:0},
-    {n:12,name:"Nia Lorenzi",pos:"D",r:false,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
-    {n:8,name:"Olivia Schortman",pos:"D",r:false,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
-    {n:97,name:"Rory Malone",pos:"F",r:false,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
-    {n:6,name:"Whitney Noe",pos:"F",r:true,g:0,a:0,pts:0,gp:2,gm:0,appg:0.0,pim:0},
-    {n:36,name:"Mackenzie Moore",pos:"F",r:true,g:1,a:0,pts:1,gp:2,gm:0,appg:0.5,pim:0},
+    {n:55,name:"Adde Zuck",pos:"G",r:false,photo:null,g:0,a:0,pts:0,gp:4,appg:0.0,pim:0},
+    {n:21,name:"Ana Straker",pos:"G",r:false,photo:null,g:0,a:0,pts:0,gp:3,appg:0.0,pim:0},
+    {n:2,name:"Bailey Moore",pos:"D",r:true,photo:null,g:0,a:0,pts:0,gp:4,appg:0.0,pim:0},
+    {n:23,name:"Bailey Pelletier",pos:"F",r:false,photo:null,g:0,a:1,pts:1,gp:4,appg:0.25,pim:0},
+    {n:22,name:"Emma Zhang",pos:"F",r:false,photo:null,g:1,a:0,pts:1,gp:4,appg:0.25,pim:0},
+    {n:15,name:"Evangeline Zhang",pos:"D",r:false,photo:null,g:0,a:0,pts:0,gp:4,appg:0.0,pim:0},
+    {n:77,name:"Eve Krause",pos:"F",r:false,photo:null,g:0,a:1,pts:1,gp:4,appg:0.25,pim:0},
+    {n:91,name:"Hailey Reilly",pos:"D",r:false,photo:null,g:0,a:0,pts:0,gp:4,appg:0.0,pim:0},
+    {n:16,name:"Khloe Starkey",pos:"F",r:true,photo:null,g:0,a:0,pts:0,gp:4,appg:0.0,pim:0},
+    {n:20,name:"Lizzie Melchiorre",pos:"F",r:true,photo:null,g:0,a:0,pts:0,gp:4,appg:0.0,pim:0},
+    {n:82,name:"Mairead Hornish",pos:"F",r:false,photo:null,g:2,a:0,pts:2,gp:4,appg:0.5,pim:1},
+    {n:12,name:"Nia Lorenzi",pos:"D",r:false,photo:null,g:0,a:0,pts:0,gp:4,appg:0.0,pim:0},
+    {n:8,name:"Olivia Schortman",pos:"D",r:false,photo:null,g:0,a:0,pts:0,gp:4,appg:0.0,pim:0},
+    {n:97,name:"Rory Malone",pos:"F",r:false,photo:null,g:0,a:0,pts:0,gp:4,appg:0.0,pim:0},
+    {n:6,name:"Whitney Noe",pos:"F",r:true,photo:null,g:0,a:0,pts:0,gp:4,appg:0.0,pim:0},
+    {n:36,name:"Mackenzie Moore",pos:"F",r:true,photo:null,g:0,a:0,pts:0,gp:4,appg:0.0,pim:0},
   ].sort((a,b)=> a.name.localeCompare(b.name));
 
   const grid = document.getElementById('roster-grid');
@@ -802,7 +1268,7 @@
         <div class="flip-face front">
           <div class="player">
             ${p.r ? '<span class="r-tag">R</span>' : ''}
-            <div class="avatar">${p.n}</div>
+            ${p.photo ? `<div class="avatar" style="padding:0;overflow:hidden;"><img src="${p.photo}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>` : `<div class="avatar">${p.n}</div>`}
             <div class="name">${p.name}</div>
           </div>
           <div class="flip-hint">🔄 stats</div>
@@ -838,30 +1304,873 @@
 
   const statsBody = document.getElementById('stats-table-body');
   const leaderboard = [...ROSTER].sort((a, b) => b.pts - a.pts || b.g - a.g || a.name.localeCompare(b.name));
+  // Team-leader highlight: bold + red on whichever player(s) hold the top number in
+  // each stat column from Goals on (ties all get highlighted). Skipped when the whole
+  // column is 0 so an early, mostly-scoreless season doesn't highlight every zero.
+  function colMax(key){ return Math.max(...leaderboard.map(p => p[key])); }
+  const maxG = colMax('g'), maxA = colMax('a'), maxPts = colMax('pts'), maxAppg = colMax('appg'), maxPim = colMax('pim');
+  function leadCls(val, max){ return (max > 0 && val === max) ? ' stat-lead' : ''; }
   statsBody.innerHTML = leaderboard.map(p => `
     <tr>
       <td class="mono">${p.n}</td>
       <td>${p.name}${p.r ? ' <span style="display:inline-block;margin-left:4px;font-size:10px;font-weight:800;color:var(--ice-2);border:1px solid var(--ice-2);border-radius:4px;padding:0 4px;vertical-align:middle;">R</span>' : ''}</td>
-      <td>${p.pos}</td>
       <td class="mono">${p.gp}</td>
-      <td class="mono">${p.gm}</td>
-      <td class="mono">${p.g}</td>
-      <td class="mono">${p.a}</td>
-      <td class="mono">${p.pts}</td>
-      <td class="mono">${p.appg.toFixed(1)}</td>
-      <td class="mono">${p.pim}</td>
+      <td class="mono${leadCls(p.g, maxG)}">${p.g}</td>
+      <td class="mono${leadCls(p.a, maxA)}">${p.a}</td>
+      <td class="mono${leadCls(p.pts, maxPts)}">${p.pts}</td>
+      <td class="mono${leadCls(p.appg, maxAppg)}">${p.appg.toFixed(1)}</td>
+      <td class="mono${leadCls(p.pim, maxPim)}">${p.pim}</td>
     </tr>
   `).join('');
 
   const buttons = document.querySelectorAll('#tabs button');
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      buttons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-      document.getElementById('panel-' + btn.dataset.panel).classList.add('active');
+  function activateTab(name, opts){
+    const btn = document.querySelector('#tabs button[data-panel="' + name + '"]');
+    if (!btn) return;
+    buttons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    try { localStorage.setItem('lwpActiveTab', name); } catch(e) {}
+    if (opts && opts.scrollToBench) {
+      setTimeout(() => {
+        const el = document.getElementById('bench-panel');
+        if (el && !el.hidden) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  }
+  // Mobile nav: on narrow screens the tab row collapses behind a ☰ toggle so it
+  // doesn't force landscape/pinch-zoom just to see or switch tabs.
+  const menuToggle = document.getElementById('menu-toggle');
+  const navTabs = document.getElementById('tabs');
+  function closeMobileMenu(){
+    if (!navTabs || !navTabs.classList.contains('mobile-open')) return;
+    navTabs.classList.remove('mobile-open');
+    if (menuToggle) { menuToggle.setAttribute('aria-expanded', 'false'); menuToggle.textContent = '☰'; }
+  }
+  if (menuToggle && navTabs) {
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navTabs.classList.toggle('mobile-open');
+      menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      menuToggle.textContent = isOpen ? '✕' : '☰';
     });
+  }
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => { activateTab(btn.dataset.panel); closeMobileMenu(); });
   });
+  // Publishing a live-game update reloads the whole page (the Artifact platform's
+  // publish() behavior — "every open view, this one included, reloads to it"), which
+  // would otherwise always drop the bench operator back on the Home tab. Restore
+  // whichever tab was open before that reload, and if it's Scores with bench controls
+  // open, scroll back down to them instead of leaving the operator at the top.
+  try {
+    const savedTab = localStorage.getItem('lwpActiveTab');
+    if (savedTab && document.getElementById('panel-' + savedTab)) {
+      activateTab(savedTab, { scrollToBench: savedTab === 'scores' });
+    }
+  } catch(e) {}
+
+  // --- Custom modal helpers ---
+  // The artifact viewer's sandbox silently no-ops window.prompt()/alert(),
+  // so bench-passcode entry and goal logging use this in-page modal instead.
+  function openModal({title, fields = [], okText = 'OK', note = ''}){
+    return new Promise((resolve) => {
+      const overlay = document.getElementById('modal-overlay');
+      const titleEl = document.getElementById('modal-title');
+      const fieldsEl = document.getElementById('modal-fields');
+      const noteEl = document.getElementById('modal-note');
+      const okBtn = document.getElementById('modal-ok');
+      const cancelBtn = document.getElementById('modal-cancel');
+
+      titleEl.textContent = title;
+      fieldsEl.innerHTML = fields.map(f => {
+        if (f.type === 'select') {
+          const opts = (f.options || []).map(o =>
+            `<option value="${o.value}"${o.value === f.value ? ' selected' : ''}>${o.label}</option>`
+          ).join('');
+          return `
+            <div class="modal-field">
+              <label for="modal-f-${f.id}">${f.label}</label>
+              <select id="modal-f-${f.id}">${opts}</select>
+            </div>`;
+        }
+        return `
+          <div class="modal-field">
+            <label for="modal-f-${f.id}">${f.label}</label>
+            <input id="modal-f-${f.id}" type="${f.type || 'text'}" placeholder="${f.placeholder || ''}" value="${f.value != null ? f.value : ''}" autocomplete="off">
+          </div>`;
+      }).join('');
+      if (note) { noteEl.textContent = note; noteEl.style.display = 'block'; } else { noteEl.style.display = 'none'; }
+      okBtn.textContent = okText;
+      overlay.hidden = false;
+      const firstField = fieldsEl.querySelector('input, select');
+      setTimeout(() => { (firstField || okBtn).focus(); }, 50);
+
+      function collect(){
+        const out = {};
+        fields.forEach(f => { out[f.id] = document.getElementById('modal-f-' + f.id).value; });
+        return out;
+      }
+      function cleanup(result){
+        overlay.hidden = true;
+        okBtn.removeEventListener('click', onOk);
+        cancelBtn.removeEventListener('click', onCancel);
+        overlay.removeEventListener('keydown', onKey);
+        resolve(result);
+      }
+      function onOk(){ cleanup(collect()); }
+      function onCancel(){ cleanup(null); }
+      function onKey(e){
+        // Ignore Enter while a <select> has focus — arrow-key-then-Enter is how you
+        // confirm a dropdown choice, and treating that as "submit the whole form" was
+        // causing accidental early submits before every field was filled in.
+        if (e.key === 'Enter' && e.target && e.target.tagName !== 'SELECT') { e.preventDefault(); onOk(); }
+        if (e.key === 'Escape') { onCancel(); }
+      }
+      okBtn.addEventListener('click', onOk);
+      cancelBtn.addEventListener('click', onCancel);
+      overlay.addEventListener('keydown', onKey);
+    });
+  }
+  function openAlert(message){
+    return openModal({ title: 'Heads up', fields: [], okText: 'OK', note: message });
+  }
+
+  // --- Live Game Tracker ---
+  (function(){
+    const board = document.getElementById('live-board');
+    const boxscoreCard = document.getElementById('boxscore-card');
+    const benchToggle = document.getElementById('bench-toggle');
+    const benchPanel = document.getElementById('bench-panel');
+    const statusMsg = document.getElementById('bc-status');
+    const seedEl = document.getElementById('live-game-seed');
+    const oppSelect = document.getElementById('bc-opponent');
+    const oppOther = document.getElementById('bc-opponent-other');
+
+    function isBenchAuthed(){
+      try { return localStorage.getItem('lwpBenchAuth') === '1'; } catch(e) { return false; }
+    }
+    function newId(){ return 'e' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+
+    const PERIOD_LENGTH_MS = 12 * 60 * 1000; // default period length: 12:00, counting down
+    function blankGame(){
+      return { active:false, opponent:'', gameId:'', date:'', period:1, events:[], clockRunning:false, clockStartedAt:null, clockElapsedMs:PERIOD_LENGTH_MS };
+    }
+    function normalizeEvent(e){
+      return {
+        id: e.id || newId(),
+        type: e.type === 'penalty' ? 'penalty' : 'goal',
+        team: e.team === 'opp' ? 'opp' : 'us',
+        scorer: e.scorer || '',
+        assist1: e.assist1 || e.assist || '',
+        assist2: e.assist2 || '',
+        player: e.player || '',
+        oppNum: e.oppNum || '',
+        oppAssist1: e.oppAssist1 || '',
+        oppAssist2: e.oppAssist2 || '',
+        note: e.note || '',
+        minutes: e.minutes || 2,
+        infraction: e.infraction || '',
+        period: e.period || 1,
+        elapsedMs: typeof e.elapsedMs === 'number' ? e.elapsedMs : 0
+      };
+    }
+    function normalizeGame(g){
+      if (!g || typeof g !== 'object') return blankGame();
+      const out = Object.assign(blankGame(), g);
+      out.events = Array.isArray(g.events) ? g.events.map(normalizeEvent) : [];
+      return out;
+    }
+
+    function normalizeHistoryEntry(h){
+      return {
+        id: h.id || newId(),
+        opponent: h.opponent || 'Opponent',
+        date: h.date || '',
+        gameId: h.gameId || '',
+        home: typeof h.home === 'number' ? h.home : 0,
+        away: typeof h.away === 'number' ? h.away : 0,
+        events: Array.isArray(h.events) ? h.events.map(normalizeEvent) : [],
+        manual: !!h.manual
+      };
+    }
+
+    let game, history;
+    try {
+      const seed = JSON.parse(seedEl.textContent || '{}');
+      // Wrapped format is {game, history}; older seeds were the game fields directly.
+      if (seed && typeof seed === 'object' && seed.game) {
+        game = normalizeGame(seed.game);
+        history = Array.isArray(seed.history) ? seed.history.map(normalizeHistoryEntry) : [];
+      } else {
+        game = normalizeGame(seed);
+        history = [];
+      }
+    } catch(e) { game = blankGame(); history = []; }
+
+    function periodLabel(p){
+      if (p === 4) return 'OT';
+      if (p >= 5) return 'SO';
+      return ({1:'1st',2:'2nd',3:'3rd'})[p] || (p + 'th');
+    }
+    function periodHeading(p){
+      return p <= 3 ? periodLabel(p) + ' Period' : periodLabel(p);
+    }
+    function fmtClock(ms){
+      const total = Math.max(0, Math.floor((ms || 0) / 1000));
+      const m = Math.floor(total / 60), s = total % 60;
+      return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    }
+    function parseClock(str, fallbackMs){
+      const m = String(str || '').trim().match(/^(\d{1,3}):([0-5]?\d)$/);
+      if (!m) return fallbackMs || 0;
+      return (parseInt(m[1], 10) * 60 + parseInt(m[2], 10)) * 1000;
+    }
+    // Clock counts DOWN from PERIOD_LENGTH_MS to 0 each period (game.clockElapsedMs holds
+    // the time REMAINING, not elapsed — matches how imported official-scoresheet times are stored).
+    function currentElapsedMs(){
+      if (game.clockRunning && game.clockStartedAt) return Math.max(0, game.clockElapsedMs - (Date.now() - game.clockStartedAt));
+      return Math.max(0, game.clockElapsedMs);
+    }
+    function tallyEvents(events){
+      let home = 0, away = 0;
+      (events || []).forEach(e => {
+        if (e.type !== 'goal') return;
+        if (e.team === 'us') home++; else away++;
+      });
+      return { home, away };
+    }
+    function tally(){ return tallyEvents(game.events); }
+    function rosterSorted(){ return ROSTER.slice().sort((a, b) => a.n - b.n); }
+    function playerLabel(name){
+      const p = ROSTER.find(r => r.name === name);
+      return p ? `#${p.n} ${p.name}` : (name || '');
+    }
+    function rosterSelectOptions(blankLabel){
+      const opts = blankLabel != null ? [{ value:'', label: blankLabel }] : [];
+      return opts.concat(rosterSorted().map(p => ({ value:p.name, label:`#${p.n} ${p.name}` })));
+    }
+    function periodSelectOptions(){
+      return [1,2,3,4,5].map(p => ({ value:String(p), label: periodHeading(p) }));
+    }
+    function goalFields(ev){
+      return [
+        { id:'scorer', type:'select', label:'Who scored?', options: rosterSelectOptions('— Select scorer —'), value: ev.scorer || '' },
+        { id:'assist1', type:'select', label:'Assist 1 (optional)', options: rosterSelectOptions('No assist'), value: ev.assist1 || '' },
+        { id:'assist2', type:'select', label:'Assist 2 (optional)', options: rosterSelectOptions('No assist'), value: ev.assist2 || '' },
+        { id:'period', type:'select', label:'Period', options: periodSelectOptions(), value: String(ev.period || game.period) },
+        { id:'time', label:'Time remaining (mm:ss)', placeholder:'e.g. 08:45', value: fmtClock(ev.elapsedMs) }
+      ];
+    }
+    function applyGoalFields(ev, result){
+      ev.scorer = (result.scorer || '').trim();
+      ev.assist1 = (result.assist1 || '').trim();
+      ev.assist2 = (result.assist2 || '').trim();
+      ev.period = parseInt(result.period, 10) || ev.period;
+      ev.elapsedMs = parseClock(result.time, ev.elapsedMs);
+    }
+    function penaltyFields(ev){
+      const playerOpts = [{ value:'__opp__', label:'Opponent Penalty' }].concat(rosterSorted().map(p => ({ value:p.name, label:`#${p.n} ${p.name}` })));
+      return [
+        { id:'player', type:'select', label:'Player', options: playerOpts, value: ev.team === 'opp' ? '__opp__' : (ev.player || '') },
+        { id:'minutes', type:'select', label:'Minutes', options:[2,4,5,10].map(m => ({ value:String(m), label:m+' min' })), value: String(ev.minutes || 2) },
+        { id:'infraction', label:'Infraction (optional)', placeholder:'e.g. Tripping', value: ev.infraction || '' },
+        { id:'period', type:'select', label:'Period', options: periodSelectOptions(), value: String(ev.period || game.period) },
+        { id:'time', label:'Time remaining (mm:ss)', placeholder:'e.g. 08:45', value: fmtClock(ev.elapsedMs) }
+      ];
+    }
+    function applyPenaltyFields(ev, result){
+      if (result.player === '__opp__') { ev.team = 'opp'; ev.player = ''; }
+      else { ev.team = 'us'; ev.player = (result.player || '').trim(); }
+      ev.minutes = parseInt(result.minutes, 10) || 2;
+      ev.infraction = (result.infraction || '').trim();
+      ev.period = parseInt(result.period, 10) || ev.period;
+      ev.elapsedMs = parseClock(result.time, ev.elapsedMs);
+    }
+
+    // events + opponentName are explicit params so this also serves the Season-tab
+    // boxscore accordion (via window.__lwp below), not just the live game.
+    function computeLeaders(events){
+      const map = {};
+      (events || []).forEach(e => {
+        if (e.type !== 'goal' || e.team !== 'us') return;
+        if (e.scorer) { map[e.scorer] = map[e.scorer] || { g:0, a:0 }; map[e.scorer].g++; }
+        [e.assist1, e.assist2].forEach(a => { if (a) { map[a] = map[a] || { g:0, a:0 }; map[a].a++; } });
+      });
+      return Object.entries(map)
+        .map(([name, v]) => ({ name, g:v.g, a:v.a, pts: v.g + v.a }))
+        .sort((x, y) => y.pts - x.pts || y.g - x.g);
+    }
+    function eventDesc(e, opponentName){
+      const oppName = opponentName || 'Opponent';
+      if (e.type === 'penalty') {
+        if (e.team === 'us') {
+          const who = playerLabel(e.player) || 'Wolfpack';
+          return `<b>${who}</b> penalty &mdash; ${e.minutes || 2} min${e.infraction ? ' &middot; ' + e.infraction : ''}`;
+        }
+        const who = e.oppNum ? `${oppName} #${e.oppNum}` : oppName;
+        return `<b>${who}</b> penalty &mdash; ${e.minutes || 2} min${e.infraction ? ' &middot; ' + e.infraction : ''}`;
+      }
+      if (e.team === 'us') {
+        const assists = [e.assist1, e.assist2].filter(Boolean).map(playerLabel);
+        let main = `<b>${e.scorer ? playerLabel(e.scorer) : 'Wolfpack'}</b> goal`;
+        if (e.note) main += ` <span class="muted">(${e.note})</span>`;
+        const sub = assists.length ? `Assisted by ${assists.join(' &amp; ')}` : 'Unassisted';
+        return `<div class="play-main">${main}</div><div class="play-sub${assists.length ? '' : ' none'}">${sub}</div>`;
+      }
+      let main = `<b>${oppName}${e.oppNum ? ' #' + e.oppNum : ''}</b> goal`;
+      const oAssists = [e.oppAssist1, e.oppAssist2].filter(Boolean).map(n => '#' + n);
+      if (e.note) main += ` <span class="muted">(${e.note})</span>`;
+      const oSub = oAssists.length ? `Assisted by ${oAssists.join(' &amp; ')}` : 'Unassisted';
+      return `<div class="play-main">${main}</div><div class="play-sub${oAssists.length ? '' : ' none'}">${oSub}</div>`;
+    }
+
+    // Bridge for the Season-tab boxscore accordion (defined outside this IIFE, further
+    // up the page) — it needs live access to history plus these render helpers.
+    window.__lwp = {
+      getHistory: () => history,
+      getGame: () => game,
+      computeLeaders, eventDesc, periodHeading, fmtClock, playerLabel, isBenchAuthed
+    };
+
+    const RINK_BG_SVG = `<svg viewBox="0 0 600 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <rect x="4" y="4" width="592" height="292" rx="70" ry="70" fill="none" stroke="rgba(127,212,232,.35)" stroke-width="4"/>
+      <line x1="300" y1="4" x2="300" y2="296" stroke="rgba(226,35,63,.4)" stroke-width="3"/>
+      <line x1="185" y1="4" x2="185" y2="296" stroke="rgba(127,212,232,.28)" stroke-width="3"/>
+      <line x1="415" y1="4" x2="415" y2="296" stroke="rgba(127,212,232,.28)" stroke-width="3"/>
+      <circle cx="300" cy="150" r="48" fill="none" stroke="rgba(226,35,63,.4)" stroke-width="3"/>
+      <circle cx="300" cy="150" r="3.5" fill="rgba(226,35,63,.5)"/>
+      <circle cx="120" cy="78" r="36" fill="none" stroke="rgba(226,35,63,.26)" stroke-width="2.5"/>
+      <circle cx="120" cy="222" r="36" fill="none" stroke="rgba(226,35,63,.26)" stroke-width="2.5"/>
+      <circle cx="480" cy="78" r="36" fill="none" stroke="rgba(226,35,63,.26)" stroke-width="2.5"/>
+      <circle cx="480" cy="222" r="36" fill="none" stroke="rgba(226,35,63,.26)" stroke-width="2.5"/>
+      <path d="M 34 122 A 28 28 0 0 1 34 178" fill="none" stroke="rgba(127,212,232,.3)" stroke-width="3"/>
+      <path d="M 566 122 A 28 28 0 0 0 566 178" fill="none" stroke="rgba(127,212,232,.3)" stroke-width="3"/>
+    </svg>`;
+
+    function render(){
+      const t = tally();
+      const liveDot = document.getElementById('scores-live-dot');
+      if (liveDot) liveDot.hidden = !game.active;
+      if (!game.active && !game.opponent) {
+        board.innerHTML = '<div class="muted" style="text-align:center;padding:10px 0;">No live game right now. When the bench turns on controls below and starts a game, the score shows here live for everyone watching.</div>';
+      } else {
+        board.innerHTML = `
+          <div class="scoreboard">
+            <div class="rink-bg" aria-hidden="true">${RINK_BG_SVG}</div>
+            <div class="sb-side us">
+              <div class="sb-name">Wolfpack</div>
+              <div class="sb-score mono">${t.home}</div>
+            </div>
+            <div class="sb-mid">
+              <div class="sb-clock">${periodLabel(game.period)} &middot; ${fmtClock(currentElapsedMs())}</div>
+              <div class="sb-status${game.active && game.clockRunning ? ' live' : ''}">${!game.active ? 'FINAL' : (game.clockRunning ? '● LIVE' : 'PAUSED')}</div>
+            </div>
+            <div class="sb-side opp">
+              <div class="sb-name">${game.opponent || 'Opponent'}</div>
+              <div class="sb-score mono">${t.away}</div>
+            </div>
+          </div>`;
+      }
+      renderBoxscore();
+      updateGameToggleButton();
+      updateClockDisplay();
+      renderBenchHistoryList();
+      if (typeof renderMonths === 'function') renderMonths();
+    }
+
+    const gameToggleBtn = document.getElementById('bc-game-toggle');
+    function updateGameToggleButton(){
+      if (!gameToggleBtn) return;
+      if (game.active) {
+        gameToggleBtn.textContent = 'End Game';
+        gameToggleBtn.classList.remove('bench-btn');
+        gameToggleBtn.classList.add('bench-btn', 'red');
+        oppSelect.disabled = true;
+        oppOther.disabled = true;
+      } else {
+        gameToggleBtn.textContent = 'Start Game';
+        gameToggleBtn.classList.remove('red');
+        oppSelect.disabled = false;
+        oppOther.disabled = false;
+      }
+    }
+
+    const clockToggleBtn = document.getElementById('bc-clock-toggle');
+    const clockBigEl = document.getElementById('bc-clock-big');
+    const clockSubEl = document.getElementById('bc-clock-sub');
+    function updateClockDisplay(){
+      if (clockToggleBtn) clockToggleBtn.textContent = game.clockRunning ? 'Pause Clock' : 'Start Clock';
+      if (clockBigEl) clockBigEl.textContent = fmtClock(currentElapsedMs());
+      if (clockSubEl) clockSubEl.textContent = periodHeading(game.period) + (game.active ? (game.clockRunning ? ' · Running' : ' · Paused') : ' · No active game');
+    }
+
+    // Bench-only management list (Bench Controls panel, passcode-gated) — the public
+    // Scores tab no longer shows a Season Log list; full boxscores live on the Season
+    // tab instead (tap a played game there to expand it). This is for Fred to fix a
+    // mistyped past game, correct a goal/penalty after the fact, or delete a stray
+    // test entry. "Manage" expands a row in place to show its full play-by-play with
+    // per-entry Edit/Delete — the same controls available on an in-progress game are
+    // available here for games that have already been ended/archived.
+    let expandedHistoryKey = null;
+    function findHistoryGame(id){ return history.find(h => h.id === id); }
+    function recomputeHistoryScore(h){
+      // Only auto-derive the score from events for games that actually have
+      // play-by-play; a manually-added past game (no events) keeps its typed-in score.
+      if (h.events && h.events.length) {
+        const t = tallyEvents(h.events);
+        h.home = t.home; h.away = t.away;
+      }
+    }
+    function renderHistoryEventsHtml(h){
+      const events = h.events || [];
+      if (!events.length) {
+        return '<div class="muted" style="font-size:12px;padding:6px 2px;">No play-by-play recorded for this game — use the buttons above to add it, or edit the score directly via "Game Info".</div>';
+      }
+      const byPeriod = {};
+      events.forEach(e => { (byPeriod[e.period] = byPeriod[e.period] || []).push(e); });
+      const periods = Object.keys(byPeriod).map(Number).sort((a, b) => a - b);
+      return periods.map(p => `
+        <div class="period-block">
+          <h4>${periodHeading(p)}</h4>
+          ${byPeriod[p].map(e => `
+            <div class="play-row${e.type === 'penalty' ? ' penalty' : ''}">
+              <span class="play-time">${fmtClock(e.elapsedMs)}</span>
+              <div class="play-desc">${eventDesc(e, h.opponent)}</div>
+              <span class="event-row-actions">
+                <button type="button" data-hev-edit="${h.id}|${e.id}">Edit</button>
+                <button type="button" data-hev-del="${h.id}|${e.id}">Delete</button>
+              </span>
+            </div>
+          `).join('')}
+        </div>
+      `).join('');
+    }
+    function renderHistoryManagePanel(h){
+      return `
+        <div class="hist-manage-panel">
+          <div class="event-row-actions" style="margin:0 0 12px; justify-content:flex-start;">
+            <button type="button" data-hist-info="${h.id}">Game Info</button>
+            <button type="button" data-hist-addgoal-us="${h.id}">+ Wolfpack Goal</button>
+            <button type="button" data-hist-addgoal-opp="${h.id}">+ Opponent Goal</button>
+            <button type="button" data-hist-addpen="${h.id}">+ Penalty</button>
+          </div>
+          ${renderHistoryEventsHtml(h)}
+        </div>`;
+    }
+    function renderBenchHistoryList(){
+      const card = document.getElementById('bench-history-list');
+      if (!card) return;
+      if (!history.length) {
+        card.innerHTML = '<div class="muted" style="text-align:center;padding:10px 0;font-size:12.5px;">No games logged yet.</div>';
+        return;
+      }
+      card.innerHTML = history.map(h => {
+        const resultClass = h.home > h.away ? 'w' : (h.home < h.away ? 'l' : 'pending');
+        const resultLabel = h.home > h.away ? 'W' : (h.home < h.away ? 'L' : 'T');
+        const isOpen = expandedHistoryKey === h.id;
+        return `
+        <div>
+          <div class="game-row" style="${isOpen ? 'border-bottom:none;' : ''}">
+            <div class="side home">${h.manual ? 'LOGGED' : 'TRACKED'}</div>
+            <div><div class="opp">vs ${h.opponent}</div><div class="meta">${h.date || 'Date not set'}${h.events.length ? ' &middot; ' + h.events.filter(e=>e.type==='goal').length + ' goals logged' : ''}</div></div>
+            <div style="text-align:right;">
+              <div class="result ${resultClass}">${resultLabel} ${h.home}&ndash;${h.away}</div>
+              <span class="event-row-actions" style="margin-top:6px;">
+                <button type="button" data-hist-manage="${h.id}">${isOpen ? 'Close' : 'Manage'}</button>
+                <button type="button" data-hist-del="${h.id}">Delete</button>
+              </span>
+            </div>
+          </div>
+          ${isOpen ? renderHistoryManagePanel(h) : ''}
+        </div>`;
+      }).join('');
+      card.querySelectorAll('[data-hist-manage]').forEach(b => b.addEventListener('click', () => {
+        expandedHistoryKey = expandedHistoryKey === b.dataset.histManage ? null : b.dataset.histManage;
+        renderBenchHistoryList();
+      }));
+      card.querySelectorAll('[data-hist-del]').forEach(b => b.addEventListener('click', () => deleteHistoryEntry(b.dataset.histDel)));
+      card.querySelectorAll('[data-hist-info]').forEach(b => b.addEventListener('click', () => editHistoryEntry(b.dataset.histInfo)));
+      card.querySelectorAll('[data-hist-addgoal-us]').forEach(b => b.addEventListener('click', () => addHistoryGoal(b.dataset.histAddgoalUs, 'us')));
+      card.querySelectorAll('[data-hist-addgoal-opp]').forEach(b => b.addEventListener('click', () => addHistoryGoal(b.dataset.histAddgoalOpp, 'opp')));
+      card.querySelectorAll('[data-hist-addpen]').forEach(b => b.addEventListener('click', () => addHistoryPenalty(b.dataset.histAddpen)));
+      card.querySelectorAll('[data-hev-edit]').forEach(b => b.addEventListener('click', () => editHistoryEvent(b.dataset.hevEdit)));
+      card.querySelectorAll('[data-hev-del]').forEach(b => b.addEventListener('click', () => deleteHistoryEvent(b.dataset.hevDel)));
+    }
+
+    function pastGameFields(h){
+      return [
+        { id:'opponent', label:'Opponent', placeholder:'e.g. Florida Cyclones 12U', value: h.opponent || '' },
+        { id:'date', label:'Date', placeholder:'e.g. Sep 4', value: h.date || '' },
+        { id:'home', label:'Wolfpack Score', placeholder:'e.g. 3', value: String(h.home != null ? h.home : '') },
+        { id:'away', label:'Opponent Score', placeholder:'e.g. 0', value: String(h.away != null ? h.away : '') }
+      ];
+    }
+    function historyInfoFields(h){
+      const fields = [
+        { id:'opponent', label:'Opponent', placeholder:'e.g. Florida Cyclones 12U', value: h.opponent || '' },
+        { id:'date', label:'Date', placeholder:'e.g. Sep 4', value: h.date || '' }
+      ];
+      if (!h.events || !h.events.length) {
+        fields.push({ id:'home', label:'Wolfpack Score', placeholder:'e.g. 3', value: String(h.home != null ? h.home : '') });
+        fields.push({ id:'away', label:'Opponent Score', placeholder:'e.g. 0', value: String(h.away != null ? h.away : '') });
+      }
+      return fields;
+    }
+    async function editHistoryEntry(id){
+      const h = findHistoryGame(id);
+      if (!h) return;
+      const hasEvents = h.events && h.events.length;
+      const result = await openModal({
+        title: 'Edit Game Info',
+        fields: historyInfoFields(h),
+        okText: 'Save',
+        note: hasEvents ? 'The score is calculated from the play-by-play below — edit or add an entry there to change it.' : ''
+      });
+      if (!result) return;
+      h.opponent = (result.opponent || '').trim() || 'Opponent';
+      h.date = (result.date || '').trim();
+      if (!hasEvents) {
+        h.home = parseInt(result.home, 10) || 0;
+        h.away = parseInt(result.away, 10) || 0;
+      }
+      publishGame();
+    }
+    async function deleteHistoryEntry(id){
+      const result = await openModal({ title:'Delete this game?', fields:[], okText:'Delete', note:'This removes it from the Season Log for everyone watching.' });
+      if (!result) return;
+      history = history.filter(h => h.id !== id);
+      publishGame();
+    }
+    async function editHistoryEvent(key){
+      const [hid, eid] = key.split('|');
+      const h = findHistoryGame(hid);
+      if (!h) return;
+      const ev = (h.events || []).find(e => e.id === eid);
+      if (!ev) return;
+      if (ev.type === 'penalty') {
+        const result = await openModal({ title:'Edit Penalty', fields: penaltyFields(ev), okText:'Save' });
+        if (!result) return;
+        applyPenaltyFields(ev, result);
+      } else {
+        const result = await openModal({ title:'Edit Goal', fields: goalFields(ev), okText:'Save' });
+        if (!result) return;
+        applyGoalFields(ev, result);
+      }
+      recomputeHistoryScore(h);
+      publishGame();
+    }
+    async function deleteHistoryEvent(key){
+      const [hid, eid] = key.split('|');
+      const h = findHistoryGame(hid);
+      if (!h) return;
+      const result = await openModal({ title:'Delete this entry?', fields:[], okText:'Delete', note:'This removes it from that game’s boxscore for everyone watching.' });
+      if (!result) return;
+      h.events = (h.events || []).filter(e => e.id !== eid);
+      recomputeHistoryScore(h);
+      publishGame();
+    }
+    async function addHistoryGoal(hid, team){
+      const h = findHistoryGame(hid);
+      if (!h) return;
+      if (team === 'us') {
+        const blank = { scorer:'', assist1:'', assist2:'', period:1, elapsedMs:0 };
+        const result = await openModal({ title:'Add Wolfpack Goal', fields: goalFields(blank), okText:'Add Goal' });
+        if (!result) return;
+        const ev = { id:newId(), type:'goal', team:'us', scorer:'', assist1:'', assist2:'', player:'', minutes:2, infraction:'', period:1, elapsedMs:0 };
+        applyGoalFields(ev, result);
+        h.events = (h.events || []).concat([ev]);
+      } else {
+        const fields = [
+          { id:'oppNum', label:'Opponent # (optional)', placeholder:'e.g. 14', value:'' },
+          { id:'oppAssist1', label:'Opponent Assist # (optional)', placeholder:'e.g. 7', value:'' },
+          { id:'oppAssist2', label:'Opponent Assist 2 # (optional)', placeholder:'', value:'' },
+          { id:'period', type:'select', label:'Period', options: periodSelectOptions(), value:'1' },
+          { id:'time', label:'Time remaining (mm:ss)', placeholder:'e.g. 08:45', value:'12:00' }
+        ];
+        const result = await openModal({ title:'Add Opponent Goal', fields, okText:'Add Goal' });
+        if (!result) return;
+        h.events = (h.events || []).concat([{
+          id:newId(), type:'goal', team:'opp', scorer:'', assist1:'', assist2:'', player:'',
+          oppNum:(result.oppNum || '').trim(), oppAssist1:(result.oppAssist1 || '').trim(), oppAssist2:(result.oppAssist2 || '').trim(),
+          note:'', minutes:2, infraction:'', period: parseInt(result.period, 10) || 1, elapsedMs: parseClock(result.time, 0)
+        }]);
+      }
+      recomputeHistoryScore(h);
+      publishGame();
+    }
+    async function addHistoryPenalty(hid){
+      const h = findHistoryGame(hid);
+      if (!h) return;
+      const blank = { team:'us', player:'', minutes:2, infraction:'', period:1, elapsedMs:0 };
+      const result = await openModal({ title:'Add Penalty', fields: penaltyFields(blank), okText:'Add Penalty' });
+      if (!result) return;
+      const ev = { id:newId(), type:'penalty', team:'us', scorer:'', assist1:'', assist2:'', player:'', minutes:2, infraction:'', period:1, elapsedMs:0 };
+      applyPenaltyFields(ev, result);
+      h.events = (h.events || []).concat([ev]);
+      publishGame();
+    }
+
+    function renderBoxscore(){
+      const events = game.events || [];
+      if (!events.length) {
+        boxscoreCard.innerHTML = '<div class="muted" style="text-align:center;padding:6px 0;">No plays logged yet.</div>';
+        return;
+      }
+      const authed = isBenchAuthed();
+      const leaders = computeLeaders(events);
+      let html = '';
+      if (leaders.length) {
+        html += '<div class="boxscore-leaders">' + leaders.map(l => `
+          <div class="leader-cell">
+            <div class="ln">${playerLabel(l.name)}</div>
+            <div class="ls">${l.g}G ${l.a}A &middot; ${l.pts} PTS</div>
+          </div>
+        `).join('') + '</div>';
+      }
+      const byPeriod = {};
+      events.forEach(e => { (byPeriod[e.period] = byPeriod[e.period] || []).push(e); });
+      const periods = Object.keys(byPeriod).map(Number).sort((a, b) => a - b);
+      html += periods.map(p => `
+        <div class="period-block">
+          <h4>${periodHeading(p)}</h4>
+          ${byPeriod[p].map(e => `
+            <div class="play-row${e.type === 'penalty' ? ' penalty' : ''}">
+              <span class="play-time">${fmtClock(e.elapsedMs)}</span>
+              <div class="play-desc">${eventDesc(e, game.opponent)}</div>
+              ${authed ? `<span class="event-row-actions">
+                <button type="button" data-edit="${e.id}">Edit</button>
+                <button type="button" data-del="${e.id}">Delete</button>
+              </span>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      `).join('');
+      boxscoreCard.innerHTML = html;
+      if (authed) {
+        boxscoreCard.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => editEvent(b.dataset.edit)));
+        boxscoreCard.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => deleteEventPrompt(b.dataset.del)));
+      }
+    }
+
+    async function editEvent(id){
+      const ev = (game.events || []).find(e => e.id === id);
+      if (!ev) return;
+      if (ev.type === 'penalty') {
+        const result = await openModal({ title:'Edit Penalty', fields: penaltyFields(ev), okText:'Save' });
+        if (!result) return;
+        applyPenaltyFields(ev, result);
+      } else {
+        const result = await openModal({ title:'Edit Goal', fields: goalFields(ev), okText:'Save' });
+        if (!result) return;
+        applyGoalFields(ev, result);
+      }
+      publishGame();
+    }
+    async function deleteEventPrompt(id){
+      const result = await openModal({ title:'Delete this entry?', fields:[], okText:'Delete', note:'This removes it for everyone watching — you’ll need to re-add it if that was a mistake.' });
+      if (!result) return;
+      game.events = (game.events || []).filter(e => e.id !== id);
+      publishGame();
+    }
+
+    function buildPublishHtml(state){
+      const json = JSON.stringify(state).replace(/</g, '\\u003c');
+      return PRISTINE_HTML.replace(
+        /(<script id="live-game-seed" type="application\/json">)[\s\S]*?(<\/script>)/,
+        (m, a, c) => a + json + c
+      );
+    }
+
+    async function publishGame(){
+      render();
+      const state = { game, history };
+      try { seedEl.textContent = JSON.stringify(state); } catch(e) {}
+      if (window.claude && typeof window.claude.use === 'function') {
+        try {
+          const artifactApi = await window.claude.use('artifact');
+          if (artifactApi && artifactApi.publish) {
+            await artifactApi.publish(buildPublishHtml(state));
+            statusMsg.textContent = '';
+            return;
+          }
+        } catch(e) {
+          statusMsg.textContent = '⚠️ Couldn’t sync to other viewers right now (they may need to refresh to see this update). Your own view is up to date.';
+          return;
+        }
+      }
+      statusMsg.textContent = 'Updated on this device — live sync to other viewers needs the Claude Artifacts live-publish feature.';
+    }
+
+    // Opponent dropdown: only today's date and later, in schedule order. Selecting a
+    // scheduled row (not "Other") carries its GAMES id + date onto game.gameId/date,
+    // so ending the game auto-links the Season Log entry back to that schedule row.
+    let upcomingCache = [];
+    function populateOpponentSelect(){
+      const today = new Date(); today.setHours(0,0,0,0);
+      upcomingCache = GAMES
+        .map(g => Object.assign({}, g, { d: gameDate(g) }))
+        .filter(g => g.d >= today)
+        .sort((a, b) => a.d - b.d);
+      const opts = upcomingCache.map((g, i) =>
+        `<option value="${i}">${g.day} ${g.date} · ${g.time} · ${g.side === 'home' ? 'vs' : '@'} ${g.opp}</option>`
+      );
+      opts.push('<option value="__other__">Other / not on schedule…</option>');
+      oppSelect.innerHTML = opts.join('');
+      oppOther.hidden = oppSelect.value !== '__other__';
+    }
+    populateOpponentSelect();
+    oppSelect.addEventListener('change', () => { oppOther.hidden = oppSelect.value !== '__other__'; });
+
+    benchToggle.addEventListener('change', async (e) => {
+      if (e.target.checked) {
+        let authed = isBenchAuthed();
+        if (!authed) {
+          const result = await openModal({
+            title: 'Bench Passcode',
+            fields: [{ id: 'code', label: 'Team manager / coach only', placeholder: 'Bench passcode', type: 'password' }],
+            okText: 'Unlock'
+          });
+          const val = ((result && result.code) || '').trim().toUpperCase();
+          if (result && val === BENCH_PASSCODE) {
+            try { localStorage.setItem('lwpBenchAuth', '1'); } catch(err) {}
+          } else {
+            if (result && val !== '') await openAlert('That passcode isn’t right — bench controls stay hidden on this device.');
+            e.target.checked = false;
+            return;
+          }
+        }
+      }
+      benchPanel.hidden = !e.target.checked;
+      try { localStorage.setItem('lwpBenchMode', e.target.checked ? '1' : '0'); } catch(err) {}
+      render();
+    });
+    try {
+      if (localStorage.getItem('lwpBenchMode') === '1' && isBenchAuthed()) {
+        benchToggle.checked = true; benchPanel.hidden = false;
+      }
+    } catch(e) {}
+
+    function endCurrentGame(){
+      const t = tally();
+      history = [{ id:newId(), opponent: game.opponent || 'Opponent', date: game.date || '', gameId: game.gameId || '', home:t.home, away:t.away, events: game.events.slice(), manual:false }].concat(history);
+      game = blankGame();
+      publishGame();
+    }
+    document.getElementById('bc-game-toggle').addEventListener('click', async () => {
+      if (game.active) {
+        const result = await openModal({
+          title: 'End this game?',
+          fields: [],
+          okText: 'End Game',
+          note: `Final score will be archived to the Season Log: Wolfpack ${tally().home} &ndash; ${game.opponent || 'Opponent'} ${tally().away}.`
+        });
+        if (!result) return;
+        endCurrentGame();
+      } else {
+        let opp = '', gameId = '', gDate = '';
+        if (oppSelect.value === '__other__') {
+          opp = oppOther.value.trim();
+        } else {
+          const sel = upcomingCache[parseInt(oppSelect.value, 10)];
+          if (sel) { opp = sel.opp; gameId = sel.id || ''; gDate = sel.date || ''; }
+        }
+        game = { active:true, opponent: opp || 'Opponent', gameId, date: gDate, period:1, events:[], clockRunning:false, clockStartedAt:null, clockElapsedMs:PERIOD_LENGTH_MS };
+        publishGame();
+      }
+    });
+    document.getElementById('bc-add-past').addEventListener('click', async () => {
+      const result = await openModal({ title:'Add Past Game', fields: pastGameFields({}), okText:'Add to Season Log' });
+      if (!result) return;
+      const opponent = (result.opponent || '').trim();
+      if (!opponent) { statusMsg.textContent = 'Opponent is required to add a past game.'; return; }
+      history = [{
+        id:newId(), opponent, date:(result.date || '').trim(),
+        home: parseInt(result.home, 10) || 0, away: parseInt(result.away, 10) || 0,
+        events: [], manual:true
+      }].concat(history);
+      publishGame();
+    });
+    document.getElementById('bc-clock-edit').addEventListener('click', async () => {
+      if (!game.active) { statusMsg.textContent = 'Start a game first.'; return; }
+      if (game.clockRunning) { statusMsg.textContent = 'Pause the clock first, then edit the time.'; return; }
+      const result = await openModal({
+        title: 'Edit Clock Time',
+        fields: [{ id:'time', label:'Time remaining (mm:ss)', placeholder:'e.g. 08:45', value: fmtClock(currentElapsedMs()) }],
+        okText: 'Save'
+      });
+      if (!result) return;
+      game.clockElapsedMs = parseClock(result.time, game.clockElapsedMs);
+      publishGame();
+    });
+    document.getElementById('bc-goal-us').addEventListener('click', async () => {
+      if (!game.active) { statusMsg.textContent = 'Start a game first.'; return; }
+      const blank = { scorer:'', assist1:'', assist2:'', period: game.period, elapsedMs: currentElapsedMs() };
+      const result = await openModal({ title:'Log Wolfpack Goal', fields: goalFields(blank), okText:'Log Goal' });
+      if (!result) return;
+      const ev = { id:newId(), type:'goal', team:'us', scorer:'', assist1:'', assist2:'', player:'', minutes:2, infraction:'', period: game.period, elapsedMs: currentElapsedMs() };
+      applyGoalFields(ev, result);
+      game.events.push(ev);
+      publishGame();
+    });
+    document.getElementById('bc-goal-opp').addEventListener('click', () => {
+      if (!game.active) { statusMsg.textContent = 'Start a game first.'; return; }
+      game.events.push({ id:newId(), type:'goal', team:'opp', scorer:'', assist1:'', assist2:'', player:'', minutes:2, infraction:'', period: game.period, elapsedMs: currentElapsedMs() });
+      publishGame();
+    });
+    document.getElementById('bc-penalty').addEventListener('click', async () => {
+      if (!game.active) { statusMsg.textContent = 'Start a game first.'; return; }
+      const blank = { team:'us', player:'', minutes:2, infraction:'', period: game.period, elapsedMs: currentElapsedMs() };
+      const result = await openModal({ title:'Log Penalty', fields: penaltyFields(blank), okText:'Log Penalty' });
+      if (!result) return;
+      const ev = { id:newId(), type:'penalty', team:'us', scorer:'', assist1:'', assist2:'', player:'', minutes:2, infraction:'', period: game.period, elapsedMs: currentElapsedMs() };
+      applyPenaltyFields(ev, result);
+      game.events.push(ev);
+      publishGame();
+    });
+    document.getElementById('bc-undo').addEventListener('click', () => {
+      if (!game.events || !game.events.length) return;
+      game.events.pop();
+      publishGame();
+    });
+    document.getElementById('bc-period').addEventListener('click', () => {
+      if (!game.active) { statusMsg.textContent = 'Start a game first.'; return; }
+      game.period = (game.period || 1) + 1;
+      game.clockRunning = false; game.clockStartedAt = null; game.clockElapsedMs = PERIOD_LENGTH_MS;
+      publishGame();
+    });
+    document.getElementById('bc-clock-toggle').addEventListener('click', () => {
+      if (!game.active) { statusMsg.textContent = 'Start a game first.'; return; }
+      if (game.clockRunning) {
+        game.clockElapsedMs = currentElapsedMs();
+        game.clockRunning = false;
+        game.clockStartedAt = null;
+      } else {
+        if (currentElapsedMs() <= 0) game.clockElapsedMs = PERIOD_LENGTH_MS;
+        game.clockRunning = true;
+        game.clockStartedAt = Date.now();
+      }
+      publishGame();
+    });
+    document.getElementById('bc-clock-reset').addEventListener('click', () => {
+      game.clockElapsedMs = PERIOD_LENGTH_MS; game.clockRunning = false; game.clockStartedAt = null;
+      publishGame();
+    });
+
+    render();
+    setInterval(() => {
+      if (!game.clockRunning) return;
+      if (currentElapsedMs() <= 0) {
+        // Buzzer: auto-pause at 0:00 instead of counting into negative time.
+        game.clockElapsedMs = 0;
+        game.clockRunning = false;
+        game.clockStartedAt = null;
+        publishGame();
+      } else {
+        render();
+      }
+    }, 1000);
+  })();
 </script>
-</body>
-</html>
+
+</body></html>
