@@ -347,16 +347,16 @@
   .season-record .num.bad{ color:#ffb4bb; }
   .season-record .lbl{ color:var(--ice-2); font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin-top:4px; }
   .season-record .stats{ display:flex; gap:28px; flex-wrap:wrap; }
-  #season-months{ margin-top:26px; }
-  .month-group{ margin-bottom:22px; }
+  #season-months{ margin-top:28px; }
+  .month-group{ margin-bottom:26px; }
   .month-title{
     font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.07em;
-    color:var(--navy); margin:0 0 9px; display:flex; justify-content:space-between; align-items:center;
+    color:var(--navy); margin:0 2px 10px; display:flex; justify-content:space-between; align-items:baseline; gap:12px;
   }
   .month-title span:last-child{ color:var(--ink-dim); font-size:11px; font-weight:700; letter-spacing:.03em; text-transform:none; }
   .game-row{
     display:grid; grid-template-columns: 64px minmax(0,1fr) auto; gap:16px; align-items:center;
-    min-height:70px; padding:14px 18px; border-bottom:1px solid #d5dbe5;
+    min-height:74px; padding:15px 18px; border-bottom:1px solid #d5dbe5;
   }
   .game-row:last-child{ border-bottom:none; }
   .game-row.row-expanded{ background:#eaf2f8; box-shadow:inset 4px 0 0 var(--ice); }
@@ -377,18 +377,39 @@
   .result.w{ background:rgba(28,138,76,.14); color:var(--win); }
   .result.l{ background:rgba(200,16,46,.12); color:var(--loss); }
   .result.pending{ background:#eef2f6; color:#4b5869; border:1px solid #d7dee7; font-family:'Public Sans'; font-size:12px; font-weight:700; }
-  .game-row.played{ background:linear-gradient(90deg, #f7f9fb, #eef3f7); }
-  .game-row.upcoming{ background:#fff; }
-  .game-row.upcoming:hover{ background:#f8fbfd; }
-  .game-row.practice{ background:#fbfaf7; }
-  .game-row .type-tag{ display:inline-block; margin-left:7px; padding:2px 7px; border-radius:999px; font-size:9px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; vertical-align:middle; }
+  .game-row.played{ background:linear-gradient(90deg, #eef5f8, #f8fafb); border-left:4px solid #6a8798; padding-left:14px; }
+  .game-row.upcoming{ background:#fff; border-left:4px solid var(--ice); padding-left:14px; }
+  .game-row.upcoming:hover{ background:#f3fbfd; }
+  .game-row.practice{ background:#fffcf5; border-left:4px solid #d7a33d; padding-left:14px; }
+  .game-row .type-tag{ display:inline-block; margin-left:7px; padding:3px 8px; border-radius:999px; font-size:9px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; vertical-align:middle; }
   .type-tag.league{ background:#dcecff; color:#164d8a; }
   .type-tag.tournament{ background:#fff0cf; color:#7a4d00; }
   .type-tag.skills{ background:#d9f5fb; color:#0d6274; }
   .type-tag.practice{ background:#e8f3e8; color:#28623a; }
   .type-tag.dryland{ background:#eee7ff; color:#5a3c8f; }
-  .arrival{ display:inline-block; margin-left:8px; color:#6b7280; font-size:11px; font-weight:600; }
-  .arrival b{ color:#25324a; }
+  .arrival{ display:inline-block; margin-left:8px; color:#526171; font-size:11px; font-weight:600; }
+  .arrival b{ color:#173a57; }
+  @media(max-width:600px){
+    .season-record{ padding:18px 16px; gap:16px; }
+    .season-record .num{ font-size:36px; }
+    .season-record .stats{ gap:16px 22px; }
+    #season-months{ margin-top:22px; }
+    .month-group{ margin-bottom:22px; }
+    .month-title{ margin-left:0; margin-right:0; }
+    .game-row{
+      grid-template-columns:52px minmax(0,1fr) auto;
+      gap:10px;
+      min-height:72px;
+      padding:12px 12px;
+    }
+    .game-row.played,.game-row.upcoming,.game-row.practice{ padding-left:8px; }
+    .game-row .side{ font-size:10px; padding:6px 2px; }
+    .game-row .opp{ font-size:14px; }
+    .game-row .meta{ font-size:11px; }
+    .game-row .type-tag{ margin:4px 4px 0 0; }
+    .arrival{ display:block; margin:4px 0 0; }
+    .result{ padding:5px 8px; font-size:12px; }
+  }
   .stats-sortbar{ display:flex; gap:8px; align-items:center; justify-content:flex-end; padding:12px 14px; border-bottom:1px solid var(--border); background:#fafaf8; flex-wrap:wrap; }
   .stats-sortbar label{ font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-dim); font-weight:700; }
   .stats-sortbar select{ padding:7px 10px; border:1px solid var(--border); border-radius:8px; background:#fff; color:var(--ink); font-family:inherit; font-size:13px; }
