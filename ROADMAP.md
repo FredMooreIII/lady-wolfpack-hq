@@ -26,9 +26,9 @@
   - Shootout
 
 ### Season Page
-- Improve spacing and readability.
-- Make completed games visually different from upcoming games.
-- Improve tag colors and contrast.
+- [x] Improve spacing and readability.
+- [x] Make completed games visually different from upcoming games.
+- [x] Improve tag colors and contrast.
 - Add A-Z / Z-A sorting where appropriate.
 - Make arrival time exactly 1 hour before game time.
 - Remove outdated TBD/opponent notes.
