@@ -3,8 +3,8 @@
 ## Current Priorities
 
 ### High Priority
-- Fix game data saving after End Game.
-- Make sure completed games remain saved in schedule/history.
+- Fix game data saving after End Game. **Completed: ordered/versioned persistence prevents stale async publishes and restores the newest valid saved state.**
+- Make sure completed games remain saved in schedule/history. **Completed: End Game archives remain linked to schedule results across reloads.**
 - Verify Next Period resets the clock correctly.
 - Add overtime and shootout support.
 - Make shootout goals count correctly toward team score.

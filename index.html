@@ -1901,12 +1901,15 @@
     }
 
     let game, history, scheduleResults = {};
+    let embeddedStateRevision = 0, embeddedSavedAt = 0;
     try {
       const seed = JSON.parse(seedEl.textContent || '{}');
       if (seed && typeof seed === 'object' && seed.game) {
         game = normalizeGame(seed.game);
         history = Array.isArray(seed.history) ? seed.history.map(normalizeHistoryEntry) : [];
         scheduleResults = (seed.scheduleResults && typeof seed.scheduleResults === 'object') ? seed.scheduleResults : {};
+        embeddedStateRevision = Number(seed.stateRevision) || 0;
+        embeddedSavedAt = Number(seed.savedAt) || 0;
       } else {
         game = normalizeGame(seed);
         history = [];
@@ -1921,8 +1924,17 @@
         const localHist = Array.isArray(local.history) ? local.history : [];
         const localResults = (local.scheduleResults && typeof local.scheduleResults === 'object') ? local.scheduleResults : {};
         const embeddedResultCount = Object.keys(scheduleResults || {}).length;
-        const localIsMoreComplete = localHist.length > history.length || Object.keys(localResults).length > embeddedResultCount || !!(local.game && local.game.active);
-        if (localIsMoreComplete) {
+        const localSavedAt = Number(local.savedAt) || 0;
+        const localStateRevision = Number(local.stateRevision) || 0;
+        const localHasVersion = localSavedAt > 0 || localStateRevision > 0;
+        const embeddedHasVersion = embeddedSavedAt > 0 || embeddedStateRevision > 0;
+        const localIsNewer = localHasVersion && (!embeddedHasVersion ||
+          localSavedAt > embeddedSavedAt ||
+          (localSavedAt === embeddedSavedAt && localStateRevision > embeddedStateRevision));
+        // Keep the old completeness fallback for states written before versioning.
+        const localIsMoreComplete = !localHasVersion && !embeddedHasVersion &&
+          (localHist.length > history.length || Object.keys(localResults).length > embeddedResultCount || !!(local.game && local.game.active));
+        if (local.game && Array.isArray(local.history) && local.scheduleResults && (localIsNewer || localIsMoreComplete)) {
           game = normalizeGame(local.game);
           history = localHist.map(normalizeHistoryEntry);
           scheduleResults = localResults;
@@ -2510,27 +2522,36 @@
       );
     }
 
+    let publishRevision = 0;
+    let publishQueue = Promise.resolve();
     async function publishGame(){
       render();
-      const state = { game, history, scheduleResults };
+      const revision = ++publishRevision;
+      const state = { game, history, scheduleResults, stateRevision: revision, savedAt: Date.now() };
+      const stateJson = JSON.stringify(state);
       try {
-        seedEl.textContent = JSON.stringify(state);
-        localStorage.setItem('lwpGameState', JSON.stringify(state));
+        seedEl.textContent = stateJson;
+        localStorage.setItem('lwpGameState', stateJson);
       } catch(e) {}
-      if (window.claude && typeof window.claude.use === 'function') {
-        try {
+      publishQueue = publishQueue.then(async () => {
+        if (revision !== publishRevision) return;
+        let published = false;
+        if (window.claude && typeof window.claude.use === 'function') {
           const artifactApi = await window.claude.use('artifact');
           if (artifactApi && artifactApi.publish) {
-            await artifactApi.publish(buildPublishHtml(state));
-            statusMsg.textContent = '';
-            return;
+            await artifactApi.publish(buildPublishHtml(JSON.parse(stateJson)));
+            published = true;
           }
-        } catch(e) {
-          statusMsg.textContent = '⚠️ Couldn’t sync to other viewers right now (they may need to refresh to see this update). Your own view is up to date.';
-          return;
         }
-      }
-      statusMsg.textContent = 'Updated on this device — live sync to other viewers needs the Claude Artifacts live-publish feature.';
+        if (revision === publishRevision) {
+          statusMsg.textContent = published ? '' : 'Updated on this device — live sync to other viewers needs the Claude Artifacts live-publish feature.';
+        }
+      }).catch(e => {
+        if (revision === publishRevision) {
+          statusMsg.textContent = '⚠️ Couldn’t sync to other viewers right now (they may need to refresh to see this update). Your own view is up to date.';
+        }
+      });
+      await publishQueue;
     }
 
     // Opponent dropdown: only today's date and later, in schedule order. Selecting a
