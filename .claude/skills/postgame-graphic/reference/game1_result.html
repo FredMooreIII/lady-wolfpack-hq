@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1440px; height:1440px; overflow:hidden; background:#050b18;
+    font-family:'Liberation Sans', Arial, sans-serif; }
+  .stage { position:relative; width:1440px; height:1440px; overflow:hidden; }
+
+  .photo {
+    position:absolute; top:-44px; left:50%; transform:translateX(-50%);
+    width:2496px; height:1872px; object-fit:cover;
+    filter: saturate(0.80) contrast(1.10) brightness(1.04);
+  }
+  .tone { position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(10,26,58,0.55) 0%, rgba(8,20,48,0.35) 40%, rgba(6,14,34,0.6) 70%, rgba(4,9,22,0.9) 100%); }
+  .topscrim { position:absolute; top:0; left:0; right:0; height:520px;
+    background:linear-gradient(180deg, rgba(3,8,20,0.94) 0%, rgba(4,10,26,0.7) 55%, rgba(5,12,30,0) 100%); }
+  .botscrim { position:absolute; bottom:0; left:0; right:0; height:880px;
+    background:linear-gradient(180deg, rgba(4,9,22,0) 0%, rgba(4,9,22,0.55) 28%, rgba(4,9,22,0.86) 52%, rgba(3,7,18,0.97) 100%); }
+  .vig { position:absolute; inset:0; box-shadow: inset 0 0 260px 90px rgba(2,6,16,0.85); }
+
+  .logo {
+    position:absolute; left:40px; top:36px; width:318px; height:298px;
+    object-fit:contain;
+    filter: drop-shadow(0 10px 26px rgba(0,0,0,0.85));
+  }
+
+  .head { position:absolute; left:386px; right:52px; top:52px; text-align:center; }
+  .g1 {
+    font-family:'DejaVu Sans Condensed', sans-serif; font-weight:bold; font-style:italic;
+    font-size:84px; color:#e2233c; letter-spacing:6px; line-height:1;
+    text-shadow: 0 5px 0 rgba(0,0,0,0.6), 0 0 40px rgba(226,35,60,0.45);
+  }
+  .vs {
+    margin-top:2px;
+    font-family:'DejaVu Sans Condensed', sans-serif; font-weight:bold; font-style:italic;
+    font-size:128px; line-height:0.92; color:#f2f6fb; letter-spacing:1px;
+    text-shadow: 0 8px 0 rgba(0,0,0,0.55), 0 0 60px rgba(150,195,255,0.35);
+  }
+  .cyc {
+    font-family:'DejaVu Sans Condensed', sans-serif; font-weight:bold; font-style:italic;
+    font-size:70px; line-height:1; color:#f2f6fb; letter-spacing:9px;
+    text-shadow: 0 6px 0 rgba(0,0,0,0.5);
+  }
+  .subrow { display:flex; align-items:center; justify-content:center; gap:20px; margin-top:20px; }
+  .subrow .bar { width:88px; height:3px; background:rgba(226,232,241,0.6); }
+  .sub {
+    font-family:'DejaVu Sans Condensed', sans-serif; font-weight:bold;
+    font-size:32px; color:#dbe5f2; letter-spacing:5px;
+    text-shadow: 0 3px 10px rgba(0,0,0,0.8);
+  }
+  .locpill {
+    display:inline-flex; align-items:center; gap:13px; margin-top:22px;
+    background:rgba(8,18,40,0.8); border:2px solid rgba(226,232,241,0.45);
+    border-radius:999px; padding:12px 32px;
+    font-family:'DejaVu Sans Condensed', sans-serif; font-weight:bold;
+    font-size:27px; color:#e6edf7; letter-spacing:3px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+  }
+  .locpill .dot { width:10px; height:10px; border-radius:50%; background:#e2233c; }
+
+  /* score block */
+  .score { position:absolute; left:60px; right:60px; bottom:214px; display:flex; align-items:stretch; gap:16px; }
+  .side { flex:0 0 276px; background:rgba(9,20,44,0.84); border:3px solid rgba(226,232,241,0.5);
+    display:flex; align-items:center; justify-content:center; padding:20px; }
+  .side img { max-width:100%; max-height:190px; object-fit:contain;
+    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.6)); }
+  .num { flex:1; background:rgba(6,12,28,0.9); border:3px solid rgba(226,232,241,0.5);
+    display:flex; align-items:center; justify-content:center; }
+  .num span {
+    font-family:'DejaVu Sans Condensed', sans-serif; font-weight:bold;
+    font-size:168px; line-height:1; color:#ffffff; text-shadow:0 8px 0 rgba(0,0,0,0.45);
+  }
+  .finalwrap { position:absolute; left:50%; bottom:214px; transform:translate(-50%,0);
+    width:100%; height:238px; display:flex; align-items:center; justify-content:center; pointer-events:none; }
+  .final { position:relative; width:250px; height:78px; }
+  .final svg { position:absolute; inset:0; }
+  .final span { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:'DejaVu Sans Condensed', sans-serif; font-weight:bold; font-style:italic;
+    font-size:44px; color:#ffffff; letter-spacing:6px; text-shadow:0 3px 0 rgba(0,0,0,0.3); }
+
+  .teamtag { position:absolute; bottom:174px; font-family:'DejaVu Sans Condensed', sans-serif;
+    font-weight:bold; font-size:20px; letter-spacing:3px; color:#a8bee0; text-shadow:0 2px 8px rgba(0,0,0,0.9); }
+  .teamtag.l { left:60px; width:276px; text-align:center; }
+  .teamtag.r { right:60px; width:276px; text-align:center; }
+
+  .foot { position:absolute; left:0; right:0; bottom:72px; text-align:center; }
+  .foot .l1 {
+    font-family:'DejaVu Sans Condensed', sans-serif; font-weight:bold; font-style:italic;
+    font-size:41px; color:#ffffff; letter-spacing:3px;
+    text-shadow:0 4px 14px rgba(0,0,0,0.85);
+  }
+  .foot .l2 {
+    font-family:'DejaVu Sans Condensed', sans-serif; font-weight:bold;
+    font-size:29px; color:#ff3049; letter-spacing:4px; margin-top:12px;
+    text-shadow:0 3px 12px rgba(0,0,0,0.85);
+  }
+  .redbar { position:absolute; left:0; right:0; bottom:0; height:14px;
+    background:linear-gradient(90deg, #c8102e 0%, #e2233c 50%, #c8102e 100%); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <img class="photo" src="bench.jpg">
+  <div class="tone"></div>
+  <div class="topscrim"></div>
+  <div class="botscrim"></div>
+  <div class="vig"></div>
+
+  <img class="logo" src="wolfpack_logo_tight.png">
+
+  <div class="head">
+    <div class="g1">GAME 1</div>
+    <div class="vs">VS FLORIDA</div>
+    <div class="cyc">CYCLONES 12U</div>
+    <div class="subrow">
+      <div class="bar"></div>
+      <div class="sub">TOUGH BATTLE. PROUD OF THE PACK.</div>
+      <div class="bar"></div>
+    </div>
+    <div class="locpill"><span class="dot"></span> NGHL LABOR DAY CHALLENGE &middot; NEWINGTON, CT</div>
+  </div>
+
+  <div class="score">
+    <div class="side"><img src="wolfpack_logo_tight.png"></div>
+    <div class="num"><span>0</span></div>
+    <div class="num"><span>2</span></div>
+    <div class="side"><img src="cyclones_logo.png"></div>
+  </div>
+
+  <div class="teamtag l">LADY JR. WOLFPACK</div>
+  <div class="teamtag r">FLORIDA CYCLONES</div>
+
+  <div class="finalwrap">
+    <div class="final">
+      <svg viewBox="0 0 250 78" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 22 Q60 6 128 12 Q196 18 244 8 L240 62 Q182 72 122 66 Q64 60 10 70 Z" fill="#c8102e"/>
+      </svg>
+      <span>FINAL</span>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="l1">WE LEARN. WE GROW. WE COME BACK STRONGER.</div>
+    <div class="l2">#HARTFORDJRWOLFPACK &middot; @LADYWOLFPACK2015</div>
+  </div>
+
+  <div class="redbar"></div>
+</div>
+</body>
+</html>
