@@ -1988,6 +1988,50 @@
     if(!savedPTL)history.unshift(sep6Recovery);
     scheduleResults['game-sep-6-ptl-12u-aa'] = [0,1];
 
+    // September 12: Wolfpack 2, Wallingford Hawks Blue 2.
+    {
+      const gameId = 'game-sep-12-wallingford-hawks-blue';
+      const matches = h => h && (h.gameId === gameId ||
+        (h.date === 'Sep 12' && h.opponent === 'Wallingford Hawks Blue'));
+      const saved = history.find(matches);
+      const active = matches(game) ? game : null;
+      const details = saved || active || {};
+      const marker = 'whb-sep12-goal-1-v2';
+
+      if (!saved || !(saved.events || []).some(e => e.id === marker)) {
+        const corrected = normalizeHistoryEntry({
+          ...details,
+          id: saved?.id || 'h-sep12-wallingford',
+          gameId,
+          opponent: 'Wallingford Hawks Blue', date: 'Sep 12',
+          home: 2, away: 2, manual: false, shootoutWinner: '',
+          goalieStart: 'Ana Straker',
+          goalieChanges: [],
+          absentPlayers: [...new Set([
+            ...(details.absentPlayers || []).filter(name => name !== 'Ana Straker'),
+            'Adde Zuck'
+          ])],
+          events: [
+            {id:'whb-sep12-penalty-1', type:'penalty', team:'us',
+              player:'Bailey Pelletier', infraction:'Tripping', minutes:1,
+              period:2, elapsedMs:438000},
+            {id:marker, type:'goal', team:'us', scorer:'Bailey Moore',
+              assist1:'Mackenzie Moore', period:3, elapsedMs:701000},
+            {id:'whb-sep12-goal-2', type:'goal', team:'us', scorer:'Bailey Moore',
+              assist1:'Whitney Noe', period:3, elapsedMs:233000},
+            {id:'whb-sep12-goal-3', type:'goal', team:'opp', oppNum:'11',
+              oppAssist1:'13', oppAssist2:'23', period:3, elapsedMs:150000},
+            {id:'whb-sep12-goal-4', type:'goal', team:'opp', oppNum:'4',
+              oppAssist1:'11', period:3, elapsedMs:16000}
+          ]
+        });
+        history = [corrected, ...history.filter(h => !matches(h))];
+      }
+      const finalResult = history.find(matches);
+      scheduleResults[gameId] = [finalResult.home, finalResult.away];
+      if (active) game = blankGame();
+    }
+
     GAMES.forEach(g => {
       if (scheduleResults[g.id]) g.result = [Number(scheduleResults[g.id][0]) || 0, Number(scheduleResults[g.id][1]) || 0];
     });
