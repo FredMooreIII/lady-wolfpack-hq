@@ -1649,9 +1649,47 @@
     if (!hist.length) return null;
     return hist.filter(h => !absencesForHistory(h).includes(name)).length;
   }
-  function effectiveRoster(){ return ROSTER.map(p => Object.assign({}, p, {gp: archivedGP(p.name) ?? p.gp})); }
+  function effectiveRoster(){
+    // Before the game tracker loads, keep the initial display totals.
+    if (!window.__lwp || !window.__lwp.getHistory) return ROSTER.map(p => ({...p}));
+    const history = window.__lwp.getHistory();
+    const players = ROSTER.map(p => ({...p, g:0, a:0, pts:0, pim:0,
+      gp:archivedGP(p.name) ?? p.gp, appg:0}));
+    const byName = new Map(players.map(p => [p.name,p]));
+    history.forEach(game => {
+      (game.events || []).forEach(event => {
+        if (event.team !== 'us') return;
+        if (event.type === 'goal') {
+          const scorer = byName.get(event.scorer);
+          if (scorer) scorer.g++;
+          // A scorer cannot assist their own goal; repeated assists count once.
+          new Set([event.assist1,event.assist2]).forEach(name => {
+            const player = byName.get(name);
+            if (player && name !== event.scorer) player.a++;
+          });
+        } else if (event.type === 'penalty') {
+          const player = byName.get(event.player);
+          if (player) player.pim += Math.max(0,Number(event.minutes) || 0);
+        }
+      });
+    });
+    players.forEach(p => {p.pts=p.g+p.a; p.appg=p.gp?p.pts/p.gp:0;});
+    return players;
+  }
+  function updateSkaterRosterCards(players){
+    players.forEach(p => {
+      const index=ROSTER.findIndex(original => original.name===p.name);
+      const card=grid.querySelector('[data-idx="'+index+'"]');
+      if (!card) return;
+      const values=[p.g,p.a,p.pts,p.gp,p.appg.toFixed(1),p.pim];
+      card.querySelectorAll('.stat-grid .sv').forEach((cell,i) => {
+        if (i<values.length) cell.textContent=String(values[i]);
+      });
+    });
+  }
   function renderStats(){
     const players = effectiveRoster().filter(p => p.pos !== 'G');
+    updateSkaterRosterCards(players);
     const sort = document.getElementById('stats-sort')?.value || 'name-asc';
     const dirs = {
       'name-asc':(a,b)=>a.name.localeCompare(b.name),'name-desc':(a,b)=>b.name.localeCompare(a.name),
