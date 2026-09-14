@@ -712,10 +712,7 @@
       <div class="table-wrap">
         <table class="plain">
           <tr><th>Day</th><th>Session</th><th>Rink</th></tr>
-          <tr><td><span class="day-pill skills">TUE 9/8</span></td><td>5:30&ndash;6:30 PM &middot; Skills</td><td class="muted">Champions Skating Center</td></tr>
-          <tr><td><span class="day-pill practice">WED 9/9</span></td><td>5:30&ndash;6:30 PM &middot; Practice</td><td class="muted">Champions Skating Center</td></tr>
-          <tr><td><span class="day-pill dryland">WED 9/9</span></td><td>6:45&ndash;7:30 PM &middot; Dry Land Training</td><td class="muted">Champions Skating Center</td></tr>
-          <tr><td><span class="day-pill practice">THU 9/10</span></td><td>6:30&ndash;7:30 PM &middot; Practice</td><td class="muted">Champions Skating Center</td></tr>
+          <tbody id="home-practice-rows"></tbody>
         </table>
       </div>
     </div>
@@ -1481,6 +1478,28 @@
   document.getElementById('toggle-practices').addEventListener('change', renderMonths);
 
 
+  function homeCalendarDay(now=new Date()){
+    return new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
+  }
+  function homePracticeWeek(now=new Date()){
+    const parts=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',year:'numeric',month:'numeric',day:'numeric'}).formatToParts(now);
+    const value=type=>Number(parts.find(p=>p.type===type).value);
+    const today=new Date(value('year'),value('month')-1,value('day'));
+    const monday=new Date(today);monday.setDate(today.getDate()-((today.getDay()+6)%7));
+    const end=new Date(monday);end.setDate(end.getDate()+7);
+    return PRACTICES.filter(p=>gameDate(p)>=monday && gameDate(p)<end)
+      .sort((a,b)=>gameDate(a)-gameDate(b));
+  }
+  function renderHomePractices(now=new Date()){
+    const esc=s=>String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const rows=homePracticeWeek(now);
+    document.getElementById('home-practice-rows').innerHTML=rows.map(p=>{
+      const session=gameDate(p).getDay()===2 && /practice|skills/i.test(p.session)?'Skills':p.session;
+      const cls=/dry/i.test(session)?'dryland':/skills/i.test(session)?'skills':'practice';
+      return '<tr><td><span class="day-pill '+cls+'">'+esc(p.day.toUpperCase()+' '+p.date)+'</span></td><td>'+esc(p.time)+' &middot; '+esc(session)+(p.optional?' (Optional)':'')+'</td><td class="muted">'+esc(p.loc)+'</td></tr>';
+    }).join('') || '<tr><td colspan="3" class="muted">No practices scheduled this week.</td></tr>';
+  }
+
   // Friday–Sunday of this calendar week; Monday advances to the next weekend.
   function homeWeekendGroups(now = new Date()){
     const parts = new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',year:'numeric',month:'numeric',day:'numeric'}).formatToParts(now);
@@ -1498,6 +1517,7 @@
     return {current:group(0),previous:group(-7)};
   }
   function renderHomeWeekends(liveGame, liveScore){
+    renderHomePractices();
     const groups = homeWeekendGroups();
     const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     function cards(group,kind){
@@ -2068,6 +2088,35 @@
       const finalResult = history.find(matches);
       scheduleResults[gameId] = [finalResult.home, finalResult.away];
       if (active) game = blankGame();
+    }
+
+    // September 13: Avon 4, Wolfpack 1. Confirmed game report.
+    {
+      const gameId='game-sep-13-avon-12u-b';
+      const matches=h=>h && (h.gameId===gameId ||
+        (h.date==='Sep 13' && h.opponent==='Avon 12U B'));
+      const saved=history.find(matches);
+      const active=matches(game)?game:null;
+      const reportMarker='avon-sep13-goal-1-v1';
+      if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
+        const corrected=normalizeHistoryEntry({
+          ...(saved || {}), id:saved?.id || 'h-sep13-avon', gameId,
+          opponent:'Avon 12U B', date:'Sep 13', home:1, away:4,
+          manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
+          goalieChanges:[], absentPlayers:['Adde Zuck'],
+          events:[
+            {id:reportMarker,type:'goal',team:'opp',period:1,elapsedMs:657000,oppNum:'11',oppAssist1:'1'},
+            {id:'avon-sep13-goal-2',type:'goal',team:'opp',period:2,elapsedMs:346000,oppNum:'93',oppAssist1:'21'},
+            {id:'avon-sep13-goal-3',type:'goal',team:'us',period:2,elapsedMs:289000,scorer:'Evangeline Zhang'},
+            {id:'avon-sep13-goal-4',type:'goal',team:'opp',period:3,elapsedMs:84000,oppNum:'21'},
+            {id:'avon-sep13-goal-5',type:'goal',team:'opp',period:3,elapsedMs:17000,oppNum:'34'}
+          ]
+        });
+        history=[corrected,...history.filter(h=>!matches(h))];
+      }
+      const finalResult=history.find(matches);
+      scheduleResults[gameId]=[finalResult.home,finalResult.away];
+      if(active)game=blankGame();
     }
 
     GAMES.forEach(g => {
@@ -2932,9 +2981,13 @@
       publishGame();
     });
 
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)render();});
     render();
+    let lastHomeDay = homeCalendarDay();
     let lastRetainedId = retainedFinal()?.id || null;
     setInterval(() => {
+      const homeDay=homeCalendarDay();
+      if(homeDay!==lastHomeDay){lastHomeDay=homeDay;render();}
       const retainedId = retainedFinal()?.id || null;
       if(retainedId !== lastRetainedId){ lastRetainedId=retainedId; render(); }
       if (!game.clockRunning) return;
