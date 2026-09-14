@@ -435,7 +435,7 @@
         <div class="flip-face front">
           ${p.r ? '<span class="r-tag" title="Returning player" aria-label="Returning player">R</span>' : ''}
           <div class="jersey-stage">
-            <img class="player-photo" src="${rosterPhotoSrc(p)}" alt="" loading="lazy" onerror="this.remove()">
+            <img class="player-photo" src="${rosterPhotoSrc(p)}" alt="${p.name}" loading="lazy" onerror="this.remove()" onload="this.closest('.jersey-stage').classList.add('has-photo')">
             <svg class="jersey-art" viewBox="0 0 1000 1000" role="img" aria-label="${lastName(p.name)}, number ${p.n} Wolfpack jersey">
               <image href="${JERSEY_IMAGE}" width="1000" height="1000"/>
               <text class="jersey-last" x="500" y="252" text-anchor="middle" font-size="52" textLength="${Math.min(330,lastName(p.name).length*30)}" lengthAdjust="spacingAndGlyphs" opacity=".94">${lastName(p.name).toUpperCase()}</text>
