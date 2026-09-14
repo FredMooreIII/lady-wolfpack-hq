@@ -2,9 +2,6 @@
 const TEAM_PASSCODE = "LADYWP2026";
 const BENCH_PASSCODE = "WPBENCH26";
 const CHC_GIRLS_T2_OPPONENTS = new Set(['darien ice cats g12u - tier 2','polar bears g12u - tier 2','ct polar bears','ct hat trick g12u - tier 2','girls hat trick black']);
-const WEEK_RINKS = [
-    { name: "Newington Arena", note: "Newington, CT", games: 5, mapsQuery: "Newington Arena, Newington, CT" },
-  ];
 const RINK_COORDS = {
     "Newington Arena":[41.6868,-72.7203], "Champions Skating Center":[41.6142,-72.7103],
     "Avon Old Farms School":[41.7785,-72.8400], "Edward L. Bennett Rink":[41.296,-72.949],

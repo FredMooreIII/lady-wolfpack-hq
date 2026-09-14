@@ -96,7 +96,6 @@
     return hist.find(h => h.date && g.date && h.date === g.date && normalizeOpp(h.opponent) === nOpp) || null;
   }
   function gameRowKey(g){ return g.id || (g.date + '__' + g.opp); }
-  let expandedGameKey = null;
   let gameByKeyMap = {};
   function penaltySection(events,opponent,helpers,actions=()=> ''){
     const penalties=(events||[]).filter(e=>e.type==='penalty');
@@ -163,31 +162,10 @@
     `).join('');
     return html + penaltySection(h.events,g.opp,lwp);
   }
-  function toggleGameRow(key){
-    const container = document.getElementById('season-months');
-    if (!container) return;
-    const wasExpanded = expandedGameKey === key;
-    container.querySelectorAll('.season-detail').forEach(d => { d.hidden = true; d.innerHTML = ''; });
-    container.querySelectorAll('[data-game-key]').forEach(r => { r.classList.remove('row-expanded'); r.setAttribute('aria-expanded','false'); });
-    if (wasExpanded) { expandedGameKey = null; return; }
-    expandedGameKey = key;
-    const g = gameByKeyMap[key];
-    if (!g) return;
-    const detail = container.querySelector(`[data-detail-key="${CSS.escape(key)}"]`);
-    const rowEl = container.querySelector(`[data-game-key="${CSS.escape(key)}"]`);
-    if (detail) { detail.innerHTML = renderGameDetailHtml(g); detail.hidden = false; }
-    if (rowEl) {
-      rowEl.classList.add('row-expanded');
-      rowEl.setAttribute('aria-expanded','true');
-      // Center short boxscores; align longer ones near the top for natural scrolling.
-      requestAnimationFrame(() => {
-        if (expandedGameKey !== key || !rowEl.isConnected) return;
-        const rect=rowEl.getBoundingClientRect();
-        const height=rect.height+(detail ? detail.getBoundingClientRect().height : 0)+32;
-        const topGap=Math.max(110,(window.innerHeight-height)/2);
-        window.scrollTo({top:Math.max(0,window.scrollY+rect.top-topGap),behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
-      });
-    }
+  function openBoxscoreModal(g){
+    if (!g || !g.result) return;
+    const title = (g.side === 'home' ? 'vs. ' : '@ ') + g.opp + ' — ' + g.day + ', ' + g.date;
+    openModal({ title, bodyHtml: renderGameDetailHtml(g), okText: 'Close', cancelHidden: true });
   }
 
   function renderRecord(){
@@ -288,12 +266,11 @@
             const key = gameRowKey(g);
             gameByKeyMap[key] = g;
             return `
-            <div class="game-row played" role="button" tabindex="0" aria-expanded="${expandedGameKey === key}" data-game-key="${key}" style="cursor:pointer;${isLast ? 'border-bottom:none;' : ''}">
+            <div class="game-row played" role="button" tabindex="0" data-game-key="${key}" style="cursor:pointer;${isLast ? 'border-bottom:none;' : ''}">
               <div class="side ${sideClass}">${sideLabel}</div>
               <div class="schedule-opponent"><div class="schedule-opponent-heading">${scheduleOpponentLogo(g.opp)}<div class="opp">${oppLabel} ${matchupBadge(g)} <span class="muted" style="font-weight:400;font-size:11px;">&#9662; tap for boxscore</span></div></div><div class="meta">${g.day}, ${g.date} &middot; ${g.loc} <span class="type-tag ${gameTagClass(g.type)}">${g.type}</span></div></div>
               ${resultHtml}
-            </div>
-            <div class="season-detail" data-detail-key="${key}" hidden style="padding:2px 16px 16px; border-bottom:1px solid var(--border);${isLast ? 'border-bottom:none;' : ''}"></div>`;
+            </div>`;
           }
           return `
           <div class="game-row upcoming"${isLast ? ' style="border-bottom:none;"' : ''}>
@@ -321,16 +298,9 @@
     }).join('');
 
     container.querySelectorAll('[data-game-key]').forEach(row => {
-      row.addEventListener('click', () => toggleGameRow(row.dataset.gameKey));
-      row.addEventListener('keydown', e => { if(e.key==='Enter' || e.key===' '){ e.preventDefault(); toggleGameRow(row.dataset.gameKey); } });
+      row.addEventListener('click', () => openBoxscoreModal(gameByKeyMap[row.dataset.gameKey]));
+      row.addEventListener('keydown', e => { if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openBoxscoreModal(gameByKeyMap[row.dataset.gameKey]); } });
     });
-    if (expandedGameKey && gameByKeyMap[expandedGameKey]) {
-      const key = expandedGameKey;
-      const detail = container.querySelector(`[data-detail-key="${CSS.escape(key)}"]`);
-      const rowEl = container.querySelector(`[data-game-key="${CSS.escape(key)}"]`);
-      if (detail) { detail.innerHTML = renderGameDetailHtml(gameByKeyMap[key]); detail.hidden = false; }
-      if (rowEl) rowEl.classList.add('row-expanded');
-    }
   }
   renderMonths();
   document.getElementById('toggle-practices').addEventListener('change', renderMonths);
@@ -381,30 +351,55 @@
     function cards(group,kind){
       document.getElementById('home-'+kind+'-count').textContent=group.games.length+' game'+(group.games.length===1?'':'s');
       document.getElementById('home-'+kind+'-dates').textContent=group.label;
-      document.getElementById('home-'+kind+'-games').innerHTML=group.games.map(g=>{
+      const container = document.getElementById('home-'+kind+'-games');
+      const keyMap = {};
+      container.innerHTML=group.games.map(g=>{
         const live = liveGame && liveGame.active && ((liveGame.gameId && liveGame.gameId===g.id) || (!liveGame.gameId && liveGame.date===g.date && liveGame.opponent===g.opp));
         let status = esc(g.time), details='Arrive '+esc(arrivalTime(g));
         if(live){status='<span class="result">LIVE '+liveScore.home+'–'+liveScore.away+'</span>';details='In progress';}
         else if(g.result){const [us,them]=g.result;status='<span class="result '+(us>them?'w':us<them?'l':'pending')+'">'+(us>them?'W':us<them?'L':'T')+' '+us+'–'+them+'</span>';details='Final';}
         else if(kind==='recap'){details='Result not recorded';}
-        return '<div class="card game-card"><div class="gc-when"><span class="day-pill">'+esc(g.day)+' '+esc(g.date)+'</span><span class="gc-time">'+status+'</span></div><div class="gc-mid"><div class="gc-opp">'+(g.side==='home'?'vs. ':'@ ')+esc(g.opp)+'</div><div class="gc-meta">'+esc(g.loc)+' · '+esc(g.type)+' · '+details+'</div></div><div class="gc-note">'+(g.result?'Final score':live?'Live now':'<a href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(g.loc)+'" target="_blank" rel="noopener">Directions ↗</a>')+'</div></div>';
+        const cardClass = 'card game-card'+(kind==='recap'?' recap':'');
+        const key = gameRowKey(g);
+        if (g.result) keyMap[key] = g;
+        const clickable = g.result ? ' role="button" tabindex="0" data-home-game-key="'+esc(key)+'" style="cursor:pointer;"' : '';
+        const note = g.result ? 'Tap for boxscore &#9662;' : (live?'Live now':'<a href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(g.loc)+'" target="_blank" rel="noopener">Directions ↗</a>');
+        return '<div class="'+cardClass+'"'+clickable+'><div class="gc-when"><span class="day-pill">'+esc(g.day)+' '+esc(g.date)+'</span><span class="gc-time">'+status+'</span></div><div class="gc-mid"><div class="gc-opp">'+(g.side==='home'?'vs. ':'@ ')+esc(g.opp)+'</div><div class="gc-meta">'+esc(g.loc)+' · '+esc(g.type)+' · '+details+'</div></div><div class="gc-note">'+note+'</div></div>';
       }).join('') || '<div class="card" style="padding:20px;">No games scheduled for this weekend.</div>';
+      container.querySelectorAll('[data-home-game-key]').forEach(card=>{
+        card.addEventListener('click', () => openBoxscoreModal(keyMap[card.dataset.homeGameKey]));
+        card.addEventListener('keydown', e => { if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openBoxscoreModal(keyMap[card.dataset.homeGameKey]); } });
+      });
     }
     cards(groups.current,'weekend'); cards(groups.previous,'recap');
   }
   renderHomeWeekends();
 
-  // This week's rinks (Home tab) — hand-kept alongside the "This Weekend" cards above
-  
-  document.getElementById('week-rinks-card').innerHTML = WEEK_RINKS.map(r => `
-    <div class="rink-row">
-      <div>
-        <div class="rink-name">${r.name}</div>
-        <div class="rink-games">${r.note} &middot; ${r.games} game${r.games === 1 ? '' : 's'} this week</div>
-      </div>
-      <a class="cta" style="margin-top:0;" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.mapsQuery)}" target="_blank" rel="noopener">Directions →</a>
-    </div>
-  `).join('');
+  // This week's rinks (Home tab) — computed live from this weekend's games so it
+  // never goes stale, instead of a hand-kept WEEK_RINKS list.
+  function renderWeekRinks(){
+    const weekendGames = homeWeekendGroups().current.games;
+    const byRink = {};
+    weekendGames.forEach(g => {
+      if (!byRink[g.loc]) byRink[g.loc] = { name: g.loc, games: [] };
+      byRink[g.loc].games.push(g);
+    });
+    const rinks = Object.values(byRink);
+    const escR = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    document.getElementById('week-rinks-card').innerHTML = rinks.map(r => {
+      const days = [...new Set(r.games.map(g => g.day + ' ' + g.date))];
+      const mapsQuery = r.name + ', CT';
+      return `
+      <div class="rink-row">
+        <div>
+          <div class="rink-name">${escR(r.name)}</div>
+          <div class="rink-games">${escR(days.join(' & '))} &middot; ${r.games.length} game${r.games.length === 1 ? '' : 's'} this weekend</div>
+        </div>
+        <a class="cta" style="margin-top:0;" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapsQuery)}" target="_blank" rel="noopener">Directions →</a>
+      </div>`;
+    }).join('') || '<div class="rink-row"><div class="rink-games">No games scheduled this weekend.</div></div>';
+  }
+  renderWeekRinks();
 
   // Mini-map: static rink coordinates keep the map fast and avoid runtime geocoding.
   
@@ -413,8 +408,8 @@
     if(el._map){ el._map.remove(); }
     const map=L.map(el,{scrollWheelZoom:false}).setView([41.70,-72.75],9.5);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap contributors'}).addTo(map);
-    const today=new Date(); today.setHours(0,0,0,0);
-    const games=GAMES.map(g=>Object.assign({},g,{d:gameDate(g)})).filter(g=>!g.result && g.d>=today).sort((a,b)=>a.d-b.d).slice(0,8);
+    // Pins show this weekend's games only (Fri–Sun), matching the Home tab's "This Weekend" cards.
+    const games=homeWeekendGroups().current.games;
     const points=[]; games.forEach(g=>{ const c=RINK_COORDS[g.loc]; if(!c) return; points.push(c); L.marker(c).addTo(map).bindPopup(`<b>${g.day} ${g.date} · ${g.time}</b><br>${g.side==='home'?'vs':'@'} ${g.opp}<br>${g.loc}<br><b>Arrive ${arrivalTime(g)}</b>`); });
     if(points.length) map.fitBounds(points,{padding:[24,24]});
     setTimeout(()=>map.invalidateSize(),100);
@@ -425,6 +420,12 @@
   
 
   const JERSEY_IMAGE = "assets/jersey.webp";
+  // Player headshots: drop a file named "First Last.jpeg" (matching the roster
+  // name exactly) into assets/roster-photos/ and it shows automatically as a
+  // badge on the jersey card. A player's own `photo` field in roster.js can
+  // override the guessed path. If the image fails to load (no photo yet), the
+  // badge is silently removed and the jersey art alone is shown, unchanged.
+  const rosterPhotoSrc = p => p.photo || ('assets/roster-photos/' + encodeURIComponent(p.name) + '.jpeg');
   const lastName = name => String(name || '').trim().split(/\s+/).slice(-1)[0] || '';
   const positionName = p => p === 'G' ? 'Goalie' : (p === 'D' ? 'Defense' : 'Forward');
   const grid = document.getElementById('roster-grid');
@@ -434,6 +435,7 @@
         <div class="flip-face front">
           ${p.r ? '<span class="r-tag" title="Returning player" aria-label="Returning player">R</span>' : ''}
           <div class="jersey-stage">
+            <img class="player-photo" src="${rosterPhotoSrc(p)}" alt="" loading="lazy" onerror="this.remove()">
             <svg class="jersey-art" viewBox="0 0 1000 1000" role="img" aria-label="${lastName(p.name)}, number ${p.n} Wolfpack jersey">
               <image href="${JERSEY_IMAGE}" width="1000" height="1000"/>
               <text class="jersey-last" x="500" y="252" text-anchor="middle" font-size="52" textLength="${Math.min(330,lastName(p.name).length*30)}" lengthAdjust="spacingAndGlyphs" opacity=".94">${lastName(p.name).toUpperCase()}</text>
@@ -622,6 +624,31 @@
   }
   const liveBannerLink = document.getElementById('live-banner-link');
   if (liveBannerLink) liveBannerLink.addEventListener('click', e => { e.preventDefault(); activateTab('scores'); window.scrollTo({top:0, behavior:'smooth'}); });
+
+  // Scores tab is hidden from the main nav until cross-device live sync is ready
+  // (see roadmap item 14). The Resources page offers it as a bench-manager-only
+  // link, gated behind the same bench passcode used for bench controls.
+  const scoresGateLink = document.getElementById('scores-gate-link');
+  if (scoresGateLink) scoresGateLink.addEventListener('click', async e => {
+    e.preventDefault();
+    let authed = false;
+    try { authed = localStorage.getItem('lwpBenchAuth') === '1'; } catch(err) {}
+    if (!authed) {
+      const result = await openModal({
+        title: 'Bench Passcode',
+        fields: [{ id: 'code', label: 'Team manager / coach only', placeholder: 'Bench passcode', type: 'password' }],
+        okText: 'Unlock'
+      });
+      const val = ((result && result.code) || '').trim().toUpperCase();
+      if (result && val === BENCH_PASSCODE) {
+        try { localStorage.setItem('lwpBenchAuth', '1'); } catch(err) {}
+        authed = true;
+      } else if (result && val !== '') {
+        await openAlert('That passcode isn’t right — the Scores page stays hidden on this device.');
+      }
+    }
+    if (authed) { activateTab('scores'); window.scrollTo({top:0, behavior:'smooth'}); }
+  });
   // Mobile nav: on narrow screens the tab row collapses behind a ☰ toggle so it
   // doesn't force landscape/pinch-zoom just to see or switch tabs.
   const menuToggle = document.getElementById('menu-toggle');
@@ -656,9 +683,10 @@
   // --- Custom modal helpers ---
   // The artifact viewer's sandbox silently no-ops window.prompt()/alert(),
   // so bench-passcode entry and goal logging use this in-page modal instead.
-  function openModal({title, fields = [], okText = 'OK', note = '', extraText = '', safeFocus = false}){
+  function openModal({title, fields = [], okText = 'OK', note = '', extraText = '', safeFocus = false, bodyHtml = null, cancelHidden = false}){
     return new Promise((resolve) => {
       const overlay = document.getElementById('modal-overlay');
+      const cardEl = overlay.querySelector('.modal-card');
       const titleEl = document.getElementById('modal-title');
       const fieldsEl = document.getElementById('modal-fields');
       const noteEl = document.getElementById('modal-note');
@@ -666,14 +694,17 @@
       const cancelBtn = document.getElementById('modal-cancel');
       const extraBtn = document.getElementById('modal-extra');
       const previousFocus = document.activeElement;
+      if (cardEl) cardEl.classList.toggle('modal-boxscore', bodyHtml != null);
       extraBtn.hidden = !extraText;
       extraBtn.textContent = extraText;
       extraBtn.style.order = '0';
       okBtn.style.order = extraText ? '1' : '2';
       cancelBtn.style.order = extraText ? '2' : '1';
+      cancelBtn.hidden = !!cancelHidden;
 
       titleEl.textContent = title;
-      fieldsEl.innerHTML = fields.map(f => {
+      if (bodyHtml != null) { fieldsEl.innerHTML = bodyHtml; }
+      else fieldsEl.innerHTML = fields.map(f => {
         if (f.type === 'select') {
           const opts = (f.options || []).map(o =>
             `<option value="${o.value}"${o.value === f.value ? ' selected' : ''}>${o.label}</option>`

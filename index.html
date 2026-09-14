@@ -44,7 +44,7 @@
     </div>
     <nav class="tabs" id="tabs">
       <button data-panel="week" class="active">Home</button>
-      <button data-panel="scores">Scores<span class="live-dot" id="scores-live-dot" hidden aria-label="Live game in progress"></span></button>
+      <button data-panel="scores" hidden>Scores<span class="live-dot" id="scores-live-dot" hidden aria-label="Live game in progress"></span></button>
       <button data-panel="season">Season</button>
       <button data-panel="roster">Roster</button>
       <button data-panel="stats">Stats</button>
@@ -86,8 +86,8 @@
       </div>
     </div>
 
-    <div class="section-label"><h2>Upcoming Games Map</h2><span class="count">Next 8</span><div class="rule"></div></div>
-    <div class="card"><div class="map-wrap"><div id="schedule-map"></div></div><div class="map-legend">Pins show the next eight scheduled games. Tap a pin for opponent, start time, and arrival time.</div></div>
+    <div class="section-label"><h2>This Weekend's Games Map</h2><span class="count">This Weekend</span><div class="rule"></div></div>
+    <div class="card"><div class="map-wrap"><div id="schedule-map"></div></div><div class="map-legend">Pins show this weekend's scheduled games. Tap a pin for opponent, start time, and arrival time.</div></div>
 
     <div class="section-label"><h2>This Week's Rinks</h2><div class="rule"></div></div>
     <div class="card" id="week-rinks-card" style="padding:6px 0;"></div>
@@ -293,6 +293,12 @@
 
     <div class="grid res-grid">
       <div class="card res-card">
+        <h4>🔒 Live Scoring</h4>
+        <p style="font-size:13.5px;color:var(--ink-dim);line-height:1.5;margin:0 0 10px;">Live scores don't yet sync across devices, so this page is bench-manager access only for now.</p>
+        <a class="cta" href="#" id="scores-gate-link">Open Scores →</a>
+      </div>
+
+      <div class="card res-card">
         <h4>📍 Home Rink</h4>
         <dl>
           <dt>Rink</dt><dd>Champions Skating Center</dd>
@@ -308,6 +314,7 @@
           <dt>Send via Venmo</dt><dd><a href="https://venmo.com/u/fred-mooreiii" target="_blank" rel="noopener">@fred-mooreiii ↗</a></dd>
           <dt>Or</dt><dd>Cash / check to Fred</dd>
         </dl>
+        <p class="muted" style="font-size:11px;margin:8px 0 0;">Updated manually from the team spreadsheet — not yet a live sync.</p>
       </div>
 
       <div class="card res-card">
