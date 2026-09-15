@@ -9,7 +9,6 @@ const GAMES = [
     {m:"September 2026", day:"Sun", date:"Sep 13", time:"5:30 PM", side:"away", opp:"Avon 12U B", loc:"Avon Old Farms School", type:"League", result:null},
     {m:"September 2026", day:"Sat", date:"Sep 19", time:"3:30 PM", side:"home", opp:"Wonderland Wizards 12U B Blue", loc:"Champions Skating Center", type:"League", result:null},
     {m:"September 2026", day:"Sun", date:"Sep 20", time:"9:00 AM", side:"away", opp:"West Haven A1", loc:"Edward L. Bennett Rink", type:"League", result:null},
-    {m:"September 2026", day:"Sat", date:"Sep 26", time:"TBD", side:"away", opp:"Central U12 Girls", loc:"Newington Arena", type:"League", result:null},
     {m:"September 2026", day:"Sat", date:"Sep 26", time:"1:20 PM", side:"away", opp:"Central CT U12 Girls CGHL", loc:"Newington Red", type:"League", result:null},
     {m:"September 2026", day:"Sun", date:"Sep 27", time:"10:00 AM", side:"home", opp:"Enfield A1", loc:"Champions Skating Center", type:"League", result:null},
 
