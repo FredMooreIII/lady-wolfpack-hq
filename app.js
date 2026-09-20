@@ -978,6 +978,72 @@
       if(active)game=blankGame();
     }
 
+    // September 19: Wonderland Wizards 12U B Blue 6, Wolfpack 1. Confirmed game report.
+    {
+      const gameId='game-sep-19-wonderland-wizards-12u-b-blue';
+      const matches=h=>h && (h.gameId===gameId ||
+        (h.date==='Sep 19' && h.opponent==='Wonderland Wizards 12U B Blue'));
+      const saved=history.find(matches);
+      const active=matches(game)?game:null;
+      const reportMarker='wonderland-sep19-goal-1-v1';
+      if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
+        const corrected=normalizeHistoryEntry({
+          ...(saved || {}), id:saved?.id || 'h-sep19-wonderland', gameId,
+          opponent:'Wonderland Wizards 12U B Blue', date:'Sep 19', home:1, away:6,
+          manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
+          goalieChanges:[], absentPlayers:['Eve Krause','Hailey Reilly','Adde Zuck'],
+          events:[
+            {id:reportMarker,type:'goal',team:'us',period:1,elapsedMs:605000,scorer:'Bailey Pelletier'},
+            {id:'wonderland-sep19-goal-2',type:'goal',team:'opp',period:2,elapsedMs:639000,oppNum:'9',oppAssist1:'17'},
+            {id:'wonderland-sep19-goal-3',type:'goal',team:'opp',period:2,elapsedMs:570000,oppNum:'23',oppAssist1:'24'},
+            {id:'wonderland-sep19-goal-4',type:'goal',team:'opp',period:2,elapsedMs:482000,oppNum:'86'},
+            {id:'wonderland-sep19-goal-5',type:'goal',team:'opp',period:3,elapsedMs:169000,oppNum:'33'},
+            {id:'wonderland-sep19-goal-6',type:'goal',team:'opp',period:3,elapsedMs:94000,oppNum:'9',oppAssist1:'7'},
+            {id:'wonderland-sep19-goal-7',type:'goal',team:'opp',period:3,elapsedMs:81000,oppNum:'29',oppAssist1:'32',note:'Jersey #s unclear on scoresheet'}
+          ]
+        });
+        history=[corrected,...history.filter(h=>!matches(h))];
+      }
+      const finalResult=history.find(matches);
+      scheduleResults[gameId]=[finalResult.home,finalResult.away];
+      if(active)game=blankGame();
+    }
+
+    // September 20: West Haven A1 4, Wolfpack 4. Confirmed game report.
+    {
+      const gameId='game-sep-20-west-haven-a1';
+      const matches=h=>h && (h.gameId===gameId ||
+        (h.date==='Sep 20' && h.opponent==='West Haven A1'));
+      const saved=history.find(matches);
+      const active=matches(game)?game:null;
+      const reportMarker='westhaven-sep20-goal-1-v1';
+      if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
+        const corrected=normalizeHistoryEntry({
+          ...(saved || {}), id:saved?.id || 'h-sep20-westhaven', gameId,
+          opponent:'West Haven A1', date:'Sep 20', home:4, away:4,
+          manual:false, shootoutWinner:'', goalieStart:'Adde Zuck',
+          goalieChanges:[{from:'Adde Zuck',to:'Ana Straker',period:2,elapsedMs:360000}],
+          absentPlayers:['Hailey Reilly'],
+          events:[
+            {id:reportMarker,type:'goal',team:'opp',period:1,elapsedMs:386000,oppNum:'7',oppAssist1:'3'},
+            {id:'westhaven-sep20-goal-2',type:'goal',team:'us',period:1,elapsedMs:205000,scorer:'Bailey Pelletier',assist1:'Lizzie Melchiorre'},
+            {id:'westhaven-sep20-goal-3',type:'goal',team:'opp',period:1,elapsedMs:195000,oppNum:'3',oppAssist1:'8'},
+            {id:'westhaven-sep20-penalty-1',type:'penalty',team:'opp',period:2,elapsedMs:677000,infraction:'Hooking',minutes:1.5},
+            {id:'westhaven-sep20-goal-4',type:'goal',team:'opp',period:2,elapsedMs:575000,oppNum:'63'},
+            {id:'westhaven-sep20-goal-5',type:'goal',team:'us',period:2,elapsedMs:420000,scorer:'Eve Krause'},
+            {id:'westhaven-sep20-goalie-change',type:'goalieChange',team:'us',from:'Adde Zuck',to:'Ana Straker',period:2,elapsedMs:360000},
+            {id:'westhaven-sep20-goal-6',type:'goal',team:'opp',period:2,elapsedMs:101000,oppNum:'48'},
+            {id:'westhaven-sep20-goal-7',type:'goal',team:'us',period:3,elapsedMs:672000,scorer:'Bailey Pelletier'},
+            {id:'westhaven-sep20-goal-8',type:'goal',team:'us',period:3,elapsedMs:409000,scorer:'Nia Lorenzi',assist1:'Bailey Pelletier'}
+          ]
+        });
+        history=[corrected,...history.filter(h=>!matches(h))];
+      }
+      const finalResult=history.find(matches);
+      scheduleResults[gameId]=[finalResult.home,finalResult.away];
+      if(active)game=blankGame();
+    }
+
     GAMES.forEach(g => {
       if (scheduleResults[g.id]) g.result = [Number(scheduleResults[g.id][0]) || 0, Number(scheduleResults[g.id][1]) || 0];
     });
