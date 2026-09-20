@@ -257,7 +257,9 @@
           let resultHtml;
           if (g.result) {
             const [us, them] = g.result;
-            resultHtml = `<div class="result ${us > them ? 'w' : 'l'}">${us > them ? 'W' : 'L'} ${us}&ndash;${them}</div>`;
+            const outcome = us > them ? 'w' : (us < them ? 'l' : 'pending');
+            const outcomeLabel = us > them ? 'W' : (us < them ? 'L' : 'T');
+            resultHtml = `<div class="result ${outcome}">${outcomeLabel} ${us}&ndash;${them}</div>`;
           } else {
             resultHtml = `<div class="result pending">${g.time === 'TBD' ? 'Time TBD' : g.time}</div>`;
           }
