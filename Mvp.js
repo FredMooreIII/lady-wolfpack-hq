@@ -3,15 +3,17 @@
 // entry are simply skipped (the section itself hides completely when this list
 // is empty), so it doesn't need to be filled in every week.
 //
-// `players` is a list, not a single name, so a game can have more than one MVP
-// if you want to call out co-MVPs; `note` is optional and shows under the name.
-// Photos reuse the same assets/roster-photos/First Last.jpeg files as the
-// Roster tab -- no separate photo upload needed.
-//
-// Example:
-// {date:"Sep 20", opp:"West Haven A1", players:[
-//   {name:"Nia Lorenzi", note:"Locked down the blue line all game."}
-// ]},
+// `players` is a list, not a single name, so a game can have co-MVPs.
+// By default each player's photo comes from the same
+// assets/roster-photos/First Last.jpeg files the Roster tab already uses -- no
+// separate upload needed. If you'd rather use one shared photo for the whole
+// entry (e.g. a candid of the co-MVPs together), set `photo` to an image path
+// under assets/mvp-photos/ and it replaces the individual roster photos for
+// that entry. `note` is optional and shows under the name(s).
 
 const MVPS = [
+  {date:"Sep 20", opp:"West Haven A1", side:"away",
+    photo:"assets/mvp-photos/2026-09-20-west-haven.jpg",
+    players:[{name:"Ana Straker"}, {name:"Adde Zuck"}],
+    note:"Shared MVP in net after the West Haven game."},
 ];
