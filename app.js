@@ -387,7 +387,28 @@
     if (!list.length) { section.hidden = true; return; }
     section.hidden = false;
     document.getElementById('home-mvp-count').textContent = list.length + ' game' + (list.length===1?'':'s');
-    document.getElementById('home-mvp-cards').innerHTML = list.flatMap(g => (g.players || []).map(p => `
+    document.getElementById('home-mvp-cards').innerHTML = list.map(g => {
+      const names = (g.players || []).map(p => p.name);
+      const nameLabel = names.length > 1 ? names.slice(0,-1).join(', ') + ' & ' + names.slice(-1) : (names[0] || '');
+      const gameLabel = 'MVP' + (g.opp ? ' &middot; '+(g.side==='home'?'vs ':'@ ')+esc(g.opp) : '') + (g.date ? ' &middot; '+esc(g.date) : '');
+      // A shared `photo` (e.g. a candid of co-MVPs together) renders as one card;
+      // otherwise each player gets their own card using their roster headshot.
+      if (g.photo) {
+        const noteText = g.note || (g.players || []).map(p => p.note).filter(Boolean).join(' ');
+        return `
+      <div class="card mvp-card">
+        <div class="mvp-photo-wrap group">
+          <img src="${esc(g.photo)}" alt="${esc(nameLabel)}" onerror="this.remove()">
+          <span class="mvp-star" aria-hidden="true">⭐</span>
+        </div>
+        <div class="mvp-info">
+          <div class="mvp-name">${esc(nameLabel)}</div>
+          <div class="mvp-game">${gameLabel}</div>
+          ${noteText ? '<div class="mvp-note">'+esc(noteText)+'</div>' : ''}
+        </div>
+      </div>`;
+      }
+      return (g.players || []).map(p => `
       <div class="card mvp-card">
         <div class="mvp-photo-wrap">
           <img src="assets/roster-photos/${encodeURIComponent(p.name)}.jpeg" alt="${esc(p.name)}" onerror="this.remove()">
@@ -395,10 +416,11 @@
         </div>
         <div class="mvp-info">
           <div class="mvp-name">${esc(p.name)}</div>
-          <div class="mvp-game">MVP${g.opp ? ' &middot; '+(g.side==='home'?'vs ':'@ ')+esc(g.opp) : ''}${g.date ? ' &middot; '+esc(g.date) : ''}</div>
+          <div class="mvp-game">${gameLabel}</div>
           ${p.note ? '<div class="mvp-note">'+esc(p.note)+'</div>' : ''}
         </div>
-      </div>`)).join('');
+      </div>`).join('');
+    }).join('');
   }
   renderHomeMVPs();
 
