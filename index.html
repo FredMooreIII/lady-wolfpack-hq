@@ -76,6 +76,11 @@
     <p class="muted" id="home-recap-dates"></p>
     <div class="grid" id="home-recap-games" style="gap:12px;"></div>
 
+    <div id="home-mvp-section" hidden>
+      <div class="section-label"><h2>Game MVP</h2><span class="count" id="home-mvp-count"></span><div class="rule"></div></div>
+      <div class="grid" id="home-mvp-cards" style="gap:12px;"></div>
+    </div>
+
     <div class="section-label"><h2>Upcoming Practices</h2><div class="rule"></div></div>
     <div class="card">
       <div class="table-wrap">
@@ -83,6 +88,13 @@
           <tr><th>Day</th><th>Session</th><th>Rink</th></tr>
           <tbody id="home-practice-rows"></tbody>
         </table>
+      </div>
+    </div>
+
+    <div id="home-potw-section" hidden>
+      <div class="section-label"><h2>Player of the Week</h2><span class="count" id="home-potw-weekof"></span><div class="rule"></div></div>
+      <div class="card" style="padding:20px 22px;">
+        <div id="home-potw-layout"></div>
       </div>
     </div>
 
@@ -375,6 +387,8 @@
 <script src="data/practices.js"></script>
 <script src="data/roster.js"></script>
 <script src="data/logos.js"></script>
+<script src="data/mvp.js"></script>
+<script src="data/potw.js"></script>
 <script src="app.js"></script>
 
 </body></html>
