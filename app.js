@@ -377,6 +377,98 @@
   }
   renderHomeWeekends();
 
+  // Game MVPs -- Home tab, below Last Week Recap. Data lives in data/mvp.js;
+  // the whole section hides itself when that list is empty.
+  function renderHomeMVPs(){
+    const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const section = document.getElementById('home-mvp-section');
+    if (!section) return;
+    const list = (typeof MVPS !== 'undefined' && Array.isArray(MVPS)) ? MVPS : [];
+    if (!list.length) { section.hidden = true; return; }
+    section.hidden = false;
+    document.getElementById('home-mvp-count').textContent = list.length + ' game' + (list.length===1?'':'s');
+    document.getElementById('home-mvp-cards').innerHTML = list.flatMap(g => (g.players || []).map(p => `
+      <div class="card mvp-card">
+        <div class="mvp-photo-wrap">
+          <img src="assets/roster-photos/${encodeURIComponent(p.name)}.jpeg" alt="${esc(p.name)}" onerror="this.remove()">
+          <span class="mvp-star" aria-hidden="true">⭐</span>
+        </div>
+        <div class="mvp-info">
+          <div class="mvp-name">${esc(p.name)}</div>
+          <div class="mvp-game">MVP${g.opp ? ' &middot; '+(g.side==='home'?'vs ':'@ ')+esc(g.opp) : ''}${g.date ? ' &middot; '+esc(g.date) : ''}</div>
+          ${p.note ? '<div class="mvp-note">'+esc(p.note)+'</div>' : ''}
+        </div>
+      </div>`)).join('');
+  }
+  renderHomeMVPs();
+
+  // Player of the Week -- Home tab, below Upcoming Practices. Reuses the same
+  // jersey/stat flip-card markup as the Roster tab plus her Get to Know Me
+  // answers from data/potw.js. Set PLAYER_OF_WEEK to null there to hide it.
+  function renderPlayerOfWeek(){
+    const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const section = document.getElementById('home-potw-section');
+    if (!section) return;
+    const pow = (typeof PLAYER_OF_WEEK !== 'undefined') ? PLAYER_OF_WEEK : null;
+    const p = pow && pow.name ? ROSTER.find(r => r.name === pow.name) : null;
+    if (!pow || !p) { section.hidden = true; return; }
+    section.hidden = false;
+    document.getElementById('home-potw-weekof').textContent = pow.weekOf || '';
+    const lastNm = n => String(n||'').trim().split(/\s+/).slice(-1)[0] || '';
+    const posNm = pos => pos==='G' ? 'Goalie' : (pos==='D' ? 'Defense' : 'Forward');
+    const photoSrc = 'assets/roster-photos/' + encodeURIComponent(p.name) + '.jpeg';
+    const answersHtml = (pow.answers || []).map(qa => `<dt>${esc(qa.q)}</dt><dd>${esc(qa.a)}</dd>`).join('');
+    document.getElementById('home-potw-layout').innerHTML = `
+      <div class="potw-wrap">
+        <div class="potw-card-slot">
+          <div class="card flip-card pos-${p.pos}" tabindex="0" role="button" aria-label="${esc(p.name)}, tap to flip for stats">
+            <div class="flip-inner">
+              <div class="flip-face front">
+                ${p.r ? '<span class="r-tag" title="Returning player" aria-label="Returning player">R</span>' : ''}
+                <div class="jersey-stage">
+                  <img class="player-photo" src="${photoSrc}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove()" onload="this.closest('.jersey-stage').classList.add('has-photo')">
+                  <svg class="jersey-art" viewBox="0 0 1000 1000" role="img" aria-label="${esc(lastNm(p.name))}, number ${p.n} Wolfpack jersey">
+                    <image href="assets/jersey.webp" width="1000" height="1000"/>
+                    <text class="jersey-last" x="500" y="252" text-anchor="middle" font-size="52" textLength="${Math.min(330,lastNm(p.name).length*30)}" lengthAdjust="spacingAndGlyphs" opacity=".94">${esc(lastNm(p.name).toUpperCase())}</text>
+                    <text class="jersey-num" x="500" y="532" text-anchor="middle" font-size="272" textLength="${String(p.n).length===1?138:280}" lengthAdjust="spacingAndGlyphs" opacity=".95">${p.n}</text>
+                  </svg>
+                </div>
+                <div class="jersey-card-footer">
+                  <div class="name">${esc(p.name)}</div>
+                  <div class="pos">${posNm(p.pos)}</div>
+                </div>
+                <div class="flip-hint">🔄 stats</div>
+              </div>
+              <div class="flip-face back">
+                <div class="stat-face">
+                  <div class="sf-head">
+                    <div class="sf-name">#${p.n} ${esc(p.name)}</div>
+                    <div class="sf-sub">2026&ndash;27 Season</div>
+                  </div>
+                  <div class="stat-grid">
+                    <div class="stat-cell"><div class="sv mono">${p.g}</div><div class="sl">Goals</div></div>
+                    <div class="stat-cell"><div class="sv mono">${p.a}</div><div class="sl">Assists</div></div>
+                    <div class="stat-cell"><div class="sv mono">${p.pts}</div><div class="sl">Points</div></div>
+                    <div class="stat-cell"><div class="sv mono">${p.gp}</div><div class="sl">GP</div></div>
+                    <div class="stat-cell"><div class="sv mono">${p.appg.toFixed(1)}</div><div class="sl">Pts/Gm</div></div>
+                    <div class="stat-cell"><div class="sv mono">${p.pim}</div><div class="sl">PIM</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <dl class="potw-answers">${answersHtml}</dl>
+      </div>`;
+    const card = document.querySelector('#home-potw-layout .flip-card');
+    if (card) {
+      const toggle = () => card.classList.toggle('flipped');
+      card.addEventListener('click', toggle);
+      card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    }
+  }
+  renderPlayerOfWeek();
+
   // This week's rinks (Home tab) — computed live from this weekend's games so it
   // never goes stale, instead of a hand-kept WEEK_RINKS list.
   function renderWeekRinks(){
