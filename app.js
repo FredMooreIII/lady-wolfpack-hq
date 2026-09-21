@@ -987,7 +987,7 @@
         (h.date==='Sep 19' && h.opponent==='Wonderland Wizards 12U B Blue'));
       const saved=history.find(matches);
       const active=matches(game)?game:null;
-      const reportMarker='wonderland-sep19-goal-1-v1';
+      const reportMarker='wonderland-sep19-goal-1-v2';
       if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
         const corrected=normalizeHistoryEntry({
           ...(saved || {}), id:saved?.id || 'h-sep19-wonderland', gameId,
@@ -995,7 +995,7 @@
           manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
           goalieChanges:[], absentPlayers:['Eve Krause','Hailey Reilly','Adde Zuck'],
           events:[
-            {id:reportMarker,type:'goal',team:'us',period:1,elapsedMs:605000,scorer:'Bailey Pelletier'},
+            {id:reportMarker,type:'goal',team:'us',period:1,elapsedMs:605000,scorer:'Lizzie Melchiorre',assist1:'Khloe Starkey',assist2:'Bailey Pelletier'},
             {id:'wonderland-sep19-goal-2',type:'goal',team:'opp',period:2,elapsedMs:639000,oppNum:'9',oppAssist1:'17'},
             {id:'wonderland-sep19-goal-3',type:'goal',team:'opp',period:2,elapsedMs:570000,oppNum:'23',oppAssist1:'24'},
             {id:'wonderland-sep19-goal-4',type:'goal',team:'opp',period:2,elapsedMs:482000,oppNum:'86'},
