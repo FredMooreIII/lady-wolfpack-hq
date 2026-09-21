@@ -424,9 +424,10 @@
   }
   renderHomeMVPs();
 
-  // Player of the Week -- Home tab, below Upcoming Practices. Reuses the same
-  // jersey/stat flip-card markup as the Roster tab plus her Get to Know Me
-  // answers from data/potw.js. Set PLAYER_OF_WEEK to null there to hide it.
+  // Player of the Week -- Home tab, below Upcoming Practices. Shows her roster
+  // photo (static, no flip/stats -- those come from the Roster tab) plus her
+  // Get to Know Me answers from data/potw.js. Set PLAYER_OF_WEEK to null there
+  // to hide it.
   function renderPlayerOfWeek(){
     const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const section = document.getElementById('home-potw-section');
@@ -439,55 +440,30 @@
     const lastNm = n => String(n||'').trim().split(/\s+/).slice(-1)[0] || '';
     const posNm = pos => pos==='G' ? 'Goalie' : (pos==='D' ? 'Defense' : 'Forward');
     const photoSrc = 'assets/roster-photos/' + encodeURIComponent(p.name) + '.jpeg';
-    const answersHtml = (pow.answers || []).map(qa => `<dt>${esc(qa.q)}</dt><dd>${esc(qa.a)}</dd>`).join('');
+    // Each Q&A pair is wrapped together so the grid can't split a question from
+    // its answer onto different rows/columns.
+    const answersHtml = (pow.answers || []).map(qa => `<div class="potw-qa"><dt>${esc(qa.q)}</dt><dd>${esc(qa.a)}</dd></div>`).join('');
     document.getElementById('home-potw-layout').innerHTML = `
       <div class="potw-wrap">
         <div class="potw-card-slot">
-          <div class="card flip-card pos-${p.pos}" tabindex="0" role="button" aria-label="${esc(p.name)}, tap to flip for stats">
-            <div class="flip-inner">
-              <div class="flip-face front">
-                ${p.r ? '<span class="r-tag" title="Returning player" aria-label="Returning player">R</span>' : ''}
-                <div class="jersey-stage">
-                  <img class="player-photo" src="${photoSrc}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove()" onload="this.closest('.jersey-stage').classList.add('has-photo')">
-                  <svg class="jersey-art" viewBox="0 0 1000 1000" role="img" aria-label="${esc(lastNm(p.name))}, number ${p.n} Wolfpack jersey">
-                    <image href="assets/jersey.webp" width="1000" height="1000"/>
-                    <text class="jersey-last" x="500" y="252" text-anchor="middle" font-size="52" textLength="${Math.min(330,lastNm(p.name).length*30)}" lengthAdjust="spacingAndGlyphs" opacity=".94">${esc(lastNm(p.name).toUpperCase())}</text>
-                    <text class="jersey-num" x="500" y="532" text-anchor="middle" font-size="272" textLength="${String(p.n).length===1?138:280}" lengthAdjust="spacingAndGlyphs" opacity=".95">${p.n}</text>
-                  </svg>
-                </div>
-                <div class="jersey-card-footer">
-                  <div class="name">${esc(p.name)}</div>
-                  <div class="pos">${posNm(p.pos)}</div>
-                </div>
-                <div class="flip-hint">🔄 stats</div>
-              </div>
-              <div class="flip-face back">
-                <div class="stat-face">
-                  <div class="sf-head">
-                    <div class="sf-name">#${p.n} ${esc(p.name)}</div>
-                    <div class="sf-sub">2026&ndash;27 Season</div>
-                  </div>
-                  <div class="stat-grid">
-                    <div class="stat-cell"><div class="sv mono">${p.g}</div><div class="sl">Goals</div></div>
-                    <div class="stat-cell"><div class="sv mono">${p.a}</div><div class="sl">Assists</div></div>
-                    <div class="stat-cell"><div class="sv mono">${p.pts}</div><div class="sl">Points</div></div>
-                    <div class="stat-cell"><div class="sv mono">${p.gp}</div><div class="sl">GP</div></div>
-                    <div class="stat-cell"><div class="sv mono">${p.appg.toFixed(1)}</div><div class="sl">Pts/Gm</div></div>
-                    <div class="stat-cell"><div class="sv mono">${p.pim}</div><div class="sl">PIM</div></div>
-                  </div>
-                </div>
-              </div>
+          <div class="card potw-photo-card">
+            ${p.r ? '<span class="r-tag" title="Returning player" aria-label="Returning player">R</span>' : ''}
+            <div class="jersey-stage">
+              <img class="player-photo" src="${photoSrc}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove()" onload="this.closest('.jersey-stage').classList.add('has-photo')">
+              <svg class="jersey-art" viewBox="0 0 1000 1000" role="img" aria-label="${esc(lastNm(p.name))}, number ${p.n} Wolfpack jersey">
+                <image href="assets/jersey.webp" width="1000" height="1000"/>
+                <text class="jersey-last" x="500" y="252" text-anchor="middle" font-size="52" textLength="${Math.min(330,lastNm(p.name).length*30)}" lengthAdjust="spacingAndGlyphs" opacity=".94">${esc(lastNm(p.name).toUpperCase())}</text>
+                <text class="jersey-num" x="500" y="532" text-anchor="middle" font-size="272" textLength="${String(p.n).length===1?138:280}" lengthAdjust="spacingAndGlyphs" opacity=".95">${p.n}</text>
+              </svg>
+            </div>
+            <div class="jersey-card-footer">
+              <div class="name">${esc(p.name)}</div>
+              <div class="pos">${posNm(p.pos)}</div>
             </div>
           </div>
         </div>
         <dl class="potw-answers">${answersHtml}</dl>
       </div>`;
-    const card = document.querySelector('#home-potw-layout .flip-card');
-    if (card) {
-      const toggle = () => card.classList.toggle('flipped');
-      card.addEventListener('click', toggle);
-      card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
-    }
   }
   renderPlayerOfWeek();
 
