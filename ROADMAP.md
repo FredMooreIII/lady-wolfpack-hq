@@ -96,6 +96,16 @@ _A batch of 10 items Fred requested directly while reviewing the site. Items abo
 
 ---
 
+## Added September 21, 2026 (Fred)
+
+_Three feature questions Fred asked directly. First two implemented and verified with Playwright; third is a recommendation only, not yet built._
+
+- [x] **Game MVP section.** New section on the Home page, between Last Week Recap and Upcoming Practices. Data lives in `data/mvp.js` — one entry per game with an MVP (supports co-MVPs and an optional shared photo for that case), section hides itself entirely when the list is empty. Shipped with the Sep 20 West Haven co-MVP entry (Ana Straker & Adde Zuck) using a shared photo Fred provided (`assets/mvp-photos/2026-09-20-west-haven.jpg`).
+- [x] **Player of the Week section.** New section on the Home page, below Upcoming Practices. Reuses the existing Roster jersey/stat flip-card component for the named player plus a curated set of her answers from the "Get to Know Me" Google Sheet (spreadsheet `1SrySqsEVRaBC_PLDmeFB6-VFQ9CSm0cmFL-Oq05IQd4`, gid `502291596`). Data lives in `data/potw.js`; set to `null` to hide. Shipped with Nia Lorenzi as the first pick.
+- [ ] **Video section.** Not implemented — Fred has a Google Drive folder of team videos shared with him and asked for the best way to get them on the site. Recommended YouTube (unlisted) over Drive-embed (permission risk since Fred doesn't own that folder) and self-hosting (GitHub Pages/repo size is a bad fit for video). Needs Fred to pick a path and provide at least one video link before this can be built.
+
+---
+
 ## Collaboration Status
 
 ### ChatGPT
@@ -111,3 +121,4 @@ _A batch of 10 items Fred requested directly while reviewing the site. Items abo
 - Shared ROADMAP.md created.
 - Full Current Priorities audit against live code (2026-09-14, Claude) — see checkboxes above.
 - Batch of 10 items Fred requested directly, implemented 2026-09-14 (Claude) — see "Added September 14, 2026 (Fred)" and the backlog items it cross-references above. Verified with Playwright (gate/bench-passcode flows, popup boxscore on both Season and Home cards, slimmed row heights, dynamic rink list, corrected Team Fund balance) before delivery.
+- Game MVP + Player of the Week Home sections, implemented 2026-09-21 (Claude) — see "Added September 21, 2026 (Fred)" above. Verified with Playwright (empty-state hiding, populated rendering, POTW flip interaction) before delivery.
