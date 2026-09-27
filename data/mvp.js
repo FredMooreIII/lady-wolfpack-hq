@@ -12,8 +12,7 @@
 // that entry. `note` is optional and shows under the name(s).
 
 const MVPS = [
-  {date:"Sep 20", opp:"West Haven A1", side:"away",
-    photo:"assets/mvp-photos/2026-09-20-west-haven.jpg",
-    players:[{name:"Ana Straker"}, {name:"Adde Zuck"}],
-    note:"Shared MVP in net after the West Haven game."},
+  // No MVP entry for Sep 26/27 (Fred: "No player of the game"). The Sep 20
+  // West Haven co-MVP entry has been cleared since it's now a week stale --
+  // add a new entry here whenever there's a fresh pick.
 ];
