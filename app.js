@@ -1150,7 +1150,7 @@
           opponent:'Central CT U12 Girls CGHL', date:'Sep 26', home:0, away:3,
           manual:false, shootoutWinner:'', goalieStart:'Adde Zuck',
           goalieChanges:[{from:'Adde Zuck',to:'Ana Straker',period:2,elapsedMs:360000}],
-          absentPlayers:[],
+          absentPlayers:['Mackenzie Moore','Lizzie Melchiorre'],
           events:[
             {id:reportMarker,type:'goal',team:'opp',period:1,elapsedMs:838000,oppNum:'36'},
             {id:'centralct-sep26-penalty-1',type:'penalty',team:'opp',period:1,elapsedMs:181000,oppNum:'37',infraction:'Checking',minutes:1.5},
@@ -1183,7 +1183,7 @@
           opponent:'Enfield A1', date:'Sep 27', home:1, away:11,
           manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
           goalieChanges:[{from:'Ana Straker',to:'Adde Zuck',period:2,elapsedMs:360000}],
-          absentPlayers:[],
+          absentPlayers:['Mackenzie Moore'],
           events:[
             {id:reportMarker,type:'goal',team:'opp',period:1,elapsedMs:529000},
             {id:'enfield-sep27-goal-2',type:'goal',team:'opp',period:1,elapsedMs:389000},
