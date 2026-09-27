@@ -1136,6 +1136,77 @@
       if(active)game=blankGame();
     }
 
+    // September 26: Central CT U12 Girls CGHL 3, Wolfpack 0. Confirmed game report.
+    {
+      const gameId='game-sep-26-central-ct-u12-girls-cghl';
+      const matches=h=>h && (h.gameId===gameId ||
+        (h.date==='Sep 26' && h.opponent==='Central CT U12 Girls CGHL'));
+      const saved=history.find(matches);
+      const active=matches(game)?game:null;
+      const reportMarker='centralct-sep26-goal-1-v1';
+      if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
+        const corrected=normalizeHistoryEntry({
+          ...(saved || {}), id:saved?.id || 'h-sep26-centralct', gameId,
+          opponent:'Central CT U12 Girls CGHL', date:'Sep 26', home:0, away:3,
+          manual:false, shootoutWinner:'', goalieStart:'Adde Zuck',
+          goalieChanges:[{from:'Adde Zuck',to:'Ana Straker',period:2,elapsedMs:360000}],
+          absentPlayers:[],
+          events:[
+            {id:reportMarker,type:'goal',team:'opp',period:1,elapsedMs:838000,oppNum:'36'},
+            {id:'centralct-sep26-penalty-1',type:'penalty',team:'opp',period:1,elapsedMs:181000,oppNum:'37',infraction:'Checking',minutes:1.5},
+            {id:'centralct-sep26-goal-2',type:'goal',team:'opp',period:2,elapsedMs:773000,oppNum:'6',oppAssist1:'62'},
+            {id:'centralct-sep26-penalty-2',type:'penalty',team:'us',period:2,elapsedMs:746000,player:'Mairead Hornish',infraction:'Tripping',minutes:1.5},
+            {id:'centralct-sep26-goal-3',type:'goal',team:'opp',period:2,elapsedMs:574000,oppNum:'55'},
+            {id:'centralct-sep26-goalie-change',type:'goalieChange',team:'us',from:'Adde Zuck',to:'Ana Straker',period:2,elapsedMs:360000},
+            {id:'centralct-sep26-penalty-3',type:'penalty',team:'opp',period:3,elapsedMs:329000,oppNum:'16',infraction:'Tripping',minutes:1.5},
+            {id:'centralct-sep26-penalty-4',type:'penalty',team:'opp',period:3,elapsedMs:232000,oppNum:'55',infraction:'Tripping',minutes:1.5}
+          ]
+        });
+        history=[corrected,...history.filter(h=>!matches(h))];
+      }
+      const finalResult=history.find(matches);
+      scheduleResults[gameId]=[finalResult.home,finalResult.away];
+      if(active)game=blankGame();
+    }
+
+    // September 27: Enfield A1 11, Wolfpack 1. Confirmed game report.
+    {
+      const gameId='game-sep-27-enfield-a1';
+      const matches=h=>h && (h.gameId===gameId ||
+        (h.date==='Sep 27' && h.opponent==='Enfield A1'));
+      const saved=history.find(matches);
+      const active=matches(game)?game:null;
+      const reportMarker='enfield-sep27-goal-1-v1';
+      if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
+        const corrected=normalizeHistoryEntry({
+          ...(saved || {}), id:saved?.id || 'h-sep27-enfield', gameId,
+          opponent:'Enfield A1', date:'Sep 27', home:1, away:11,
+          manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
+          goalieChanges:[{from:'Ana Straker',to:'Adde Zuck',period:2,elapsedMs:360000}],
+          absentPlayers:[],
+          events:[
+            {id:reportMarker,type:'goal',team:'opp',period:1,elapsedMs:529000},
+            {id:'enfield-sep27-goal-2',type:'goal',team:'opp',period:1,elapsedMs:389000},
+            {id:'enfield-sep27-goal-3',type:'goal',team:'opp',period:1,elapsedMs:353000},
+            {id:'enfield-sep27-goal-4',type:'goal',team:'opp',period:1,elapsedMs:135000},
+            {id:'enfield-sep27-goal-5',type:'goal',team:'opp',period:1,elapsedMs:28000},
+            {id:'enfield-sep27-goal-6',type:'goal',team:'us',period:2,elapsedMs:852000,scorer:'Emma Zhang',assist1:'Eve Krause'},
+            {id:'enfield-sep27-goal-7',type:'goal',team:'opp',period:2,elapsedMs:805000},
+            {id:'enfield-sep27-goal-8',type:'goal',team:'opp',period:2,elapsedMs:665000},
+            {id:'enfield-sep27-goalie-change',type:'goalieChange',team:'us',from:'Ana Straker',to:'Adde Zuck',period:2,elapsedMs:360000},
+            {id:'enfield-sep27-goal-9',type:'goal',team:'opp',period:3,elapsedMs:818000},
+            {id:'enfield-sep27-goal-10',type:'goal',team:'opp',period:3,elapsedMs:497000},
+            {id:'enfield-sep27-goal-11',type:'goal',team:'opp',period:3,elapsedMs:412000},
+            {id:'enfield-sep27-goal-12',type:'goal',team:'opp',period:3,elapsedMs:6000}
+          ]
+        });
+        history=[corrected,...history.filter(h=>!matches(h))];
+      }
+      const finalResult=history.find(matches);
+      scheduleResults[gameId]=[finalResult.home,finalResult.away];
+      if(active)game=blankGame();
+    }
+
     GAMES.forEach(g => {
       if (scheduleResults[g.id]) g.result = [Number(scheduleResults[g.id][0]) || 0, Number(scheduleResults[g.id][1]) || 0];
     });
