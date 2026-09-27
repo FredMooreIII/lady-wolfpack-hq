@@ -106,6 +106,17 @@ _Three feature questions Fred asked directly. First two implemented and verified
 
 ---
 
+## Added September 27, 2026 (Fred)
+
+_Weekly game-report + Player of the Week update from Fred._
+
+- [x] **Player of the Week bug fixes.** Removed the flip-card/stats interaction from the Home POTW card per Fred's feedback (the stats face was wrong and unwanted) — it's now a static photo card only, jersey art + name/position, no click/flip. Also fixed a `<dl>` grid layout bug that was jumbling the Q&A pairs (each `<dt>`/`<dd>` was its own grid item under row-major auto-placement, splitting some questions from their answers) — each pair is now wrapped in its own `.potw-qa` div so the grid places them as a unit. Fixed unintended extra spacing above the Game MVP and Player of the Week section headings (a `.section-label:first-child{margin-top:0}` rule meant for the page's very first heading was firing on these nested headings too).
+- [x] **Sep 26 & Sep 27 game reports.** Added confirmed-report correction blocks to `app.js` for both weekend losses: Sat Sep 26 @ Central CT U12 Girls CGHL (L 0–3, Adde Zuck started in goal, switched to Ana Straker halfway through the 2nd) and Sun Sep 27 vs. Enfield A1 (L 1–11, corrected from Fred's initial "1–10" after the 11 listed goal times didn't match; Ana Straker started, switched to Adde Zuck halfway through the 2nd; lone goal by Emma Zhang, assisted by Eve Krause). Full goal/penalty/goalie-change play-by-play verified against Fred's scoresheet data and confirmed in the boxscore modal, goalie leaderboard, and team record via Playwright.
+- [x] **Player of the Week: Mackenzie Moore.** Updated `data/potw.js` with her answers from the "Get to Know Me" sheet.
+- No new Game MVP entries this week (Fred: "No player of the game"). The Sep 20 West Haven co-MVP entry in `data/mvp.js` is now a week stale — flagged for Fred to decide whether to clear it or leave it as the most recent pick until a new one is named.
+
+---
+
 ## Collaboration Status
 
 ### ChatGPT
@@ -122,3 +133,4 @@ _Three feature questions Fred asked directly. First two implemented and verified
 - Full Current Priorities audit against live code (2026-09-14, Claude) — see checkboxes above.
 - Batch of 10 items Fred requested directly, implemented 2026-09-14 (Claude) — see "Added September 14, 2026 (Fred)" and the backlog items it cross-references above. Verified with Playwright (gate/bench-passcode flows, popup boxscore on both Season and Home cards, slimmed row heights, dynamic rink list, corrected Team Fund balance) before delivery.
 - Game MVP + Player of the Week Home sections, implemented 2026-09-21 (Claude) — see "Added September 21, 2026 (Fred)" above. Verified with Playwright (empty-state hiding, populated rendering, POTW flip interaction) before delivery.
+- POTW bug fixes + Sep 26/27 game reports + Mackenzie Moore POTW update, implemented 2026-09-27 (Claude) — see "Added September 27, 2026 (Fred)" above. Verified with Playwright (scores, boxscore play-by-play, goalie leaderboard, team record, no console errors) before delivery.
