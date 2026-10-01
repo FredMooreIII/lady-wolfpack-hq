@@ -10,10 +10,17 @@ const RINK_COORDS = {
     "MassMutual Center":[42.1009,-72.5898], "Newington Red":[41.6868,-72.7203], "Louis Astorino Ice Arena":[41.3406,-72.9536]
   };
 const KNOWN_ABSENCES = {
-    'g87055': ['Ana Straker'],
-    'g87042': ['Lizzie Melchiorre'],
-    'g87058': ['Lizzie Melchiorre'],
-    'game-sep-6-ptl-12u-aa': ['Olivia Schortman','Mackenzie Moore','Lizzie Melchiorre']
+    'g87055': ['Ana Straker','Vivianne Currence'],
+    'g87042': ['Lizzie Melchiorre','Vivianne Currence'],
+    'g87058': ['Lizzie Melchiorre','Vivianne Currence'],
+    'g87043': ['Vivianne Currence'],
+    'game-sep-6-ptl-12u-aa': ['Olivia Schortman','Mackenzie Moore','Lizzie Melchiorre','Vivianne Currence'],
+    'game-sep-12-wallingford-hawks-blue': ['Vivianne Currence'],
+    'game-sep-13-avon-12u-b': ['Vivianne Currence'],
+    'game-sep-19-wonderland-wizards-12u-b-blue': ['Vivianne Currence'],
+    'game-sep-20-west-haven-a1': ['Vivianne Currence'],
+    'game-sep-26-central-ct-u12-girls-cghl': ['Vivianne Currence'],
+    'game-sep-27-enfield-a1': ['Vivianne Currence']
   };
 const ANA_BASELINE_GAME_IDS = new Set(['g87055','g87043','g87042','g87058','game-sep-6-ptl-12u-aa']);
 const ANA_CONFIRMED_BASELINE = {gp:4, starts:1, changesIn:3, wins:1, losses:3};
