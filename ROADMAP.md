@@ -117,6 +117,12 @@ _Weekly game-report + Player of the Week update from Fred._
 
 ---
 
+## Added October 4, 2026 (Fred)
+
+- [x] **Oct 3 & Oct 4 game reports.** Added confirmed-report blocks to `app.js`: Sat Oct 3 vs South Windsor B (W 12–0, shutout; Ana Straker in net the full game) and Sun Oct 4 @ Hamden A1 (W 5–3; Ana full game). Oct 3 transcribed from the handwritten gamesheet photo, with Fred's corrections applied (first goal #15 from #23, 2nd-period 0:14 goal assisted by Nia Lorenzi, 2nd-period 8:32 goal's second assist #2 Bailey Moore, and exact clock times). Oct 4 from Fred's typed notes, including a Hamden #2 hooking penalty at 13:42 in the 1st (treated as an opponent penalty, 1:30). Absences: Oct 3 — Adde, Olivia, Lizzie, Vivianne, Mackenzie; Oct 4 — Adde, Olivia, Lizzie, Vivianne. Verified via Playwright (scores, boxscore modals, GP, goalie leaderboard, record 3-8-2).
+
+---
+
 ## Collaboration Status
 
 ### ChatGPT
