@@ -1207,6 +1207,77 @@
       if(active)game=blankGame();
     }
 
+    // October 3: Wolfpack 12, South Windsor B 0. Confirmed game report.
+    {
+      const gameId='game-oct-3-south-windsor-b';
+      const matches=h=>h && (h.gameId===gameId ||
+        (h.date==='Oct 3' && h.opponent==='South Windsor B'));
+      const saved=history.find(matches);
+      const active=matches(game)?game:null;
+      const reportMarker='southwindsor-oct3-goal-1-v1';
+      if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
+        const corrected=normalizeHistoryEntry({
+          ...(saved || {}), id:saved?.id || 'h-oct3-southwindsor', gameId,
+          opponent:'South Windsor B', date:'Oct 3', home:12, away:0,
+          manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
+          goalieChanges:[],
+          absentPlayers:['Adde Zuck','Olivia Schortman','Lizzie Melchiorre','Vivianne Currence','Mackenzie Moore'],
+          events:[
+            {id:reportMarker,type:'goal',team:'us',period:1,elapsedMs:793000,scorer:'Evangeline Zhang',assist1:'Bailey Pelletier'},
+            {id:'southwindsor-oct3-goal-2',type:'goal',team:'us',period:1,elapsedMs:759000,scorer:'Mairead Hornish',assist1:'Khloe Starkey'},
+            {id:'southwindsor-oct3-goal-3',type:'goal',team:'us',period:1,elapsedMs:633000,scorer:'Mairead Hornish',assist1:'Hailey Reilly'},
+            {id:'southwindsor-oct3-goal-4',type:'goal',team:'us',period:1,elapsedMs:570000,scorer:'Emma Zhang',assist1:'Bailey Pelletier'},
+            {id:'southwindsor-oct3-goal-5',type:'goal',team:'us',period:1,elapsedMs:221000,scorer:'Evangeline Zhang',assist1:'Mairead Hornish'},
+            {id:'southwindsor-oct3-goal-6',type:'goal',team:'us',period:2,elapsedMs:891000,scorer:'Eve Krause'},
+            {id:'southwindsor-oct3-goal-7',type:'goal',team:'us',period:2,elapsedMs:512000,scorer:'Bailey Pelletier',assist1:'Khloe Starkey',assist2:'Bailey Moore'},
+            {id:'southwindsor-oct3-goal-8',type:'goal',team:'us',period:2,elapsedMs:460000,scorer:'Mairead Hornish'},
+            {id:'southwindsor-oct3-goal-9',type:'goal',team:'us',period:2,elapsedMs:347000,scorer:'Evangeline Zhang',assist1:'Bailey Moore'},
+            {id:'southwindsor-oct3-goal-10',type:'goal',team:'us',period:2,elapsedMs:328000,scorer:'Eve Krause',assist1:'Mairead Hornish'},
+            {id:'southwindsor-oct3-goal-11',type:'goal',team:'us',period:2,elapsedMs:14000,scorer:'Bailey Pelletier',assist1:'Nia Lorenzi'},
+            {id:'southwindsor-oct3-goal-12',type:'goal',team:'us',period:3,elapsedMs:490000,scorer:'Mairead Hornish',assist1:'Evangeline Zhang'}
+          ]
+        });
+        history=[corrected,...history.filter(h=>!matches(h))];
+      }
+      const finalResult=history.find(matches);
+      scheduleResults[gameId]=[finalResult.home,finalResult.away];
+      if(active)game=blankGame();
+    }
+
+    // October 4: Wolfpack 5, Hamden A1 3 (away). Confirmed game report.
+    {
+      const gameId='game-oct-4-hamden-a1';
+      const matches=h=>h && (h.gameId===gameId ||
+        (h.date==='Oct 4' && h.opponent==='Hamden A1'));
+      const saved=history.find(matches);
+      const active=matches(game)?game:null;
+      const reportMarker='hamden-oct4-goal-1-v1';
+      if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
+        const corrected=normalizeHistoryEntry({
+          ...(saved || {}), id:saved?.id || 'h-oct4-hamden', gameId,
+          opponent:'Hamden A1', date:'Oct 4', home:5, away:3,
+          manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
+          goalieChanges:[],
+          absentPlayers:['Adde Zuck','Olivia Schortman','Lizzie Melchiorre','Vivianne Currence'],
+          events:[
+            {id:reportMarker,type:'goal',team:'us',period:1,elapsedMs:864000,scorer:'Khloe Starkey',assist1:'Mairead Hornish',assist2:'Eve Krause'},
+            {id:'hamden-oct4-penalty-1',type:'penalty',team:'opp',period:1,elapsedMs:822000,oppNum:'2',infraction:'Hooking',minutes:1.5},
+            {id:'hamden-oct4-goal-2',type:'goal',team:'opp',period:1,elapsedMs:654000,oppNum:'3'},
+            {id:'hamden-oct4-goal-3',type:'goal',team:'opp',period:2,elapsedMs:559000,oppNum:'15',oppAssist1:'13'},
+            {id:'hamden-oct4-goal-4',type:'goal',team:'opp',period:2,elapsedMs:500000,oppNum:'7',oppAssist1:'53',oppAssist2:'2'},
+            {id:'hamden-oct4-goal-5',type:'goal',team:'us',period:2,elapsedMs:438000,scorer:'Mairead Hornish'},
+            {id:'hamden-oct4-goal-6',type:'goal',team:'us',period:3,elapsedMs:838000,scorer:'Evangeline Zhang',assist1:'Emma Zhang'},
+            {id:'hamden-oct4-goal-7',type:'goal',team:'us',period:3,elapsedMs:659000,scorer:'Bailey Moore',assist1:'Mairead Hornish'},
+            {id:'hamden-oct4-goal-8',type:'goal',team:'us',period:3,elapsedMs:544000,scorer:'Evangeline Zhang'}
+          ]
+        });
+        history=[corrected,...history.filter(h=>!matches(h))];
+      }
+      const finalResult=history.find(matches);
+      scheduleResults[gameId]=[finalResult.home,finalResult.away];
+      if(active)game=blankGame();
+    }
+
     GAMES.forEach(g => {
       if (scheduleResults[g.id]) g.result = [Number(scheduleResults[g.id][0]) || 0, Number(scheduleResults[g.id][1]) || 0];
     });
