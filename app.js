@@ -436,7 +436,9 @@
     const p = pow && pow.name ? ROSTER.find(r => r.name === pow.name) : null;
     if (!pow || !p) { section.hidden = true; return; }
     section.hidden = false;
-    document.getElementById('home-potw-weekof').textContent = pow.weekOf || '';
+    const weekEl = document.getElementById('home-potw-weekof');
+    weekEl.textContent = pow.weekOf || '';
+    weekEl.hidden = !pow.weekOf; // no label (and no empty pill) when weekOf is omitted
     const lastNm = n => String(n||'').trim().split(/\s+/).slice(-1)[0] || '';
     const posNm = pos => pos==='G' ? 'Goalie' : (pos==='D' ? 'Defense' : 'Forward');
     const photoSrc = 'assets/roster-photos/' + encodeURIComponent(p.name) + '.jpeg';
@@ -1269,6 +1271,77 @@
             {id:'hamden-oct4-goal-6',type:'goal',team:'us',period:3,elapsedMs:838000,scorer:'Evangeline Zhang',assist1:'Emma Zhang'},
             {id:'hamden-oct4-goal-7',type:'goal',team:'us',period:3,elapsedMs:659000,scorer:'Bailey Moore',assist1:'Mairead Hornish'},
             {id:'hamden-oct4-goal-8',type:'goal',team:'us',period:3,elapsedMs:544000,scorer:'Evangeline Zhang'}
+          ]
+        });
+        history=[corrected,...history.filter(h=>!matches(h))];
+      }
+      const finalResult=history.find(matches);
+      scheduleResults[gameId]=[finalResult.home,finalResult.away];
+      if(active)game=blankGame();
+    }
+
+    // October 10: CT Polar Bears 8, Wolfpack 0 (away). Confirmed game report (gamesheet 2996078).
+    {
+      const gameId='game-oct-10-ct-polar-bears';
+      const matches=h=>h && (h.gameId===gameId ||
+        (h.date==='Oct 10' && h.opponent==='CT Polar Bears'));
+      const saved=history.find(matches);
+      const active=matches(game)?game:null;
+      const reportMarker='polar-oct10-goal-1-v1';
+      if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
+        const corrected=normalizeHistoryEntry({
+          ...(saved || {}), id:saved?.id || 'h-oct10-polar', gameId,
+          opponent:'CT Polar Bears', date:'Oct 10', home:0, away:8,
+          manual:false, shootoutWinner:'', goalieStart:'Adde Zuck',
+          goalieChanges:[{from:'Adde Zuck',to:'Ana Straker',period:2,elapsedMs:360000}],
+          absentPlayers:['Olivia Schortman','Lizzie Melchiorre','Eve Krause','Vivianne Currence'],
+          events:[
+            {id:'polar-oct10-goal-1-v1',type:'goal',team:'opp',period:1,elapsedMs:740000,oppNum:'84'},
+            {id:'polar-oct10-goal-2',type:'goal',team:'opp',period:1,elapsedMs:632000,oppNum:'23',oppAssist1:'17'},
+            {id:'polar-oct10-penalty-1',type:'penalty',team:'us',period:1,elapsedMs:285000,player:'Khloe Starkey',infraction:'Tripping/Clipping/Leg Checking',minutes:2},
+            {id:'polar-oct10-penalty-2',type:'penalty',team:'us',period:2,elapsedMs:326000,player:'Mairead Hornish',infraction:'Tripping/Clipping/Leg Checking',minutes:2},
+            {id:'polar-oct10-penalty-3',type:'penalty',team:'opp',period:2,elapsedMs:226000,oppNum:'43',infraction:'Interference',minutes:2},
+            {id:'polar-oct10-goal-3',type:'goal',team:'opp',period:2,elapsedMs:56000,oppNum:'35',oppAssist1:'87'},
+            {id:'polar-oct10-goal-4',type:'goal',team:'opp',period:3,elapsedMs:620000,oppNum:'5'},
+            {id:'polar-oct10-goal-5',type:'goal',team:'opp',period:3,elapsedMs:609000,oppNum:'9',oppAssist1:'35',oppAssist2:'73'},
+            {id:'polar-oct10-goal-6',type:'goal',team:'opp',period:3,elapsedMs:258000,oppNum:'10',oppAssist1:'88',oppAssist2:'84'},
+            {id:'polar-oct10-goal-7',type:'goal',team:'opp',period:3,elapsedMs:184000,oppNum:'10',oppAssist1:'54',oppAssist2:'88'},
+            {id:'polar-oct10-goal-8',type:'goal',team:'opp',period:3,elapsedMs:113000,oppNum:'22',oppAssist1:'34',oppAssist2:'73'}
+          ]
+        });
+        history=[corrected,...history.filter(h=>!matches(h))];
+      }
+      const finalResult=history.find(matches);
+      scheduleResults[gameId]=[finalResult.home,finalResult.away];
+      if(active)game=blankGame();
+    }
+
+    // October 11: CT Polar Bears 6, Wolfpack 1 (away). Confirmed game report (gamesheet 2996079).
+    {
+      const gameId='game-oct-11-ct-polar-bears';
+      const matches=h=>h && (h.gameId===gameId ||
+        (h.date==='Oct 11' && h.opponent==='CT Polar Bears'));
+      const saved=history.find(matches);
+      const active=matches(game)?game:null;
+      const reportMarker='polar-oct11-goal-1-v1';
+      if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
+        const corrected=normalizeHistoryEntry({
+          ...(saved || {}), id:saved?.id || 'h-oct11-polar', gameId,
+          opponent:'CT Polar Bears', date:'Oct 11', home:1, away:6,
+          manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
+          goalieChanges:[{from:'Ana Straker',to:'Adde Zuck',period:2,elapsedMs:360000}],
+          absentPlayers:['Olivia Schortman','Lizzie Melchiorre','Eve Krause','Vivianne Currence'],
+          events:[
+            {id:'polar-oct11-goal-1-v1',type:'goal',team:'opp',period:1,elapsedMs:594000,oppNum:'88',oppAssist1:'23',oppAssist2:'54'},
+            {id:'polar-oct11-penalty-1',type:'penalty',team:'us',period:1,elapsedMs:524000,player:'Mairead Hornish',infraction:'Tripping/Clipping/Leg Checking',minutes:2},
+            {id:'polar-oct11-goal-2',type:'goal',team:'opp',period:1,elapsedMs:392000,oppNum:'17',oppAssist1:'10'},
+            {id:'polar-oct11-goal-3',type:'goal',team:'us',period:1,elapsedMs:285000,scorer:'Mairead Hornish',assist1:'Emma Zhang'},
+            {id:'polar-oct11-goal-4',type:'goal',team:'opp',period:1,elapsedMs:99000,oppNum:'10',oppAssist1:'8'},
+            {id:'polar-oct11-penalty-2',type:'penalty',team:'us',period:2,elapsedMs:546000,player:'Mackenzie Moore',infraction:'Roughing',minutes:2},
+            {id:'polar-oct11-goal-5',type:'goal',team:'opp',period:3,elapsedMs:874000,oppNum:'44',oppAssist1:'43',oppAssist2:'87'},
+            {id:'polar-oct11-goal-6',type:'goal',team:'opp',period:3,elapsedMs:594000,oppNum:'10',oppAssist1:'17',oppAssist2:'8'},
+            {id:'polar-oct11-goal-7',type:'goal',team:'opp',period:3,elapsedMs:533000,oppNum:'23'},
+            {id:'polar-oct11-penalty-3',type:'penalty',team:'opp',period:3,elapsedMs:242000,oppNum:'43',infraction:'Hooking',minutes:2}
           ]
         });
         history=[corrected,...history.filter(h=>!matches(h))];
