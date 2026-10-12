@@ -11,19 +11,20 @@
 // Set PLAYER_OF_WEEK to null to hide the whole section.
 
 const PLAYER_OF_WEEK = {
-  name: "Olivia Schortman",
-  weekOf: "Week of Oct 5, 2026",
+  name: "Khloe Starkey",
+  weekOf: "Week of Oct 12, 2026",
   answers: [
-    {q:"Position & favorite thing about it", a:"Defense — stopping a breakaway"},
-    {q:"Stick tape color", a:"Black"},
-    {q:"Invent one hockey rule for a day", a:"Get physical, don’t be soft"},
-    {q:"Funniest moment at practice/a game", a:"Falling in a celly"},
-    {q:"Pre-game ritual", a:"Wear my lucky hair tie"},
-    {q:"Outside of hockey", a:"Play lacrosse"},
-    {q:"Superpower she'd want", a:"See into the future"},
-    {q:"Favorite movie/show", a:"Harry Potter"},
-    {q:"Favorite candy", a:"Skittles"},
-    {q:"Favorite color", a:"Yellow"},
-    {q:"Hobby / collection", a:"Bracelets"},
+    {q:"Position & favorite thing about it", a:"Winger — you can make a lot of goals"},
+    {q:"Stick tape color", a:"White"},
+    {q:"Invent one hockey rule for a day", a:"No penalties so you can do anything"},
+    {q:"Funniest moment at practice/a game", a:"My stick got caught in a space in the boards and it tripped me"},
+    {q:"Favorite player", a:"Alex Ovechkin"},
+    {q:"Pre-game ritual", a:"Pray that we win"},
+    {q:"Outside of hockey", a:"Camping and fishing"},
+    {q:"Superpower she'd want", a:"To fly"},
+    {q:"Favorite movie/show", a:"Coraline"},
+    {q:"Favorite candy", a:"Twix"},
+    {q:"Favorite color", a:"Baby blue"},
+    {q:"Hobby / collection", a:"Reading and hockey"},
   ],
 };
