@@ -38,7 +38,6 @@ const GAMES = [
     {m:"December 2026", day:"Sun", date:"Dec 6", time:"12:40 PM", side:"away", opp:"CT Game Changers", loc:"Bolton Ice Palace", type:"League", result:null},
     {m:"December 2026", day:"Sat", date:"Dec 19", time:"12:15 PM", side:"away", opp:"Putnam Panthers A1", loc:"Tirrell Ice Rink", type:"League", result:null},
     {m:"December 2026", day:"Sun", date:"Dec 20", time:"9:50 AM", side:"home", opp:"Shoreline Sharks U12", loc:"Champions Skating Center", type:"League", result:null},
-    {m:"December 2026", day:"Sat", date:"Dec 26", time:"1:30 PM", side:"away", opp:"CT Polar Bears", loc:"The Rinks at the Sports Center", type:"League", result:null},
     {m:"December 2026", day:"Sun", date:"Dec 27", time:"TBD", side:"away", opp:"West Hartford Wolves B", loc:"Veterans Memorial Ice Rink", type:"League", result:null},
 
     {m:"January 2027", day:"Sat", date:"Jan 2", time:"9:45 AM", side:"away", opp:"Wallingford Hawks Blue", loc:"Choate Hockey Rink - Hemenway Rink", type:"League", result:null},
