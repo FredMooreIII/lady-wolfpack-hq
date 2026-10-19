@@ -19,11 +19,10 @@ const GAMES = [
     {m:"October 2026", day:"Sat", date:"Oct 17", time:"8:00 AM", side:"away", opp:"Simsbury B", loc:"Jackson Hockey Rink", type:"League", result:null},
     {m:"October 2026", day:"Sun", date:"Oct 18", time:"1:30 PM", side:"home", opp:"Girls Hat Trick Black", loc:"Champions Skating Center", type:"League", result:null},
     {m:"October 2026", day:"Sat", date:"Oct 24", time:"8:40 AM", side:"home", opp:"Wallingford Hawks Blue", loc:"Champions Skating Center", type:"League", result:null},
-    {m:"October 2026", day:"Sun", date:"Oct 25", time:"TBD", side:"away", opp:"Yale A1", loc:"Northford Ice Pavilion", type:"League", result:null},
+    {m:"October 2026", day:"Sun", date:"Oct 25", time:"4:50 PM", side:"away", opp:"Yale A1", loc:"Northford Ice Pavilion", type:"League", result:null},
     {m:"October 2026", day:"Sat", date:"Oct 31", time:"2:30 PM", side:"away", opp:"South Windsor A1", loc:"South Windsor Arena", type:"League", result:null},
 
     {m:"November 2026", day:"Sun", date:"Nov 1", time:"1:10 PM", side:"home", opp:"Girls Hat Trick CGHL", loc:"Champions Skating Center", type:"League", result:null},
-    {m:"November 2026", day:"Sat", date:"Nov 7", time:"2:30 PM", side:"away", opp:"Enfield A1", loc:"MassMutual Center", type:"League", result:null},
     {m:"November 2026", day:"Sun", date:"Nov 8", time:"11:50 AM", side:"away", opp:"South Windsor B", loc:"South Windsor Arena", type:"League", result:null},
     {m:"November 2026", day:"Sat", date:"Nov 14", time:"11:00 AM", side:"home", opp:"West Hartford Wolves B", loc:"Champions Skating Center", type:"League", result:null},
     {m:"November 2026", day:"Sun", date:"Nov 15", time:"1:40 PM", side:"away", opp:"Wonderland Wizards 12U B Blue", loc:"Wonderland of Ice", type:"League", result:null},
@@ -38,7 +37,7 @@ const GAMES = [
     {m:"December 2026", day:"Sun", date:"Dec 6", time:"12:40 PM", side:"away", opp:"CT Game Changers", loc:"Bolton Ice Palace", type:"League", result:null},
     {m:"December 2026", day:"Sat", date:"Dec 19", time:"12:15 PM", side:"away", opp:"Putnam Panthers A1", loc:"Tirrell Ice Rink", type:"League", result:null},
     {m:"December 2026", day:"Sun", date:"Dec 20", time:"9:50 AM", side:"home", opp:"Shoreline Sharks U12", loc:"Champions Skating Center", type:"League", result:null},
-    {m:"December 2026", day:"Sun", date:"Dec 27", time:"TBD", side:"away", opp:"West Hartford Wolves B", loc:"Veterans Memorial Ice Rink", type:"League", result:null},
+    {m:"December 2026", day:"Sun", date:"Dec 27", time:"10:30 AM", side:"away", opp:"West Hartford Wolves B", loc:"Veterans Memorial Ice Rink", type:"League", result:null},
 
     {m:"January 2027", day:"Sat", date:"Jan 2", time:"9:45 AM", side:"away", opp:"Wallingford Hawks Blue", loc:"Choate Hockey Rink - Hemenway Rink", type:"League", result:null},
     {m:"January 2027", day:"Sun", date:"Jan 3", time:"9:50 AM", side:"home", opp:"South Windsor A1", loc:"Champions Skating Center", type:"League", result:null},
@@ -51,7 +50,6 @@ const GAMES = [
     {m:"January 2027", day:"Sat", date:"Jan 23", time:"11:20 AM", side:"home", opp:"West Haven A1", loc:"Champions Skating Center", type:"League", result:null},
     {m:"January 2027", day:"Sun", date:"Jan 24", time:"10:30 AM", side:"away", opp:"Girls Hat Trick CGHL", loc:"Danbury Ice Arena", type:"League", result:null},
     {m:"January 2027", day:"Sun", date:"Jan 24", time:"11:30 AM", side:"away", opp:"Girls Hat Trick Black", loc:"Danbury Ice Arena", type:"League", result:null},
-    {m:"January 2027", day:"Sat", date:"Jan 30", time:"2:30 PM", side:"away", opp:"Enfield A1", loc:"Enfield Twin Rinks", type:"League", result:null},
     {m:"January 2027", day:"Sun", date:"Jan 31", time:"8:40 AM", side:"home", opp:"Central CT U12 Girls CGHL", loc:"Champions Lower Rink", type:"League", result:null},
 
     {m:"February 2027", day:"Sat", date:"Feb 6", time:"9:45 AM", side:"away", opp:"Wallingford Hawks Blue", loc:"Choate Hockey Rink - Hemenway Rink", type:"League", result:null},
@@ -61,5 +59,5 @@ const GAMES = [
     {m:"February 2027", day:"Sat", date:"Feb 20", time:"9:45 AM", side:"away", opp:"Wallingford Hawks Blue", loc:"Choate Hockey Rink - Hemenway Rink", type:"League", result:null},
     {m:"February 2027", day:"Sun", date:"Feb 21", time:"8:40 AM", side:"home", opp:"Polar Bears G12U - Tier 2", loc:"Champions Lower Rink", type:"League", result:null},
     {m:"February 2027", day:"Sat", date:"Feb 27", time:"8:40 AM", side:"home", opp:"Enfield B", loc:"Champions Skating Center", type:"League", result:null},
-    {m:"February 2027", day:"Sun", date:"Feb 28", time:"TBD", side:"away", opp:"West Hartford Wolves B", loc:"Veterans Memorial Ice Rink", type:"League", result:null},
+    {m:"February 2027", day:"Sun", date:"Feb 28", time:"10:30 AM", side:"away", opp:"West Hartford Wolves B", loc:"Veterans Memorial Ice Rink", type:"League", result:null},
   ];
