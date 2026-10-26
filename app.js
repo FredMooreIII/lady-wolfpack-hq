@@ -1418,6 +1418,79 @@
       if(active)game=blankGame();
     }
 
+    // October 24: Wolfpack 4, Wallingford Hawks Blue 4 (home, tie). Confirmed game report (Fred's scoresheet).
+    {
+      const gameId='game-oct-24-wallingford-hawks-blue';
+      const matches=h=>h && (h.gameId===gameId ||
+        (h.date==='Oct 24' && h.opponent==='Wallingford Hawks Blue'));
+      const saved=history.find(matches);
+      const active=matches(game)?game:null;
+      const reportMarker='wallingford-oct24-goal-1-v1';
+      if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
+        const corrected=normalizeHistoryEntry({
+          ...(saved || {}), id:saved?.id || 'h-oct24-wallingford', gameId,
+          opponent:'Wallingford Hawks Blue', date:'Oct 24', home:4, away:4,
+          manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
+          goalieChanges:[],
+          absentPlayers:['Adde Zuck','Lizzie Melchiorre','Hailey Reilly','Vivianne Currence'],
+          events:[
+            {id:'wallingford-oct24-goal-1-v1',type:'goal',team:'opp',period:1,elapsedMs:337000,oppNum:'11'},
+            {id:'wallingford-oct24-goal-2',type:'goal',team:'us',period:1,elapsedMs:240000,scorer:'Eve Krause',assist1:'Bailey Pelletier'},
+            {id:'wallingford-oct24-goal-3',type:'goal',team:'us',period:2,elapsedMs:839000,scorer:'Emma Zhang',assist1:'Mairead Hornish',assist2:'Eve Krause'},
+            {id:'wallingford-oct24-goal-4',type:'goal',team:'opp',period:2,elapsedMs:164000,oppNum:'11'},
+            {id:'wallingford-oct24-goal-5',type:'goal',team:'opp',period:3,elapsedMs:795000,oppNum:'11'},
+            {id:'wallingford-oct24-penalty-1',type:'penalty',team:'opp',period:3,elapsedMs:637000,oppNum:'23',infraction:'Tripping',minutes:1.5},
+            {id:'wallingford-oct24-goal-6',type:'goal',team:'us',period:3,elapsedMs:308000,scorer:'Eve Krause',assist1:'Bailey Moore'},
+            {id:'wallingford-oct24-goal-7',type:'goal',team:'opp',period:3,elapsedMs:133000,oppNum:'17',oppAssist1:'11'},
+            {id:'wallingford-oct24-goal-8',type:'goal',team:'us',period:3,elapsedMs:115000,scorer:'Eve Krause'}
+          ]
+        });
+        history=[corrected,...history.filter(h=>!matches(h))];
+      }
+      const finalResult=history.find(matches);
+      scheduleResults[gameId]=[finalResult.home,finalResult.away];
+      if(active)game=blankGame();
+    }
+
+    // October 25: Yale A1 5, Wolfpack 1 (away). Confirmed game report (Fred's scoresheet).
+    {
+      const gameId='game-oct-25-yale-a1';
+      const matches=h=>h && (h.gameId===gameId ||
+        (h.date==='Oct 25' && h.opponent==='Yale A1'));
+      const saved=history.find(matches);
+      const active=matches(game)?game:null;
+      const reportMarker='yale-oct25-goal-1-v1';
+      if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
+        const corrected=normalizeHistoryEntry({
+          ...(saved || {}), id:saved?.id || 'h-oct25-yale', gameId,
+          opponent:'Yale A1', date:'Oct 25', home:1, away:5,
+          manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
+          goalieChanges:[],
+          absentPlayers:['Adde Zuck','Lizzie Melchiorre','Eve Krause','Olivia Schortman','Vivianne Currence'],
+          events:[
+            {id:'yale-oct25-goal-1-v1',type:'goal',team:'opp',period:1,elapsedMs:339000,oppNum:'91',oppAssist1:'40'},
+            {id:'yale-oct25-goal-2',type:'goal',team:'opp',period:2,elapsedMs:564000,oppNum:'91',oppAssist1:'40'},
+            {id:'yale-oct25-penalty-1',type:'penalty',team:'us',period:2,elapsedMs:528000,player:'Bailey Pelletier',infraction:'Slashing',minutes:1.5},
+            {id:'yale-oct25-penalty-2',type:'penalty',team:'us',period:2,elapsedMs:444000,player:'Rory Malone',infraction:'Tripping',minutes:1.5},
+            {id:'yale-oct25-goal-3',type:'goal',team:'opp',period:2,elapsedMs:431000,oppNum:'66'},
+            {id:'yale-oct25-penalty-3',type:'penalty',team:'opp',period:2,elapsedMs:400000,oppNum:'52',infraction:'High Sticking',minutes:1.5},
+            {id:'yale-oct25-penalty-4',type:'penalty',team:'opp',period:2,elapsedMs:263000,oppNum:'52',infraction:'Tripping',minutes:1.5},
+            {id:'yale-oct25-goal-4',type:'goal',team:'opp',period:3,elapsedMs:875000,oppNum:'11',oppAssist1:'63'},
+            {id:'yale-oct25-goal-5',type:'goal',team:'opp',period:3,elapsedMs:837000,oppNum:'91',oppAssist1:'11'},
+            {id:'yale-oct25-penalty-5',type:'penalty',team:'opp',period:3,elapsedMs:629000,oppNum:'28',infraction:'Slashing',minutes:1.5},
+            {id:'yale-oct25-penalty-6',type:'penalty',team:'opp',period:3,elapsedMs:319000,oppNum:'66',infraction:'Checking',minutes:1.5},
+            {id:'yale-oct25-penalty-7',type:'penalty',team:'us',period:3,elapsedMs:197000,player:'Khloe Starkey',infraction:'Tripping',minutes:1.5},
+            {id:'yale-oct25-goal-6',type:'goal',team:'us',period:3,elapsedMs:170000,scorer:'Mairead Hornish',assist1:'Emma Zhang'},
+            {id:'yale-oct25-penalty-8',type:'penalty',team:'opp',period:3,elapsedMs:77000,oppNum:'66',infraction:'Slashing',minutes:1.5}
+          ]
+        });
+        history=[corrected,...history.filter(h=>!matches(h))];
+      }
+      const finalResult=history.find(matches);
+      scheduleResults[gameId]=[finalResult.home,finalResult.away];
+      if(active)game=blankGame();
+    }
+
     GAMES.forEach(g => {
       if (scheduleResults[g.id]) g.result = [Number(scheduleResults[g.id][0]) || 0, Number(scheduleResults[g.id][1]) || 0];
     });
