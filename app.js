@@ -1491,6 +1491,66 @@
       if(active)game=blankGame();
     }
 
+    // October 31: South Windsor A1 7, Wolfpack 0 (away). Confirmed game report (Fred's scoresheet).
+    {
+      const gameId='game-oct-31-south-windsor-a1';
+      const matches=h=>h && (h.gameId===gameId ||
+        (h.date==='Oct 31' && h.opponent==='South Windsor A1'));
+      const saved=history.find(matches);
+      const active=matches(game)?game:null;
+      const reportMarker='swa1-oct31-goal-1-v1';
+      if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
+        const corrected=normalizeHistoryEntry({
+          ...(saved || {}), id:saved?.id || 'h-oct31-south-windsor-a1', gameId,
+          opponent:'South Windsor A1', date:'Oct 31', home:0, away:7,
+          manual:false, shootoutWinner:'', goalieStart:'Adde Zuck',
+          goalieChanges:[],
+          absentPlayers:['Eve Krause','Rory Malone','Vivianne Currence'],
+          events:[
+            {id:'swa1-oct31-goal-1-v1',type:'goal',team:'opp',period:1,elapsedMs:547000,oppNum:'28',oppAssist1:'66'},
+            {id:'swa1-oct31-penalty-1',type:'penalty',team:'us',period:1,elapsedMs:483000,player:'Emma Zhang',infraction:'Tripping',minutes:1.5},
+            {id:'swa1-oct31-goal-2',type:'goal',team:'opp',period:1,elapsedMs:412000,oppNum:'66',oppAssist1:'8',note:'Power-play goal'},
+            {id:'swa1-oct31-goal-3',type:'goal',team:'opp',period:1,elapsedMs:213000,oppNum:'65'},
+            {id:'swa1-oct31-goal-4',type:'goal',team:'opp',period:2,elapsedMs:182000,oppNum:'48',oppAssist1:'65',oppAssist2:'24',note:'Scorer # written over on the scoresheet; reads as 48'},
+            {id:'swa1-oct31-penalty-2',type:'penalty',team:'us',period:3,elapsedMs:544000,player:'Ana Straker',infraction:'Too Many Men',minutes:1.5,note:'Bench minor, served by Ana Straker'},
+            {id:'swa1-oct31-goal-5',type:'goal',team:'opp',period:3,elapsedMs:830000,oppNum:'65',oppAssist1:'8'},
+            {id:'swa1-oct31-goal-6',type:'goal',team:'opp',period:3,elapsedMs:50000,oppNum:'72'},
+            {id:'swa1-oct31-goal-7',type:'goal',team:'opp',period:3,elapsedMs:3000,oppNum:'72',oppAssist1:'47'}
+          ]
+        });
+        history=[corrected,...history.filter(h=>!matches(h))];
+      }
+      const finalResult=history.find(matches);
+      scheduleResults[gameId]=[finalResult.home,finalResult.away];
+      if(active)game=blankGame();
+    }
+
+    // November 1: Wolfpack 1, Girls Hat Trick CGHL 0 (home, shutout). Confirmed game report (Fred's scoresheet).
+    {
+      const gameId='game-nov-1-girls-hat-trick-cghl';
+      const matches=h=>h && (h.gameId===gameId ||
+        (h.date==='Nov 1' && h.opponent==='Girls Hat Trick CGHL'));
+      const saved=history.find(matches);
+      const active=matches(game)?game:null;
+      const reportMarker='ght-nov1-goal-1-v1';
+      if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
+        const corrected=normalizeHistoryEntry({
+          ...(saved || {}), id:saved?.id || 'h-nov1-girls-hat-trick', gameId,
+          opponent:'Girls Hat Trick CGHL', date:'Nov 1', home:1, away:0,
+          manual:false, shootoutWinner:'', goalieStart:'Adde Zuck',
+          goalieChanges:[],
+          absentPlayers:['Olivia Schortman','Vivianne Currence'],
+          events:[
+            {id:'ght-nov1-goal-1-v1',type:'goal',team:'us',period:2,elapsedMs:637000,scorer:'Ana Straker',assist1:'Khloe Starkey',assist2:'Emma Zhang',note:'Ana skated out as a forward'}
+          ]
+        });
+        history=[corrected,...history.filter(h=>!matches(h))];
+      }
+      const finalResult=history.find(matches);
+      scheduleResults[gameId]=[finalResult.home,finalResult.away];
+      if(active)game=blankGame();
+    }
+
     GAMES.forEach(g => {
       if (scheduleResults[g.id]) g.result = [Number(scheduleResults[g.id][0]) || 0, Number(scheduleResults[g.id][1]) || 0];
     });
