@@ -43,7 +43,7 @@ const GAMES = [
     {m:"January 2027", day:"Sat", date:"Jan 2", time:"9:45 AM", side:"away", opp:"Wallingford Hawks Blue", loc:"Choate Hockey Rink - Hemenway Rink", type:"League", result:null},
     {m:"January 2027", day:"Sun", date:"Jan 3", time:"9:50 AM", side:"home", opp:"South Windsor A1", loc:"Champions Skating Center", type:"League", result:null},
     {m:"January 2027", day:"Sat", date:"Jan 9", time:"9:50 AM", side:"home", opp:"Hamden A1", loc:"Champions Skating Center", type:"League", result:null},
-    {m:"January 2027", day:"Sun", date:"Jan 10", time:"9:10 AM", side:"away", opp:"Hamden U12 Girls", loc:"Louis Astorino Ice Arena", type:"League", result:null},
+    {m:"January 2027", day:"Sun", date:"Jan 10", time:"8:00 AM", side:"away", opp:"Hamden U12 Girls", loc:"Louis Astorino Ice Arena", type:"League", result:null},
     {m:"January 2027", day:"Sun", date:"Jan 10", time:"1:30 PM", side:"home", opp:"Polar Bears G12U - Tier 2", loc:"Champions Lower Rink", type:"League", result:null},
     {m:"January 2027", day:"Fri", date:"Jan 15", time:"TBD", side:"away", opp:"Northstars Winter Classic", loc:"Glens Falls Recreation Center Ice Rink", type:"Tournament", result:null},
     {m:"January 2027", day:"Sat", date:"Jan 16", time:"TBD", side:"away", opp:"Northstars Winter Classic", loc:"Glens Falls Recreation Center Ice Rink", type:"Tournament", result:null},
