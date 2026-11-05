@@ -632,8 +632,10 @@
     });
   }
   function renderStats(){
-    const players = effectiveRoster().filter(p => p.pos !== 'G');
-    updateSkaterRosterCards(players);
+    // Goalies stay off the skater leaderboard unless they record a skater stat
+    // (e.g. Ana Straker skating out and scoring on Nov 1, 2026).
+    const players = effectiveRoster().filter(p => p.pos !== 'G' || p.g > 0 || p.a > 0 || p.pim > 0);
+    updateSkaterRosterCards(players.filter(p => p.pos !== 'G'));
     const sort = document.getElementById('stats-sort')?.value || 'name-asc';
     const dirs = {
       'name-asc':(a,b)=>a.name.localeCompare(b.name),'name-desc':(a,b)=>b.name.localeCompare(a.name),
@@ -644,7 +646,7 @@
     const colMax = key => Math.max(0,...leaderboard.map(p=>p[key]));
     const maxG=colMax('g'),maxA=colMax('a'),maxPts=colMax('pts'),maxAppg=colMax('appg'),maxPim=colMax('pim');
     const leadCls=(v,m)=>m>0&&v===m?' stat-lead':'';
-    statsBody.innerHTML = leaderboard.map(p => `<tr><td class="mono">${p.n}</td><td>${p.name}${p.r ? ' <span style="display:inline-block;margin-left:4px;font-size:10px;font-weight:800;color:var(--ice-2);border:1px solid var(--ice-2);border-radius:4px;padding:0 4px;vertical-align:middle;">R</span>' : ''}</td><td class="mono">${p.gp}</td><td class="mono${leadCls(p.g,maxG)}">${p.g}</td><td class="mono${leadCls(p.a,maxA)}">${p.a}</td><td class="mono${leadCls(p.pts,maxPts)}">${p.pts}</td><td class="mono${leadCls(p.appg,maxAppg)}">${p.appg.toFixed(1)}</td><td class="mono${leadCls(p.pim,maxPim)}">${p.pim}</td></tr>`).join('');
+    statsBody.innerHTML = leaderboard.map(p => `<tr><td class="mono">${p.n}</td><td>${p.name}${p.r ? ' <span style="display:inline-block;margin-left:4px;font-size:10px;font-weight:800;color:var(--ice-2);border:1px solid var(--ice-2);border-radius:4px;padding:0 4px;vertical-align:middle;">R</span>' : ''}${p.pos==='G' ? ' <span style="display:inline-block;margin-left:4px;font-size:10px;font-weight:800;color:var(--ice-2);border:1px solid var(--ice-2);border-radius:4px;padding:0 4px;vertical-align:middle;">G</span>' : ''}</td><td class="mono">${p.gp}</td><td class="mono${leadCls(p.g,maxG)}">${p.g}</td><td class="mono${leadCls(p.a,maxA)}">${p.a}</td><td class="mono${leadCls(p.pts,maxPts)}">${p.pts}</td><td class="mono${leadCls(p.appg,maxAppg)}">${p.appg.toFixed(1)}</td><td class="mono${leadCls(p.pim,maxPim)}">${p.pim}</td></tr>`).join('');
   }
   renderStats();
   document.getElementById('stats-sort')?.addEventListener('change', renderStats);
