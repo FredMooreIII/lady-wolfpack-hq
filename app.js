@@ -1560,7 +1560,7 @@
         (h.date==='Nov 8' && h.opponent==='South Windsor B'));
       const saved=history.find(matches);
       const active=matches(game)?game:null;
-      const reportMarker='swb-nov8-goal-1-v1';
+      const reportMarker='swb-nov8-goal-1-v2';
       if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
         const corrected=normalizeHistoryEntry({
           ...(saved || {}), id:saved?.id || 'h-nov8-south-windsor-b', gameId,
@@ -1569,10 +1569,10 @@
           goalieChanges:[],
           absentPlayers:['Adde Zuck','Rory Malone','Vivianne Currence'],
           events:[
-            {id:'swb-nov8-goal-1-v1',type:'goal',team:'us',period:1,elapsedMs:475000,scorer:'Bailey Moore',assist1:'Lizzie Melchiorre'},
+            {id:'swb-nov8-goal-1-v2',type:'goal',team:'us',period:1,elapsedMs:475000,scorer:'Bailey Moore',assist1:'Lizzie Melchiorre'},
             {id:'swb-nov8-goal-2',type:'goal',team:'us',period:1,elapsedMs:383000,scorer:'Mairead Hornish',assist1:'Whitney Noe',assist2:'Bailey Moore'},
             {id:'swb-nov8-goal-3',type:'goal',team:'us',period:1,elapsedMs:107000,scorer:'Whitney Noe',assist1:'Olivia Schortman'},
-            {id:'swb-nov8-goal-4',type:'goal',team:'us',period:3,elapsedMs:804000,scorer:'Eve Krause',note:'Scoresheet shows #7; no #7 on the roster, entered as #77 Eve Krause'},
+            {id:'swb-nov8-goal-4',type:'goal',team:'us',period:3,elapsedMs:804000,scorer:'Eve Krause',note:'Written as #7 on the scoresheet; confirmed by Fred as #77 Eve Krause'},
             {id:'swb-nov8-goal-5',type:'goal',team:'us',period:3,elapsedMs:769000,scorer:'Evangeline Zhang',assist1:'Lizzie Melchiorre'},
             {id:'swb-nov8-goal-6',type:'goal',team:'us',period:3,elapsedMs:585000,scorer:'Mairead Hornish'},
             {id:'swb-nov8-penalty-1',type:'penalty',team:'opp',period:3,elapsedMs:291000,oppNum:'32',infraction:'Body Checking',minutes:1.5},

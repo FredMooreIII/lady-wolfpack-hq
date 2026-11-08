@@ -14,9 +14,9 @@ Rules for anyone (Claude, ChatGPT/Codex, the Monday task) working on this repo:
 ## Results and game details
 - 2026-11-04 — Sat 10/31 @ South Windsor A1: **L 0-7**, entered from Fred's scoresheet. Sun 11/1 vs Girls Hat Trick CGHL: **W 1-0**, Ana Straker goal (skated out), Adde Zuck shutout.
 
-- 2026-11-08 — Sun 11/8 @ South Windsor B: **W 7-0**, entered from Fred's scoresheet. Ana Straker in goal the whole game (shutout). Absent: Adde Zuck, Rory Malone, Vivianne Currence. The 3rd-period goal written as "#7" is entered as #77 Eve Krause (no #7 on the roster).
+- 2026-11-08 — Sun 11/8 @ South Windsor B: **W 7-0**, entered from Fred's scoresheet. Ana Straker in goal the whole game (shutout). Absent: Adde Zuck, Rory Malone, Vivianne Currence. The 3rd-period goal written as "#7" is #77 Eve Krause (confirmed by Fred).
 
-- 2026-11-08 — Game MVP, Sun 11/8 @ South Windsor B: **Eve Krause**.
+- 2026-11-08 — Game MVP, Sun 11/8 @ South Windsor B: **Hailey Reilly** (Fred wrote "Hailey Rylie"; #91 Hailey Reilly is the only Hailey on the roster).
 
 ## Display rules
 - 2026-11-04 — Game MVP section shows **only the current week's MVPs**. Remove older ones when adding new ones.
