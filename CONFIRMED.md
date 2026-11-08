@@ -16,6 +16,8 @@ Rules for anyone (Claude, ChatGPT/Codex, the Monday task) working on this repo:
 
 - 2026-11-08 — Sun 11/8 @ South Windsor B: **W 7-0**, entered from Fred's scoresheet. Ana Straker in goal the whole game (shutout). Absent: Adde Zuck, Rory Malone, Vivianne Currence. The 3rd-period goal written as "#7" is entered as #77 Eve Krause (no #7 on the roster).
 
+- 2026-11-08 — Game MVP, Sun 11/8 @ South Windsor B: **Eve Krause**.
+
 ## Display rules
 - 2026-11-04 — Game MVP section shows **only the current week's MVPs**. Remove older ones when adding new ones.
 - 2026-11-04 — Player of the Week: hidden (`null`) unless Fred names one for that week.
