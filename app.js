@@ -1553,6 +1553,39 @@
       if(active)game=blankGame();
     }
 
+    // November 8: Wolfpack 7, South Windsor B 0 (away, shutout). Confirmed game report (Fred's scoresheet).
+    {
+      const gameId='game-nov-8-south-windsor-b';
+      const matches=h=>h && (h.gameId===gameId ||
+        (h.date==='Nov 8' && h.opponent==='South Windsor B'));
+      const saved=history.find(matches);
+      const active=matches(game)?game:null;
+      const reportMarker='swb-nov8-goal-1-v1';
+      if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
+        const corrected=normalizeHistoryEntry({
+          ...(saved || {}), id:saved?.id || 'h-nov8-south-windsor-b', gameId,
+          opponent:'South Windsor B', date:'Nov 8', home:7, away:0,
+          manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
+          goalieChanges:[],
+          absentPlayers:['Adde Zuck','Rory Malone','Vivianne Currence'],
+          events:[
+            {id:'swb-nov8-goal-1-v1',type:'goal',team:'us',period:1,elapsedMs:475000,scorer:'Bailey Moore',assist1:'Lizzie Melchiorre'},
+            {id:'swb-nov8-goal-2',type:'goal',team:'us',period:1,elapsedMs:383000,scorer:'Mairead Hornish',assist1:'Whitney Noe',assist2:'Bailey Moore'},
+            {id:'swb-nov8-goal-3',type:'goal',team:'us',period:1,elapsedMs:107000,scorer:'Whitney Noe',assist1:'Olivia Schortman'},
+            {id:'swb-nov8-goal-4',type:'goal',team:'us',period:3,elapsedMs:804000,scorer:'Eve Krause',note:'Scoresheet shows #7; no #7 on the roster, entered as #77 Eve Krause'},
+            {id:'swb-nov8-goal-5',type:'goal',team:'us',period:3,elapsedMs:769000,scorer:'Evangeline Zhang',assist1:'Lizzie Melchiorre'},
+            {id:'swb-nov8-goal-6',type:'goal',team:'us',period:3,elapsedMs:585000,scorer:'Mairead Hornish'},
+            {id:'swb-nov8-penalty-1',type:'penalty',team:'opp',period:3,elapsedMs:291000,oppNum:'32',infraction:'Body Checking',minutes:1.5},
+            {id:'swb-nov8-goal-7',type:'goal',team:'us',period:3,elapsedMs:44000,scorer:'Evangeline Zhang'}
+          ]
+        });
+        history=[corrected,...history.filter(h=>!matches(h))];
+      }
+      const finalResult=history.find(matches);
+      scheduleResults[gameId]=[finalResult.home,finalResult.away];
+      if(active)game=blankGame();
+    }
+
     GAMES.forEach(g => {
       if (scheduleResults[g.id]) g.result = [Number(scheduleResults[g.id][0]) || 0, Number(scheduleResults[g.id][1]) || 0];
     });
