@@ -438,7 +438,7 @@
   #roster-grid .r-tag{position:absolute; top:10px; right:10px; z-index:2; width:24px; height:24px; display:grid; place-items:center; border-radius:50%; background:var(--navy); color:white; border:2px solid white; font-size:11px; font-weight:800; box-shadow:0 2px 5px #122c4525;}
   /* Player photo fully replaces the jersey art when it loads; the jersey stays
      as the fallback until then (or permanently, if no photo exists for that player). */
-  .player-photo{position:absolute; inset:0; z-index:2; width:100%; height:100%; object-fit:cover; object-position:top center;}
+  .player-photo{position:absolute; inset:0; z-index:2; width:100%; height:100%; object-fit:cover; object-position:top center; -webkit-backface-visibility:hidden; backface-visibility:hidden;}
   .jersey-stage.has-photo .jersey-art{display:none;}
   .jersey-card-footer{flex:none; background:var(--navy); color:#fff; padding:12px 8px 25px; text-align:center; border-radius:0 0 8px 8px;}
   .jersey-card-footer .name{font-size:14px; line-height:1.3; font-weight:800;}
@@ -456,16 +456,21 @@
   .flip-inner{
     position:relative; width:100%; height:100%;
     transition:transform .5s cubic-bezier(.4,.2,.2,1);
-    transform-style:preserve-3d;
+    -webkit-transform-style:preserve-3d; transform-style:preserve-3d;
   }
-  .flip-card.flipped .flip-inner{ transform:rotateY(180deg); }
+  .flip-card.flipped .flip-inner{ -webkit-transform:rotateY(180deg); transform:rotateY(180deg); }
   .flip-face{
-    position:absolute; inset:0; backface-visibility:hidden;
+    position:absolute; inset:0; -webkit-backface-visibility:hidden; backface-visibility:hidden;
     border-radius:12px; border:1px solid var(--border); box-shadow:var(--shadow);
     background:var(--surface); border-top:4px solid var(--red);
     display:flex; flex-direction:column;
   }
-  .flip-face.back{ transform:rotateY(180deg); }
+  .flip-face.back{ -webkit-transform:rotateY(180deg); transform:rotateY(180deg); }
+  /* Safari (iPhone) can let a positioned photo show through a card's back face.
+     Hide whichever face is turned away, switching halfway through the flip. */
+  .flip-face.front, .flip-face.back{ transition:visibility 0s .25s; }
+  .flip-card.flipped .flip-face.front{ visibility:hidden; }
+  .flip-card:not(.flipped) .flip-face.back{ visibility:hidden; }
 
   .player{ padding:14px 14px 12px; text-align:center; position:relative; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; }
   .avatar{
