@@ -14,7 +14,7 @@ const GAMES = [
 
     {m:"October 2026", day:"Sat", date:"Oct 3", time:"10:10 AM", side:"home", opp:"South Windsor B", loc:"Champions Skating Center", type:"League", result:null},
     {m:"October 2026", day:"Sun", date:"Oct 4", time:"10:30 AM", side:"away", opp:"Hamden A1", loc:"Louis Astorino Ice Arena", type:"League", result:null},
-    {m:"October 2026", day:"Sat", date:"Oct 10", time:"2:30 PM", side:"away", opp:"CT Polar Bears", loc:"The Rinks at the Sports Center", type:"League", result:null},
+    {m:"October 2026", day:"Sat", date:"Oct 10", time:"2:30 PM", side:"away", opp:"CT Polar Bears", loc:"Shelton Upper", type:"League", result:null},
     {m:"October 2026", day:"Sun", date:"Oct 11", time:"12:30 PM", side:"away", opp:"CT Polar Bears", loc:"The Rinks at the Sports Center", type:"League", result:null},
     {m:"October 2026", day:"Sat", date:"Oct 17", time:"8:00 AM", side:"away", opp:"Simsbury B", loc:"Jackson Hockey Rink", type:"League", result:null},
     {m:"October 2026", day:"Sun", date:"Oct 18", time:"1:30 PM", side:"home", opp:"Girls Hat Trick Black", loc:"Champions Skating Center", type:"League", result:null},

@@ -150,3 +150,6 @@ _Weekly game-report + Player of the Week update from Fred._
 ## Added October 12, 2026 (Fred)
 - Player of the Week set to Khloe Starkey, "Week of Oct 12, 2026" (earlier: Olivia, week of Oct 5); Team Fund balance updated to $2,795.90; MHR rating 82.87; Vivianne Currence (#19, D) added to roster at 0 GP.
 - Added confirmed game reports from gamesheets 2996078/2996079: Oct 10 L 0-8 and Oct 11 L 1-6 @ CT Polar Bears. Absent both games: Olivia, Lizzie, Eve K., Vivianne. Oct 10 goalies Adde -> Ana; Oct 11 Ana -> Adde (switch times assumed at 6:00 left in P2, gamesheet shows no change). Oct 11 P2 roughing corrected from Nia to Mackenzie Moore. Oct 10 final of 0-8 taken from an in-progress gamesheet screenshot (1:53 left in P3).
+
+## Added November 12, 2026 (Monday ops task, run Thu)
+- [x] Oct 10 @ Polar Bears rink corrected to Shelton Upper (matches Crossbar and Fred's Oct 8 chat correction). Opponent name left as-is so the game report stays linked.
