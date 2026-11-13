@@ -44,11 +44,12 @@ const PRACTICES = [
     {m:"November 2026", day:"Thu", date:"Nov 12", time:"7:45–8:30 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
     {m:"November 2026", day:"Tue", date:"Nov 17", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
     {m:"November 2026", day:"Wed", date:"Nov 18", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Thu", date:"Nov 19", time:"6:00–6:30 PM", session:"Individual Photos", loc:"Champions Skating Center", optional:false},
+    {m:"November 2026", day:"Thu", date:"Nov 19", time:"6:30–6:45 PM", session:"Team Photos", loc:"Champions Skating Center", optional:false},
     {m:"November 2026", day:"Thu", date:"Nov 19", time:"6:30–7:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
     {m:"November 2026", day:"Thu", date:"Nov 19", time:"7:45–8:30 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
     {m:"November 2026", day:"Tue", date:"Nov 24", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
     {m:"November 2026", day:"Wed", date:"Nov 25", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
-    {m:"November 2026", day:"Thu", date:"Nov 26", time:"6:30–7:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
     {m:"November 2026", day:"Mon", date:"Nov 30", time:"7:50–8:50 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
 
     {m:"December 2026", day:"Tue", date:"Dec 1", time:"6:40–7:40 PM", session:"Skills", loc:"Champions Skating Center", optional:false},

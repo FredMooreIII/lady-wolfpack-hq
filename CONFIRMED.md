@@ -10,6 +10,12 @@ Rules for anyone (Claude, ChatGPT/Codex, the Monday task) working on this repo:
 ## Schedule
 - 2026-11-04 — Sun 1/10/2027 @ Hamden U12 Girls (Louis Astorino Ice Arena): **8:00 AM** (Crossbar showed 9:10 AM).
 - 2026-11-05 — Sat 11/28/2026 @ West Hartford, Avon Thanksgiving Tournament (Simsbury Farms): **3:10 PM** (was 4:20 PM). Both Fri 11/27 games and the Sun 11/29 final (TBD) unchanged.
+- 2026-11-13 — Sun 11/29 Avon tournament final: Crossbar's 4:00 PM at Avon Old Farms is a **placeholder**. Keep it TBD until Fred confirms.
+- 2026-11-13 — There is **no Jan 30 game at Enfield**. MHR lists one; ignore it.
+
+## Practices
+- 2026-11-13 — Thu 11/19: the two Crossbar "Other" slots are **Individual Photos 6:00–6:30 PM** then **Team Photos 6:30–6:45 PM** (Champions).
+- 2026-11-13 — Thu 11/26 (Thanksgiving) practice is **cancelled**.
 
 ## Results and game details
 - 2026-11-04 — Sat 10/31 @ South Windsor A1: **L 0-7**, entered from Fred's scoresheet. Sun 11/1 vs Girls Hat Trick CGHL: **W 1-0**, Ana Straker goal (skated out), Adde Zuck shutout.
