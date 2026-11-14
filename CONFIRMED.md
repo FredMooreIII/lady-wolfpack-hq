@@ -24,6 +24,8 @@ Rules for anyone (Claude, ChatGPT/Codex, the Monday task) working on this repo:
 
 - 2026-11-08 — Game MVP, Sun 11/8 @ South Windsor B: **Hailey Reilly** (Fred wrote "Hailey Rylie"; #91 Hailey Reilly is the only Hailey on the roster).
 
+- 2026-11-14 — Sat 11/14 vs West Hartford Wolves B (home): **W 5-2**, entered from Fred's scoresheet. Ana Straker in goal the whole game. Absent: Vivianne Currence, Olivia Schortman, Adde Zuck. No penalties. Emma Zhang hat trick. Reads to confirm: goal 1 assist #77, goal 7 scorer #97.
+
 ## Display rules
 - 2026-11-04 — Game MVP section shows **only the current week's MVPs**. Remove older ones when adding new ones.
 - 2026-11-04 — Player of the Week: hidden (`null`) unless Fred names one for that week.
