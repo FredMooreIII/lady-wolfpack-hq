@@ -1593,7 +1593,7 @@
         (h.date==='Nov 14' && h.opponent==='West Hartford Wolves B'));
       const saved=history.find(matches);
       const active=matches(game)?game:null;
-      const reportMarker='whw-nov14-goal-1-v1';
+      const reportMarker='whw-nov14-goal-1-v2';
       if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
         const corrected=normalizeHistoryEntry({
           ...(saved || {}), id:saved?.id || 'h-nov14-west-hartford-wolves-b', gameId,
@@ -1602,13 +1602,13 @@
           goalieChanges:[],
           absentPlayers:['Adde Zuck','Olivia Schortman','Vivianne Currence'],
           events:[
-            {id:'whw-nov14-goal-1-v1',type:'goal',team:'us',period:1,elapsedMs:726000,scorer:'Emma Zhang',assist1:'Eve Krause',note:'Assist read as #77 from the scoresheet'},
+            {id:'whw-nov14-goal-1-v2',type:'goal',team:'us',period:1,elapsedMs:726000,scorer:'Emma Zhang',assist1:'Eve Krause',note:'Assist #77 Eve Krause confirmed by Fred'},
             {id:'whw-nov14-goal-2',type:'goal',team:'opp',period:1,elapsedMs:564000,oppNum:'8'},
             {id:'whw-nov14-goal-3',type:'goal',team:'us',period:1,elapsedMs:428000,scorer:'Evangeline Zhang'},
             {id:'whw-nov14-goal-4',type:'goal',team:'opp',period:2,elapsedMs:710000,oppNum:'21',oppAssist1:'17'},
             {id:'whw-nov14-goal-5',type:'goal',team:'us',period:3,elapsedMs:753000,scorer:'Emma Zhang',assist1:'Evangeline Zhang'},
             {id:'whw-nov14-goal-6',type:'goal',team:'us',period:3,elapsedMs:541000,scorer:'Emma Zhang'},
-            {id:'whw-nov14-goal-7',type:'goal',team:'us',period:3,elapsedMs:149000,scorer:'Rory Malone',note:'Scorer read as #97 from the scoresheet (could be read as 92; no #92 on the roster)'}
+            {id:'whw-nov14-goal-7',type:'goal',team:'us',period:3,elapsedMs:149000,scorer:'Rory Malone',note:'Scorer #97 Rory Malone confirmed by Fred'}
           ]
         });
         history=[corrected,...history.filter(h=>!matches(h))];
