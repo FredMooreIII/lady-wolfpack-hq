@@ -28,6 +28,9 @@ Rules for anyone (Claude, ChatGPT/Codex, the Monday task) working on this repo:
 
 - 2026-11-14 — Game MVP, Sat 11/14 vs West Hartford Wolves B: **Emma Zhang**.
 
+## Pack Business (newsletter + site)
+- 2026-11-15 — Holiday Drive: Team News card on the Home tab until Sun 11/29 (data/announcements.js). Include it in Pack Business in the Nov 16 newsletter. The wish-list link lives in Claude's private newsletter notes. It goes in the email only, never on the public site or in this repo.
+
 ## Display rules
 - 2026-11-04 — Game MVP section shows **only the current week's MVPs**. Remove older ones when adding new ones.
 - 2026-11-04 — Player of the Week: hidden (`null`) unless Fred names one for that week.

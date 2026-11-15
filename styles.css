@@ -671,3 +671,10 @@
     #stats-table-body tr:hover td{background-color:#e0edf7;}
   }
   @media(prefers-reduced-motion:reduce){#stats-table-body tr,#stats-table-body tr td{transition:none;}#stats-table-body tr:hover{transform:none;}}
+
+/* Team News (Home) */
+.news-card{ padding:18px 22px; border-left:5px solid var(--red, #c8102e); }
+.news-card h3{ margin:0 0 8px; color:#0f1f3d; font-size:18px; font-weight:800; }
+.news-card p{ margin:0 0 8px; line-height:1.5; }
+.news-card p:last-of-type{ margin-bottom:0; }
+.news-card .cta{ display:inline-block; margin-top:12px; }

@@ -469,6 +469,32 @@
   }
   renderPlayerOfWeek();
 
+  // Team News -- Home tab, top. Items come from data/announcements.js and hide
+  // themselves after their `until` date. `lines` may contain simple trusted HTML
+  // (<strong>) written by the site maintainers.
+  function renderAnnouncements(){
+    const section = document.getElementById('home-news-section');
+    if (!section) return;
+    const list = (typeof ANNOUNCEMENTS !== 'undefined' && Array.isArray(ANNOUNCEMENTS)) ? ANNOUNCEMENTS : [];
+    const today = new Date(); today.setHours(0,0,0,0);
+    const live = list.filter(a => {
+      if (!a || !a.title) return false;
+      if (!a.until) return true;
+      const end = new Date(a.until + 'T23:59:59');
+      return !isNaN(end) && end >= today;
+    });
+    if (!live.length) { section.hidden = true; return; }
+    section.hidden = false;
+    const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    document.getElementById('home-news-cards').innerHTML = live.map(a => `
+      <div class="card news-card">
+        <h3>${esc(a.title)}</h3>
+        ${(a.lines || []).map(l => `<p>${l}</p>`).join('')}
+        ${a.link && a.link.url ? `<a class="cta" href="${esc(a.link.url)}" target="_blank" rel="noopener">${esc(a.link.label || 'Open')} →</a>` : ''}
+      </div>`).join('');
+  }
+  renderAnnouncements();
+
   // This week's rinks (Home tab) — computed live from this weekend's games so it
   // never goes stale, instead of a hand-kept WEEK_RINKS list.
   function renderWeekRinks(){
