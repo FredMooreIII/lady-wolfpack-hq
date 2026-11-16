@@ -25,7 +25,7 @@ const GAMES = [
     {m:"November 2026", day:"Sun", date:"Nov 1", time:"1:10 PM", side:"home", opp:"Girls Hat Trick CGHL", loc:"Champions Skating Center", type:"League", result:null},
     {m:"November 2026", day:"Sun", date:"Nov 8", time:"11:50 AM", side:"away", opp:"South Windsor B", loc:"South Windsor Arena", type:"League", result:null},
     {m:"November 2026", day:"Sat", date:"Nov 14", time:"11:00 AM", side:"home", opp:"West Hartford Wolves B", loc:"Champions Skating Center", type:"League", result:null},
-    {m:"November 2026", day:"Sun", date:"Nov 15", time:"1:40 PM", side:"away", opp:"Wonderland Wizards 12U B Blue", loc:"Wonderland of Ice", type:"League", result:null},
+    {m:"November 2026", day:"Sun", date:"Nov 15", time:"1:40 PM", side:"away", opp:"Wonderland Wizards 12U B Blue", loc:"Wonderland of Ice", type:"League", result:[2,3]}, // final from MyHockeyRankings (Nov 16); no scoresheet yet
     {m:"November 2026", day:"Sat", date:"Nov 21", time:"11:00 AM", side:"home", opp:"Avon 12U B", loc:"Champions Skating Center", type:"League", result:null},
     {m:"November 2026", day:"Sun", date:"Nov 22", time:"10:30 AM", side:"away", opp:"Central A1", loc:"Newington Arena", type:"League", result:null},
     {m:"November 2026", day:"Fri", date:"Nov 27", time:"10:20 AM", side:"home", opp:"Avon Panthers", loc:"Simsbury Farms", type:"Tournament", result:null},

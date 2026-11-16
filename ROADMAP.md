@@ -153,3 +153,6 @@ _Weekly game-report + Player of the Week update from Fred._
 
 ## Added November 12, 2026 (Monday ops task, run Thu)
 - [x] Oct 10 @ Polar Bears rink corrected to Shelton Upper (matches Crossbar and Fred's Oct 8 chat correction). Opponent name left as-is so the game report stays linked.
+
+## Added November 16, 2026 (Monday ops task)
+- [x] Sun 11/15 @ Wonderland Wizards 12U B Blue: final L 2-3 added to data/schedule.js from MyHockeyRankings (Crossbar had no Final posted; no scoresheet yet). Header record now 6-15-3, matching MHR's all-games line. Swap in a full game report if Fred sends the scoresheet.
