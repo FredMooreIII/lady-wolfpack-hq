@@ -28,6 +28,10 @@ Rules for anyone (Claude, ChatGPT/Codex, the Monday task) working on this repo:
 
 - 2026-11-14 — Game MVP, Sat 11/14 vs West Hartford Wolves B: **Emma Zhang**.
 
+- 2026-11-16 — Sun 11/15 @ Wonderland Wizards 12U B Blue: **L 2-3** confirmed by Fred. Game sheet not in yet (score only, no game report).
+
+- 2026-11-16 — Game MVP, Sun 11/15 @ Wonderland Wizards 12U B Blue: **Khloe Starkey**.
+
 ## Pack Business (newsletter + site)
 - 2026-11-15 — Holiday Drive: Team News card on the Home tab until Sun 11/29 (data/announcements.js). Include it in Pack Business in the Nov 16 newsletter. The wish-list link lives in Claude's private newsletter notes. It goes in the email only, never on the public site or in this repo.
 
