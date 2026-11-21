@@ -1644,6 +1644,33 @@
       if(active)game=blankGame();
     }
 
+    // November 21: Wolfpack 0, Avon 12U B 2 (home). Confirmed game report (Fred's scoresheet).
+    {
+      const gameId='game-nov-21-avon-12u-b';
+      const matches=h=>h && (h.gameId===gameId ||
+        (h.date==='Nov 21' && h.opponent==='Avon 12U B'));
+      const saved=history.find(matches);
+      const active=matches(game)?game:null;
+      const reportMarker='avb-nov21-goal-1-v1';
+      if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
+        const corrected=normalizeHistoryEntry({
+          ...(saved || {}), id:saved?.id || 'h-nov21-avon-12u-b', gameId,
+          opponent:'Avon 12U B', date:'Nov 21', home:0, away:2,
+          manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
+          goalieChanges:[],
+          absentPlayers:['Adde Zuck','Eve Krause','Olivia Schortman'],
+          events:[
+            {id:'avb-nov21-goal-1-v1',type:'goal',team:'opp',period:2,elapsedMs:159000,oppNum:'21',oppAssist1:'11'},
+            {id:'avb-nov21-goal-2',type:'goal',team:'opp',period:3,elapsedMs:388000,oppNum:'97'}
+          ]
+        });
+        history=[corrected,...history.filter(h=>!matches(h))];
+      }
+      const finalResult=history.find(matches);
+      scheduleResults[gameId]=[finalResult.home,finalResult.away];
+      if(active)game=blankGame();
+    }
+
     GAMES.forEach(g => {
       if (scheduleResults[g.id]) g.result = [Number(scheduleResults[g.id][0]) || 0, Number(scheduleResults[g.id][1]) || 0];
     });
