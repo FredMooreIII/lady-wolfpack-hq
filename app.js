@@ -1251,7 +1251,7 @@
           opponent:'South Windsor B', date:'Oct 3', home:12, away:0,
           manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
           goalieChanges:[],
-          absentPlayers:['Adde Zuck','Olivia Schortman','Lizzie Melchiorre','Mackenzie Moore'],
+          absentPlayers:['Adde Zuck','Olivia Schortman','Lizzie Melchiorre','Vivianne Currence','Mackenzie Moore'],
           events:[
             {id:reportMarker,type:'goal',team:'us',period:1,elapsedMs:793000,scorer:'Evangeline Zhang',assist1:'Bailey Pelletier'},
             {id:'southwindsor-oct3-goal-2',type:'goal',team:'us',period:1,elapsedMs:759000,scorer:'Mairead Hornish',assist1:'Khloe Starkey'},
@@ -1288,7 +1288,7 @@
           opponent:'Hamden A1', date:'Oct 4', home:5, away:3,
           manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
           goalieChanges:[],
-          absentPlayers:['Adde Zuck','Olivia Schortman','Lizzie Melchiorre'],
+          absentPlayers:['Adde Zuck','Olivia Schortman','Lizzie Melchiorre','Vivianne Currence'],
           events:[
             {id:reportMarker,type:'goal',team:'us',period:1,elapsedMs:864000,scorer:'Khloe Starkey',assist1:'Mairead Hornish',assist2:'Eve Krause'},
             {id:'hamden-oct4-penalty-1',type:'penalty',team:'opp',period:1,elapsedMs:822000,oppNum:'2',infraction:'Hooking',minutes:1.5},
@@ -1322,7 +1322,7 @@
           opponent:'CT Polar Bears', date:'Oct 10', home:0, away:8,
           manual:false, shootoutWinner:'', goalieStart:'Adde Zuck',
           goalieChanges:[{from:'Adde Zuck',to:'Ana Straker',period:2,elapsedMs:360000}],
-          absentPlayers:['Olivia Schortman','Lizzie Melchiorre','Eve Krause'],
+          absentPlayers:['Olivia Schortman','Lizzie Melchiorre','Eve Krause','Vivianne Currence'],
           events:[
             {id:'polar-oct10-goal-1-v1',type:'goal',team:'opp',period:1,elapsedMs:740000,oppNum:'84'},
             {id:'polar-oct10-goal-2',type:'goal',team:'opp',period:1,elapsedMs:632000,oppNum:'23',oppAssist1:'17'},
@@ -1358,7 +1358,7 @@
           opponent:'CT Polar Bears', date:'Oct 11', home:1, away:6,
           manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
           goalieChanges:[{from:'Ana Straker',to:'Adde Zuck',period:2,elapsedMs:360000}],
-          absentPlayers:['Olivia Schortman','Lizzie Melchiorre','Eve Krause'],
+          absentPlayers:['Olivia Schortman','Lizzie Melchiorre','Eve Krause','Vivianne Currence'],
           events:[
             {id:'polar-oct11-goal-1-v1',type:'goal',team:'opp',period:1,elapsedMs:594000,oppNum:'88',oppAssist1:'23',oppAssist2:'54'},
             {id:'polar-oct11-penalty-1',type:'penalty',team:'us',period:1,elapsedMs:524000,player:'Mairead Hornish',infraction:'Tripping/Clipping/Leg Checking',minutes:2},
@@ -1393,7 +1393,7 @@
           opponent:'Simsbury B', date:'Oct 17', home:2, away:3,
           manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
           goalieChanges:[],
-          absentPlayers:['Adde Zuck','Olivia Schortman','Eve Krause'],
+          absentPlayers:['Adde Zuck','Olivia Schortman','Eve Krause','Vivianne Currence'],
           events:[
             {id:'simsbury-oct17-goal-1-v1',type:'goal',team:'opp',period:2,elapsedMs:770000,oppNum:'13',oppAssist1:'5'},
             {id:'simsbury-oct17-goal-2',type:'goal',team:'us',period:2,elapsedMs:450000,scorer:'Mairead Hornish',assist1:'Mackenzie Moore'},
@@ -1426,7 +1426,7 @@
           opponent:'Girls Hat Trick Black', date:'Oct 18', home:0, away:8,
           manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
           goalieChanges:[],
-          absentPlayers:['Adde Zuck','Lizzie Melchiorre','Eve Krause','Olivia Schortman'],
+          absentPlayers:['Adde Zuck','Lizzie Melchiorre','Eve Krause','Olivia Schortman','Vivianne Currence'],
           events:[
             {id:'hattrick-oct18-goal-1-v2',type:'goal',team:'opp',period:1,elapsedMs:666000},
             {id:'hattrick-oct18-goal-2',type:'goal',team:'opp',period:1,elapsedMs:571000},
@@ -1460,7 +1460,7 @@
           opponent:'Wallingford Hawks Blue', date:'Oct 24', home:4, away:4,
           manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
           goalieChanges:[],
-          absentPlayers:['Adde Zuck','Lizzie Melchiorre','Hailey Reilly'],
+          absentPlayers:['Adde Zuck','Lizzie Melchiorre','Hailey Reilly','Vivianne Currence'],
           events:[
             {id:'wallingford-oct24-goal-1-v1',type:'goal',team:'opp',period:1,elapsedMs:337000,oppNum:'11'},
             {id:'wallingford-oct24-goal-2',type:'goal',team:'us',period:1,elapsedMs:240000,scorer:'Eve Krause',assist1:'Bailey Pelletier'},
@@ -1494,7 +1494,7 @@
           opponent:'Yale A1', date:'Oct 25', home:1, away:5,
           manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
           goalieChanges:[],
-          absentPlayers:['Adde Zuck','Lizzie Melchiorre','Eve Krause','Olivia Schortman'],
+          absentPlayers:['Adde Zuck','Lizzie Melchiorre','Eve Krause','Olivia Schortman','Vivianne Currence'],
           events:[
             {id:'yale-oct25-goal-1-v1',type:'goal',team:'opp',period:1,elapsedMs:339000,oppNum:'91',oppAssist1:'40'},
             {id:'yale-oct25-goal-2',type:'goal',team:'opp',period:2,elapsedMs:564000,oppNum:'91',oppAssist1:'40'},
@@ -1533,7 +1533,7 @@
           opponent:'South Windsor A1', date:'Oct 31', home:0, away:7,
           manual:false, shootoutWinner:'', goalieStart:'Adde Zuck',
           goalieChanges:[],
-          absentPlayers:['Eve Krause','Rory Malone'],
+          absentPlayers:['Eve Krause','Rory Malone','Vivianne Currence'],
           events:[
             {id:'swa1-oct31-goal-1-v1',type:'goal',team:'opp',period:1,elapsedMs:547000,oppNum:'28',oppAssist1:'66'},
             {id:'swa1-oct31-penalty-1',type:'penalty',team:'us',period:1,elapsedMs:483000,player:'Emma Zhang',infraction:'Tripping',minutes:1.5},
@@ -1567,7 +1567,7 @@
           opponent:'Girls Hat Trick CGHL', date:'Nov 1', home:1, away:0,
           manual:false, shootoutWinner:'', goalieStart:'Adde Zuck',
           goalieChanges:[],
-          absentPlayers:['Olivia Schortman'],
+          absentPlayers:['Olivia Schortman','Vivianne Currence'],
           events:[
             {id:'ght-nov1-goal-1-v1',type:'goal',team:'us',period:2,elapsedMs:637000,scorer:'Ana Straker',assist1:'Khloe Starkey',assist2:'Emma Zhang',note:'Ana skated out as a forward'}
           ]
@@ -1593,7 +1593,7 @@
           opponent:'South Windsor B', date:'Nov 8', home:7, away:0,
           manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
           goalieChanges:[],
-          absentPlayers:['Adde Zuck','Rory Malone'],
+          absentPlayers:['Adde Zuck','Rory Malone','Vivianne Currence'],
           events:[
             {id:'swb-nov8-goal-1-v3',type:'goal',team:'us',period:1,elapsedMs:475000,scorer:'Bailey Moore',assist1:'Lizzie Melchiorre'},
             {id:'swb-nov8-goal-2',type:'goal',team:'us',period:1,elapsedMs:383000,scorer:'Mairead Hornish',assist1:'Whitney Noe',assist2:'Bailey Moore'},
@@ -1626,7 +1626,7 @@
           opponent:'West Hartford Wolves B', date:'Nov 14', home:5, away:2,
           manual:false, shootoutWinner:'', goalieStart:'Ana Straker',
           goalieChanges:[],
-          absentPlayers:['Adde Zuck','Olivia Schortman'],
+          absentPlayers:['Adde Zuck','Olivia Schortman','Vivianne Currence'],
           events:[
             {id:'whw-nov14-goal-1-v2',type:'goal',team:'us',period:1,elapsedMs:726000,scorer:'Emma Zhang',assist1:'Eve Krause',note:'Assist #77 Eve Krause confirmed by Fred'},
             {id:'whw-nov14-goal-2',type:'goal',team:'opp',period:1,elapsedMs:564000,oppNum:'8'},
@@ -1678,16 +1678,16 @@
         (h.date==='Nov 22' && h.opponent==='Central A1'));
       const saved=history.find(matches);
       const active=matches(game)?game:null;
-      const reportMarker='cen-nov22-goal-1-v1';
+      const reportMarker='cen-nov22-goal-1-v2';
       if(!saved || !(saved.events || []).some(e=>e.id===reportMarker)){
         const corrected=normalizeHistoryEntry({
           ...(saved || {}), id:saved?.id || 'h-nov22-central-a1', gameId,
           opponent:'Central A1', date:'Nov 22', home:0, away:4,
           manual:false, shootoutWinner:'', goalieStart:'Adde Zuck',
           goalieChanges:[],
-          absentPlayers:['Hailey Reilly','Lizzie Melchiorre','Olivia Schortman'],
+          absentPlayers:['Hailey Reilly','Lizzie Melchiorre','Olivia Schortman','Vivianne Currence'],
           events:[
-            {id:'cen-nov22-goal-1-v1',type:'goal',team:'opp',period:1,elapsedMs:692000,oppNum:'29',oppAssist1:'77'},
+            {id:'cen-nov22-goal-1-v2',type:'goal',team:'opp',period:1,elapsedMs:692000,oppNum:'29',oppAssist1:'77'},
             {id:'cen-nov22-goal-2',type:'goal',team:'opp',period:1,elapsedMs:674000,oppNum:'45',oppAssist1:'70'},
             {id:'cen-nov22-goal-3',type:'goal',team:'opp',period:1,elapsedMs:645000,oppNum:'55',oppAssist1:'29'},
             {id:'cen-nov22-goal-4',type:'goal',team:'opp',period:2,elapsedMs:243000,oppNum:'55',oppAssist1:'77',note:'Period read as 2nd from the scoresheet (hard to read)'}

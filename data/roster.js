@@ -16,4 +16,5 @@ const ROSTER = [
     {n:97,name:"Rory Malone",pos:"F",r:false,photo:null,g:0,a:0,pts:0,gp:5,appg:0.0,pim:0},
     {n:6,name:"Whitney Noe",pos:"F",r:true,photo:null,g:0,a:0,pts:0,gp:5,appg:0.0,pim:0},
     {n:36,name:"Mackenzie Moore",pos:"F",r:true,photo:null,g:0,a:0,pts:0,gp:4,appg:0.0,pim:0},
+    {n:19,name:"Vivianne Currence",pos:"D",r:false,photo:null,g:0,a:0,pts:0,gp:0,appg:0.0,pim:0},
   ].sort((a,b)=> a.name.trim().split(/\s+/).pop().localeCompare(b.name.trim().split(/\s+/).pop()) || a.name.localeCompare(b.name));
