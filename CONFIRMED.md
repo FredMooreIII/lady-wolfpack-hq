@@ -33,6 +33,8 @@ Rules for anyone (Claude, ChatGPT/Codex, the Monday task) working on this repo:
 
 - 2026-11-21 — Sat 11/21 vs Avon 12U B (home): **L 0-2**, entered from Fred's scoresheet. Ana Straker in goal the whole game. Absent: Adde Zuck, Olivia Schortman, Eve Krause.
 - 2026-11-21 — Game MVP, Sat 11/21 vs Avon 12U B: **Mackenzie Moore** (photo from Fred).
+- 2026-11-23 — Sun 11/22 @ Central A1: **L 0-4** confirmed by Fred. Game sheet not in yet (score only, no game report).
+- 2026-11-23 — Game MVP, Sun 11/22 @ Central A1: **Adde Zuck**.
 
 ## Pack Business (newsletter + site)
 - 2026-11-15 — Holiday Drive: Team News card on the Home tab until Sun 11/29 (data/announcements.js). Include it in Pack Business in the Nov 16 newsletter. The wish-list link lives in Claude's private newsletter notes. It goes in the email only, never on the public site or in this repo.
