@@ -27,7 +27,7 @@ const GAMES = [
     {m:"November 2026", day:"Sat", date:"Nov 14", time:"11:00 AM", side:"home", opp:"West Hartford Wolves B", loc:"Champions Skating Center", type:"League", result:null},
     {m:"November 2026", day:"Sun", date:"Nov 15", time:"1:40 PM", side:"away", opp:"Wonderland Wizards 12U B Blue", loc:"Wonderland of Ice", type:"League", result:[2,3]}, // final confirmed by Fred (Nov 16); scoresheet not in yet
     {m:"November 2026", day:"Sat", date:"Nov 21", time:"11:00 AM", side:"home", opp:"Avon 12U B", loc:"Champions Skating Center", type:"League", result:null},
-    {m:"November 2026", day:"Sun", date:"Nov 22", time:"10:30 AM", side:"away", opp:"Central A1", loc:"Newington Arena", type:"League", result:[0,4]}, // final confirmed by Fred (Nov 23); scoresheet not in yet
+    {m:"November 2026", day:"Sun", date:"Nov 22", time:"10:30 AM", side:"away", opp:"Central A1", loc:"Newington Arena", type:"League", result:null}, // final 0-4 confirmed by Fred; report block in app.js
     {m:"November 2026", day:"Fri", date:"Nov 27", time:"10:20 AM", side:"home", opp:"Avon Panthers", loc:"Simsbury Farms", type:"Tournament", result:null},
     {m:"November 2026", day:"Fri", date:"Nov 27", time:"6:40 PM", side:"away", opp:"Salisbury", loc:"Avon Old Farms School", type:"Tournament", result:null},
     {m:"November 2026", day:"Sat", date:"Nov 28", time:"3:10 PM", side:"away", opp:"West Hartford", loc:"Simsbury Farms", type:"Tournament", result:null},

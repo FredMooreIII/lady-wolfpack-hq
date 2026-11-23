@@ -36,6 +36,9 @@ Rules for anyone (Claude, ChatGPT/Codex, the Monday task) working on this repo:
 - 2026-11-23 — Sun 11/22 @ Central A1: **L 0-4** confirmed by Fred. Game sheet not in yet (score only, no game report).
 - 2026-11-23 — Game MVP, Sun 11/22 @ Central A1: **Adde Zuck**.
 
+- 2026-11-23 — Sun 11/22 @ Central A1: scoresheet entered. Adde Zuck in goal the whole game; Ana Straker skated out. Absent: Olivia Schortman, Lizzie Melchiorre, Hailey Reilly. Central's 4th goal (4:03) read as the 2nd period.
+- 2026-11-23 — **Vivianne Currence is not on the team.** She hasn't played and won't be playing. Removed from the roster and from every absence list. Don't add her back unless Fred says so.
+
 ## Pack Business (newsletter + site)
 - 2026-11-15 — Holiday Drive: Team News card on the Home tab until Sun 11/29 (data/announcements.js). Include it in Pack Business in the Nov 16 newsletter. The wish-list link lives in Claude's private newsletter notes. It goes in the email only, never on the public site or in this repo.
 
