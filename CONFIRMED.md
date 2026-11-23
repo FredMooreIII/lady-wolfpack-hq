@@ -14,7 +14,6 @@ Rules for anyone (Claude, ChatGPT/Codex, the Monday task) working on this repo:
 - 2026-11-13 — There is **no Jan 30 game at Enfield**. MHR lists one; ignore it.
 
 ## Practices
-- 2026-11-13 — Thu 11/19: the two Crossbar "Other" slots are **Individual Photos 6:00–6:30 PM** then **Team Photos 6:30–6:45 PM** (Champions).
 - 2026-11-13 — Thu 11/26 (Thanksgiving) practice is **cancelled**.
 
 ## Results and game details

@@ -75,6 +75,7 @@ const PRACTICES = [
     {m:"January 2027", day:"Tue", date:"Jan 26", time:"6:40–7:40 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
     {m:"January 2027", day:"Wed", date:"Jan 27", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
 
+    {m:"February 2027", day:"Tue", date:"Feb 2", time:"5:35–6:20 PM", session:"Dry Land Training", loc:"Champions Skating Center", optional:false},
     {m:"February 2027", day:"Tue", date:"Feb 2", time:"6:40–7:40 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
     {m:"February 2027", day:"Wed", date:"Feb 3", time:"5:30–6:30 PM", session:"Practice", loc:"Champions Skating Center", optional:false},
     {m:"February 2027", day:"Tue", date:"Feb 9", time:"5:30–6:30 PM", session:"Skills", loc:"Champions Skating Center", optional:false},
